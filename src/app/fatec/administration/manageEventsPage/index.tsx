@@ -1,18 +1,22 @@
 'use client'
+import EventCard from '@/app/_components/EventCard/EventCard'
 import styles from './styles.module.css'
-
-interface Events {
-  id: string
-}
+import { EventProps } from '@/types/event.type'
 
 interface ManageEventsPage {
-  initialEvents: Events[]
+  initialEvents: EventProps[]
 }
 
 export default function ManageEventsPage({ initialEvents }: ManageEventsPage) {
   return (
-    <main className={styles.container}>
+    <section className={styles.container}>
       <h1>Rota privada de eventos</h1>
-    </main>
+
+      <div className={styles.eventsGrid}>
+        {initialEvents.map((event: EventProps, index: number) => (
+          <EventCard key={index} event={event} />
+        ))}
+      </div>
+    </section>
   )
 }

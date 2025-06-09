@@ -1,7 +1,8 @@
 'use client'
 
 import { serviceConsumer } from '@/services/service.consumer'
-import { UserProps, UserRole } from '@/types/user.type'
+import { UserProps } from '@/types/user.type'
+import { UserRole } from '@/utils/enums'
 import { menuItems, MenuItemsProps } from '@/utils/paths'
 import { deleteCookie } from 'cookies-next'
 import { StatusCodes } from 'http-status-codes'

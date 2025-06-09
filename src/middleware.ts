@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getCookieServer } from '@/lib/cookieServer'
-import { UserRole } from './types/user.type'
 import { getUserServer } from './services/retriveSSRData/retriveUserData'
 import { ErrorMessages } from './services/errors/AuthTokenErorr'
+import { UserRole } from './utils/enums'
 
 const protectedRoutesForUser = ['/fatec/administration']
 

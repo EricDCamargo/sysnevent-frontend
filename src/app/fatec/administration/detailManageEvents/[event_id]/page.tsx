@@ -15,6 +15,9 @@ export default async function DetailManageEvent({ params }: DetailEventsProps) {
   const currentEvents: Events[] = []
 
   return (
-    <DetailManageEventsPage initialEvents={currentEvents} currentEventId="" />
+    <DetailManageEventsPage
+      initialEvents={currentEvents}
+      currentEventId={event_id}
+    />
   )
 }

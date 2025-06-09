@@ -1,3 +1,5 @@
+import { UserRole } from '@/utils/enums'
+
 export interface UserProps {
   id: string
   name: string
@@ -6,9 +8,4 @@ export interface UserProps {
   password?: string
   created_at: string
   updated_at: string
-}
-export enum UserRole {
-  DOCENT_ASSISTANT = 'DOCENT_ASSISTANT',
-  COORDINATOR = 'COORDINATOR',
-  ADMIN = 'ADMIN'
 }
