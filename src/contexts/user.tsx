@@ -2,6 +2,7 @@
 
 import { serviceConsumer } from '@/services/service.consumer'
 import { UserProps, UserRole } from '@/types/user.type'
+import { menuItems, MenuItemsProps } from '@/utils/paths'
 import { deleteCookie } from 'cookies-next'
 import { StatusCodes } from 'http-status-codes'
 import { usePathname, useRouter } from 'next/navigation'
@@ -23,7 +24,7 @@ type UserContextData = {
   isConfirmModalOpen: boolean
   onEdition: boolean
   selectedUser: string
-
+  filteredMenuItems: MenuItemsProps[]
   setOnEdition: Dispatch<SetStateAction<boolean>>
   setLoggedUser: Dispatch<SetStateAction<UserProps | null>>
   setSelectedUser: Dispatch<SetStateAction<string>>
@@ -73,6 +74,11 @@ export function UserProvider({ children, sessionUser }: UserProviderProps) {
     router.replace('/')
     toast.success('Logout feito com sucesso!')
   }
+
+  const filteredMenuItems =
+    loggedUser?.role === UserRole.COORDINATOR
+      ? menuItems.filter(({ href }) => ['/administration/users'].includes(href))
+      : menuItems
 
   const determinatesActiveLink = (
     href: string,
@@ -151,6 +157,7 @@ export function UserProvider({ children, sessionUser }: UserProviderProps) {
         onEdition,
         isConfirmModalOpen,
         selectedUser,
+        filteredMenuItems,
         setConfirmModalOpen,
         setOnEdition,
         setUserModalOpen,

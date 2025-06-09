@@ -4,5 +4,5 @@ interface EventsPageProps {
 
 export default async function EventsPage({ events }: EventsPageProps) {
   //const events = await getEvents()
-  return <div>Essa é a pagina publica de eventos{events}</div>
+  return <h1>Essa é a pagina publica de eventos{events}</h1>
 }

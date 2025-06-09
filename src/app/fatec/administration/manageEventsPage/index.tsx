@@ -10,5 +10,9 @@ interface ManageEventsPage {
 }
 
 export default function ManageEventsPage({ initialEvents }: ManageEventsPage) {
-  return <main className={styles.container}></main>
+  return (
+    <main className={styles.container}>
+      <h1>Rota privada de eventos</h1>
+    </main>
+  )
 }
