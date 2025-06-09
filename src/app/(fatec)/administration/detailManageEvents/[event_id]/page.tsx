@@ -1,4 +1,6 @@
+import { handleDetailEvent } from '@/services/retriveSSRData/retiveEventData'
 import DetailManageEventsPage from '../detailManageEventsPage'
+import { EventProps } from '@/types/event.type'
 
 interface DetailEventsProps {
   params: Promise<{
@@ -6,18 +8,10 @@ interface DetailEventsProps {
   }>
 }
 
-interface Events {
-  id: string
-}
 export default async function DetailManageEvent({ params }: DetailEventsProps) {
   const { event_id } = await params
-  // const currentEvents: Events[] = await handleDetailEvents(event_id)
-  const currentEvents: Events[] = []
 
-  return (
-    <DetailManageEventsPage
-      initialEvents={currentEvents}
-      currentEventId={event_id}
-    />
-  )
+  const event = await handleDetailEvent(event_id)
+
+  return <DetailManageEventsPage event={event} currentEventId={event_id} />
 }

@@ -1,7 +1,6 @@
 import { EventProps } from '@/types/event.type'
 import moment from 'moment'
 import styles from './EventCard.module.css'
-import Image from 'next/image'
 import { Button } from '../button'
 
 export interface EventCardProps {

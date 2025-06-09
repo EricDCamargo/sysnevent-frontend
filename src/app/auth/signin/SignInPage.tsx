@@ -15,7 +15,7 @@ export const SignInPage: React.FC = () => {
 
     if (result.isOk && result.status === StatusCodes.OK) {
       toast.success(result.message)
-      router.push('/fatec/administration')
+      router.push('/administration')
     } else {
       toast.error(result.message)
     }
