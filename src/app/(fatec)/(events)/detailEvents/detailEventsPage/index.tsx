@@ -17,7 +17,7 @@ export default function DetailEventsPage({
     <main className={styles.container}>
       {event ? (
         <>
-          <h1>Rota privada de detalhes do evento - {currentEventId} </h1>
+          <h1>Rota publica de detalhes do evento - {currentEventId} </h1>
 
           <EventCard event={event!} />
         </>

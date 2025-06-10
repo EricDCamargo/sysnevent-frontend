@@ -1,4 +1,5 @@
 'use client'
+
 import EventCard from '@/app/_components/EventCard/EventCard'
 import styles from './styles.module.css'
 import { EventProps } from '@/types/event.type'

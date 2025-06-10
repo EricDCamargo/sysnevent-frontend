@@ -20,5 +20,3 @@ export default function DetailManageEventsPage({
     </main>
   )
 }
-
-//Essa pagina alterna entre duas childrens via useState (Informações e Participantes )

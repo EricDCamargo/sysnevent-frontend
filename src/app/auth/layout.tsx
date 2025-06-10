@@ -9,8 +9,8 @@ export default async function AuthLayout({
   const user = await getUserServer()
 
   if (user) {
-    redirect('/fatec/administration')
-  } 
+    redirect('/administration')
+  }
 
   return <main>{children}</main>
 }

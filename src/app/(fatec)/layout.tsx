@@ -6,7 +6,6 @@ import Loading from '../_components/loading/loading'
 import { NavBar } from '../_components/navBar'
 import { UserProvider } from '@/contexts/user'
 import { getUserServer } from '@/services/retriveSSRData/retriveUserData'
-import { redirect } from 'next/navigation'
 export default async function FatecLayout({
   children
 }: {
