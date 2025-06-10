@@ -1,0 +1,40 @@
+.searchContainer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  border: 1px solid var(--gray-100);
+  background-color: var(--white);
+  height: 30px;
+  padding: 15px;
+  border-radius: 30px;
+  max-width: 400px;
+  font-size: 1rem;
+
+  .ico {
+    color: var(--black);
+  }
+}
+.searchContainer .input {
+  border: none;
+  border-radius: 4px;
+  background-color: transparent;
+  width: 100%;
+  padding: 5px;
+  height: 100%;
+  color: var(--black);
+  &::placeholder {
+    color: var(--black);
+    opacity: 0.5;
+  }
+  &:focus {
+    outline: none;
+  }
+}
+
+.searchContainer .clearContainer {
+  width: 20px;
+  .clearButton {
+    border: 0;
+    background: transparent;
+  }
+}
