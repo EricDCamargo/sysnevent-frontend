@@ -52,12 +52,12 @@ export default function ManageEventsPage({ initialEvents }: ManageEventsPage) {
         </div>
         <div className={styles.dateFilter}>
           <div>
-            <label>Issue date</label>
+            <label>De</label>
             <input type="date" />
           </div>
 
           <div>
-            <span>To</span>
+            <span>a</span>
             <input type="date" />
           </div>
         </div>
