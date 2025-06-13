@@ -77,9 +77,12 @@ export function UserProvider({ children, sessionUser }: UserProviderProps) {
   }
 
   const filteredMenuItems =
-    loggedUser?.role === UserRole.COORDINATOR
-      ? menuItems.filter(({ href }) => ['/administration/users'].includes(href))
-      : menuItems
+    loggedUser?.role === UserRole.ADMIN
+      ? menuItems
+      : menuItems.filter(
+          ({ href, subHref }) =>
+            href === '/administration' || subHref === '/detailManageEvents'
+        )
 
   const determinatesActiveLink = (
     href: string,

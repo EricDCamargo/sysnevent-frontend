@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { HeaderMenu } from '../hamburguerMenu'
+import { HeaderMenu } from '../headerMenu'
 import Image from 'next/image'
 import styles from './styles.module.css'
 export function NavBar() {

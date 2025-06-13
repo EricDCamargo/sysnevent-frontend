@@ -1,6 +1,5 @@
 import { handleDetailEvent } from '@/services/retriveSSRData/retiveEventData'
 import DetailManageEventsPage from '../detailManageEventsPage'
-import { EventProps } from '@/types/event.type'
 
 interface DetailEventsProps {
   params: Promise<{

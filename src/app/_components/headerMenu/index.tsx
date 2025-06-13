@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { useContext, useState } from 'react'
 import styles from './styles.module.css'
 import { AlignJustify, LogOutIcon } from 'lucide-react'
+import { usePathname } from 'next/navigation'
 
 export const HeaderMenu = () => {
   const {
@@ -14,6 +15,7 @@ export const HeaderMenu = () => {
     filteredMenuItems
   } = useContext(UserContext)
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false)
+  const pathname = usePathname()
 
   return (
     <>
@@ -49,6 +51,19 @@ export const HeaderMenu = () => {
           </div>
         )}
       </div>
+      <nav className={styles.nav}>
+        {filteredMenuItems.map(({ href, label }) => (
+          <Link
+            key={href}
+            href={href}
+            className={`${styles.link} ${
+              pathname === href ? styles.active : ''
+            }`}
+          >
+            {label}
+          </Link>
+        ))}
+      </nav>
       <nav className={styles.nav}>
         <form className={styles.form} action={handleLogout}>
           <p className={styles.text}>{loggedUser?.name} </p>

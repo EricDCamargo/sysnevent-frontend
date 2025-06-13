@@ -1,6 +1,9 @@
+'use client'
+import { useRouter } from 'next/navigation'
 import styles from './Footer.module.css'
 
 export const Footer = () => {
+  const router = useRouter()
   return (
     <footer className={styles.footer}>
       <div className={styles.footerLeft}>
@@ -23,7 +26,13 @@ export const Footer = () => {
       </div>
 
       <div className={styles.footerRight}>
-        <img src="/logo_SP.svg" alt="São Paulo Governo" width={120} />
+        <img
+          src="/logo_SP.svg"
+          alt="São Paulo Governo"
+          width={120}
+          className={styles.cpsLogo}
+          onClick={() => router.push('auth/signin')}
+        />
         <p>Centro Paula Souza - Faculdade de Tecnologia de Itu (FATEC Itu)</p>
         <p>
           Desenvolvido por Eric Dellai Camargo © SysNevent. Todos os direitos

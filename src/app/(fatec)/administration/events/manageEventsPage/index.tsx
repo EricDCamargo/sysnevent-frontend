@@ -20,7 +20,7 @@ export default function ManageEventsPage({ initialEvents }: ManageEventsPage) {
   const [searchValue, setSearchValue] = useState<EventProps[]>(filteredEvents)
 
   const handleDetailManageEvent = (event: EventProps) => {
-    router.push(`/administration/detailManageEvents/${event.id}`)
+    router.push(`/administration/events/detailManageEvents/${event.id}`)
   }
   return (
     <main className={styles.container}>

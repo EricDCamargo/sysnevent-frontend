@@ -79,4 +79,15 @@
   @media (max-width: 1024px) {
     display: none;
   }
+
+  .link {
+    text-decoration: none;
+    transition: 0.2s;
+    text-decoration: none;
+
+    &:hover {
+      color: var(--red-900);
+      transform: scale(1.1);
+    }
+  }
 }

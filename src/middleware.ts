@@ -4,7 +4,11 @@ import { getUserServer } from './services/retriveSSRData/retriveUserData'
 import { ErrorMessages } from './services/errors/AuthTokenErorr'
 import { UserRole } from './utils/enums'
 
-const protectedRoutesForUser = ['/fatec/administration']
+const protectedRoutesForUser = ['/administration']
+const protectedRoutesForAdmin = [
+  '/administration/users',
+  '/administration/categories'
+]
 
 const roles: UserRole[] = [
   UserRole.DOCENT_ASSISTANT,
@@ -21,7 +25,7 @@ export async function middleware(req: NextRequest) {
 
   const token = await getCookieServer()
 
-  if (pathname.startsWith('/fatec/administration')) {
+  if (pathname.startsWith('/administration')) {
     if (!token) {
       return NextResponse.redirect(
         new URL(`/?error=${ErrorMessages.TOKEN_EXPIRED}`, req.url)
@@ -40,7 +44,15 @@ export async function middleware(req: NextRequest) {
       protectedRoutesForUser.includes(pathname)
     ) {
       return NextResponse.redirect(
-        new URL(`/dashboard?error=${ErrorMessages.UNAUTHORIZED}`, req.url)
+        new URL(`/?error=${ErrorMessages.UNAUTHORIZED}`, req.url)
+      )
+    }
+    if (
+      user.role !== UserRole.ADMIN &&
+      protectedRoutesForAdmin.includes(pathname)
+    ) {
+      return NextResponse.redirect(
+        new URL(`/?error=${ErrorMessages.UNAUTHORIZED}`, req.url)
       )
     }
   }
