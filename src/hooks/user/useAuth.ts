@@ -8,6 +8,7 @@ interface AuthResponse {
   message: string
   isOk: boolean
   status: number
+  data?: any
 }
 
 const DEFAULT_SERVER_ERROR: AuthResponse = {
@@ -26,11 +27,47 @@ async function handleLogin(formData: FormData): Promise<AuthResponse> {
       password
     })
 
-    if (response.isOk && response.status === StatusCodes.OK) {
+    if (
+      !response.data.needsSecretWordSetup &&
+      response.isOk &&
+      response.status === StatusCodes.OK
+    ) {
       const expressTime = 60 * 60 * 24 * 30 * 1000
 
       const cookieStore = await cookies()
       cookieStore.set('session', response.data.token, {
+        maxAge: expressTime,
+        path: '/',
+        httpOnly: false,
+        secure: process.env.NEXT_ENVIRONMENT === 'production'
+      })
+    }
+
+    return response
+  } catch (err) {
+    return DEFAULT_SERVER_ERROR
+  }
+}
+
+async function handleRegisterSecretWord(
+  formData: FormData,
+  token: string
+): Promise<AuthResponse> {
+  const secretWord = formData.get('secretWord')
+
+  try {
+    const response = await serviceConsumer(token).executePost(
+      '/register-secret',
+      {
+        secretWord
+      }
+    )
+
+    if (response.isOk && response.status === StatusCodes.OK) {
+      const expressTime = 60 * 60 * 24 * 30 * 1000
+
+      const cookieStore = await cookies()
+      cookieStore.set('session', token, {
         maxAge: expressTime,
         path: '/',
         httpOnly: false,
@@ -65,4 +102,4 @@ async function handleRegister(formData: FormData): Promise<AuthResponse> {
   }
 }
 
-export { handleLogin, handleRegister }
+export { handleLogin, handleRegister, handleRegisterSecretWord }

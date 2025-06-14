@@ -1,0 +1,27 @@
+.input {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #999;
+  font-size: 0.85em;
+  margin-top: 12px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+  color: var(--black);
+  @media (max-width: 768px) {
+    font-size: 0.8em;
+  }
+}
+
+.alert {
+  font-size: 0.85em;
+  margin-top: 12px;
+  max-width: 700px;
+  text-align: center;
+  @media (max-width: 768px) {
+    font-size: 0.8em;
+  }
+}
+
+.warning {
+  color: var(--red-900);
+}
