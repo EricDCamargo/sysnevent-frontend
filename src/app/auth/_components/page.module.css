@@ -4,12 +4,11 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: row;
 
-  .logo {
-    @media (max-width: 425px) {
-      width: 300px;
-      height: 48px;
-    }
+  @media (max-width: 768px) {
+    flex-direction: column;
+    padding: 24px;
   }
 }
 
@@ -17,44 +16,63 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 50%;
-}
+  width: 40%;
+  height: 100vh;
 
+  @media (max-width: 768px) {
+    width: 100%;
+    height: auto;
+    margin-bottom: 24px;
+  }
+}
+.logo {
+  max-width: 100%;
+  height: auto;
+
+  @media (max-width: 425px) {
+    width: 180px;
+  }
+}
 .login {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-color: var(--gray-200);
   gap: 16px;
-  height: 100vh;
-  width: 50%;
+  background-color: var(--gray-200);
   color: var(--black);
   font-size: 1.6em;
+  width: 60%;
+  height: 100vh;
+  @media (max-width: 768px) {
+    background-color: var(--white);
+    height: auto;
+    width: 90%;
+  }
 
   .form {
-    padding-bottom: 16px;
-    font-size: 18px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: 90%;
+    width: 100%;
+    max-width: 400px;
+    font-size: 18px;
     gap: 16px;
   }
 }
 
 .input {
   height: 40px;
+  width: 100%;
   box-shadow: 2px 2px 10px black;
   border: 1px solid var(--gray-100);
   border-radius: 8px;
-  width: 50%;
   color: var(--black);
   background-color: var(--dark-900);
   color: var(--black);
   font-size: 16px;
-  padding-left: 15px;
+  padding: 0 15px;
 }
 
 .input::placeholder {
@@ -62,12 +80,10 @@
 }
 
 .text {
-  color: var(--black);
-  text-decoration: none;
-}
-
-@media (max-width: 620px) {
-  .login {
-    width: 90%;
-  }
+  color: var(--red-900);
+  text-decoration: underline;
+  font-size: 0.9em;
+  cursor: pointer;
+  transition: color 0.2s ease;
+  align-self: flex-end;
 }

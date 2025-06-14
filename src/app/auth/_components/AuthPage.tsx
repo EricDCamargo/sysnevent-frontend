@@ -50,7 +50,6 @@ AuthPage.Form = function Form({
   return (
     <form className={styles.form} {...props}>
       {children}
-      <Button name="Enviar" type="submit" />
     </form>
   )
 }

@@ -6,6 +6,7 @@ import { StatusCodes } from 'http-status-codes'
 import { handleLogin } from '@/hooks/user/useAuth'
 import { toast } from 'sonner'
 import { useRouter } from 'next/navigation'
+import { Button } from '@/app/_components/button'
 
 export const SignInPage: React.FC = () => {
   const router = useRouter()
@@ -36,6 +37,10 @@ export const SignInPage: React.FC = () => {
           name="password"
           placeholder="Senha"
         />
+        <Button name="Enviar" type="submit" />
+        <AuthPage.Link href="/forgot-password">
+          Recuperar minha senha
+        </AuthPage.Link>
       </AuthPage.Form>
     </AuthPage>
   )
