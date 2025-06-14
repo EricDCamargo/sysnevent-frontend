@@ -3,16 +3,22 @@
 import React, { useState } from 'react'
 import AuthPage from '../_components/AuthPage'
 import { StatusCodes } from 'http-status-codes'
-import { handleLogin, handleRegisterSecretWord } from '@/hooks/user/useAuth'
+import {
+  handleLogin,
+  handleRegisterSecretWord,
+  handleResetPassword
+} from '@/hooks/user/useAuth'
 import { toast } from 'sonner'
 import { useRouter } from 'next/navigation'
 import { Button } from '@/app/_components/button'
 import ConfirmModal from '@/app/_components/modals/confirm'
 import styles from './SignIn.module.css'
+import Swal from 'sweetalert2'
 
 export const SignInPage: React.FC = () => {
   const router = useRouter()
   const [isSecretWordModalOpen, setSecredWordModalOpen] = useState(false)
+  const [isResetPasswordModalOpen, setResetPasswordModalOpen] = useState(false)
   const [token, setToken] = useState('')
 
   async function onSubmit(formData: FormData) {
@@ -30,9 +36,34 @@ export const SignInPage: React.FC = () => {
   }
   async function handleSubmitSecretWord(formData: FormData) {
     const result = await handleRegisterSecretWord(formData, token)
-    toast.success(result.message)
+
     if (result.isOk && result.status === StatusCodes.OK) {
       router.push('/administration')
+      Swal.fire({
+        icon: 'success',
+        title: 'Sua palavra chave foi cadastrada!',
+        text: 'Você sera redirecionado para o sistema.',
+        timer: 2500,
+        timerProgressBar: true,
+        showConfirmButton: false
+      })
+    } else {
+      toast.info(result.message)
+    }
+  }
+
+  async function handleSubmitResetPassword(formData: FormData) {
+    const result = await handleResetPassword(formData)
+    if (result.isOk && result.status === StatusCodes.OK) {
+      setResetPasswordModalOpen(false)
+      Swal.fire({
+        icon: 'success',
+        title: 'Senha redefinida com sucesso!',
+        text: 'Você já pode acessar sua conta com a nova senha.',
+        confirmButtonText: 'OK'
+      })
+    } else {
+      toast.error(result.message)
     }
   }
   return (
@@ -52,9 +83,9 @@ export const SignInPage: React.FC = () => {
           placeholder="Senha"
         />
         <Button name="Enviar" type="submit" />
-        <AuthPage.Link href="/forgot-password">
+        <AuthPage.Text onClick={() => setResetPasswordModalOpen(true)}>
           Recuperar minha senha
-        </AuthPage.Link>
+        </AuthPage.Text>
       </AuthPage.Form>
       <ConfirmModal
         modalText={{
@@ -86,6 +117,40 @@ export const SignInPage: React.FC = () => {
         isOpen={isSecretWordModalOpen}
         onCancel={() => setSecredWordModalOpen(false)}
         onConfirm={handleSubmitSecretWord}
+      />
+      <ConfirmModal
+        modalText={{
+          title: 'Recuperação de senha',
+          message: (
+            <>
+              <AuthPage.Input
+                type="email"
+                required
+                name="email"
+                placeholder="Email"
+                className={styles.input}
+              />
+
+              <AuthPage.Input
+                type="password"
+                required
+                name="secretWord"
+                placeholder="Palavra Secreta"
+                className={styles.input}
+              />
+              <AuthPage.Input
+                type="password"
+                required
+                name="newPassword"
+                placeholder="Nova Senha"
+                className={styles.input}
+              />
+            </>
+          )
+        }}
+        isOpen={isResetPasswordModalOpen}
+        onCancel={() => setResetPasswordModalOpen(false)}
+        onConfirm={handleSubmitResetPassword}
       />
     </AuthPage>
   )

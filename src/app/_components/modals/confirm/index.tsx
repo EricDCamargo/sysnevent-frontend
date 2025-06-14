@@ -20,19 +20,20 @@ const ConfirmModal: React.FC<ConfirmModalProps> = ({
 
   return (
     <div className={styles.overlay}>
-      <form className={styles.modalContainer} action={onConfirm}>
+      <div className={styles.modalContainer}>
         <div className={styles.modalHeader}>
           <h1 className={styles.title}>{modalText.title}</h1>
-          <X size={50} className={styles.closeIcon} onClick={onCancel} />
+          <X className={styles.closeIcon} onClick={onCancel} />
         </div>
+        <form className={styles.modalForm} action={onConfirm}>
+          <div className={styles.modalBody}>{modalText.message}</div>
+          <div className={styles.modalFooter}>
+            <Button name="Cancelar" type="button" onClick={onCancel} />
 
-        <div className={styles.modalBody}>{modalText.message}</div>
-        <div className={styles.modalFooter}>
-          <Button name="Cancelar" type="button" onClick={onCancel} />
-
-          <Button name="Confirmar" type="submit" />
-        </div>
-      </form>
+            <Button name="Confirmar" type="submit" />
+          </div>
+        </form>
+      </div>
     </div>
   )
 }

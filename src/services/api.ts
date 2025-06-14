@@ -26,18 +26,26 @@ const setupAPIClient = () => {
   const api = axios.create({
     baseURL: baseURL
   })
+
+  const TOKEN_ERROR_MESSAGES = [
+    'Token não encontrado!',
+    'Token invalido ou expirado!'
+  ]
   api.interceptors.response.use(
     response => response,
     (error: AxiosError) => {
       const status = error.response?.status
-
       if (status === StatusCodes.UNAUTHORIZED) {
+        const backendMessage = (error.response?.data as any)?.error
         // Usuário não autorizado
-        toast.error('Sessão expirada. Faça login novamente.')
+
+        // Se a requisição for feita no lado do cliente (browser)
         if (typeof window !== 'undefined') {
-          // Deslogar usuário aqui se necessário
-        } else {
-          return Promise.reject(new AuthTokenError())
+          toast.error(backendMessage || 'Usuário não autorizado')
+        }
+        // Se a requisição for feita no lado do servidor (SSR) e foi realmente um erro de token, significa que o usuário não está autenticado, nesse caso retornamos apenas o statusCode e a mensagem de erro que o servidor obteve da API
+        else if (TOKEN_ERROR_MESSAGES.includes(backendMessage)) {
+          return Promise.reject(new AuthTokenError(backendMessage, status))
         }
       }
 

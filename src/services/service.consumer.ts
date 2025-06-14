@@ -1,6 +1,7 @@
 import { CookieValueTypes } from 'cookies-next'
 import { debug, api } from './api'
 import { getCookieClient } from '@/lib/cookieClient'
+import { AuthTokenError } from './errors/AuthTokenErorr'
 
 const { debugError, debugSuccess } = debug
 const environment = process.env.NEXT_ENVIRONMENT
@@ -89,6 +90,21 @@ export const serviceConsumer = (
         return successResponse
       })
       .catch(err => {
+        if (err instanceof AuthTokenError) {
+          const errorResponse: ResponsePromise = {
+            data: [],
+            status: err.status,
+            message: err.message,
+            isOk: false
+          }
+          if (environment === 'dev') {
+            debugError('-------- DEBUG - AUTH TOKEN ERROR - START --------')
+            console.log(errorResponse)
+            debugError('-------- DEBUG - AUTH TOKEN ERROR - END --------')
+          }
+          return errorResponse
+        }
+
         const { response, status } = err
         const errorResponse: ResponsePromise = {
           data: [],

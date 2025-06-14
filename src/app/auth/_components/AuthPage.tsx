@@ -15,6 +15,7 @@ interface AuthPageSubcomponents {
   }>
   Input: React.FC<React.InputHTMLAttributes<HTMLInputElement>>
   Link: React.FC<{ href: string; children: React.ReactNode }>
+  Text: React.FC<React.HTMLAttributes<HTMLParagraphElement>>
 }
 
 const AuthPage: React.FC<AuthPageProps> & AuthPageSubcomponents = ({
@@ -70,6 +71,16 @@ AuthPage.Link = function AuthLink({
     <Link href={href} className={styles.text}>
       {children}
     </Link>
+  )
+}
+AuthPage.Text = function AuthText({
+  children,
+  ...props
+}: React.HTMLAttributes<HTMLParagraphElement>) {
+  return (
+    <p className={styles.text} {...props}>
+      {children}
+    </p>
   )
 }
 

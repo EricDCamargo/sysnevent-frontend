@@ -81,6 +81,26 @@ async function handleRegisterSecretWord(
   }
 }
 
+async function handleResetPassword(formData: FormData): Promise<AuthResponse> {
+  const email = formData.get('email')
+  const secretWord = formData.get('secretWord')
+  const newPassword = formData.get('newPassword')
+
+  try {
+    const response = await serviceConsumer().executePost('/reset-password', {
+      email,
+      secretWord,
+      newPassword
+    })
+    console.log('response', response)
+    const { data, ...rest } = response
+    return rest
+  } catch (err) {
+    console.log('err', err)
+    return DEFAULT_SERVER_ERROR
+  }
+}
+
 async function handleRegister(formData: FormData): Promise<AuthResponse> {
   const name = formData.get('name')
   const email = formData.get('email')
@@ -102,4 +122,9 @@ async function handleRegister(formData: FormData): Promise<AuthResponse> {
   }
 }
 
-export { handleLogin, handleRegister, handleRegisterSecretWord }
+export {
+  handleLogin,
+  handleRegister,
+  handleRegisterSecretWord,
+  handleResetPassword
+}

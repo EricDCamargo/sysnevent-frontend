@@ -1,6 +1,9 @@
 export class AuthTokenError extends Error {
-  constructor() {
-    super('Error with AuthToken')
+  status: number
+
+  constructor(message?: string, status: number = 401) {
+    super(message || 'Erro de autenticação')
+    this.status = status
   }
 }
 
