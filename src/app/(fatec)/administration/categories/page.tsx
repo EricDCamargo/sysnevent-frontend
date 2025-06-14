@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic'
 import { getCategories } from '@/services/retriveSSRData/retriveCategoryData'
 import ManageCategoriesPage from './manageCategoriesPage'
 

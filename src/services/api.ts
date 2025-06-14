@@ -41,7 +41,6 @@ const setupAPIClient = () => {
 
         // Se a requisição for feita no lado do cliente (browser)
         if (typeof window !== 'undefined') {
-          toast.error(backendMessage || 'Usuário não autorizado')
         }
         // Se a requisição for feita no lado do servidor (SSR) e foi realmente um erro de token, significa que o usuário não está autenticado, nesse caso retornamos apenas o statusCode e a mensagem de erro que o servidor obteve da API
         else if (TOKEN_ERROR_MESSAGES.includes(backendMessage)) {

@@ -1,11 +1,5 @@
-import Events from './(fatec)/(events)/page'
-import FatecLayout from './(fatec)/layout'
+import EventsHome from './(fatec)/(events)/page'
 
-export default async function Home() {
-  return (
-    <FatecLayout>
-      <Events />
-    </FatecLayout>
-  )
+export default function Home() {
+  return <EventsHome />
 }
-export const dynamic = 'force-dynamic'

@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic'
 import { getUsers } from '@/services/retriveSSRData/retriveUserData'
 import ManageUsersPage from './manageUsersPage'
 

@@ -1,8 +1,10 @@
-import EventsPage from './eventsPage'
-import { getEvents } from '@/services/retriveSSRData/retiveEventData'
+import FatecLayout from '../layout'
+import Events from './eventsPage/page'
 
-export default async function Events() {
-  const events = await getEvents()
-
-  return <EventsPage initialEvents={events} />
+export default async function EventsHome() {
+  return (
+    <FatecLayout>
+      <Events />
+    </FatecLayout>
+  )
 }

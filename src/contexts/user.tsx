@@ -13,7 +13,8 @@ import {
   useState,
   Dispatch,
   SetStateAction,
-  useCallback
+  useCallback,
+  useEffect
 } from 'react'
 import { toast } from 'sonner'
 
@@ -45,7 +46,6 @@ type UserContextData = {
 
 type UserProviderProps = {
   children: ReactNode
-  sessionUser: UserProps | null
 }
 export const newUser: UserProps = {
   id: '',
@@ -58,17 +58,33 @@ export const newUser: UserProps = {
 }
 export const UserContext = createContext({} as UserContextData)
 
-export function UserProvider({ children, sessionUser }: UserProviderProps) {
+export function UserProvider({ children }: UserProviderProps) {
   const router = useRouter()
   const pathname = usePathname()
   const [isUserModalOpen, setUserModalOpen] = useState<boolean>(false)
   const [isConfirmModalOpen, setConfirmModalOpen] = useState<boolean>(false)
   const [onEdition, setOnEdition] = useState<boolean>(true)
 
-  const [loggedUser, setLoggedUser] = useState<UserProps | null>(sessionUser)
+  const [loggedUser, setLoggedUser] = useState<UserProps | null>(null)
   const [currentUser, setcurrentUser] = useState<UserProps>(newUser)
 
   const [selectedUser, setSelectedUser] = useState<string>('')
+
+  useEffect(() => {
+    async function fetchUser() {
+      try {
+        const res = await serviceConsumer().executeGet('/me')
+        if (res.isOk && res.data) {
+          setLoggedUser(res.data)
+        } else {
+          setLoggedUser(null)
+        }
+      } catch (e) {
+        setLoggedUser(null)
+      }
+    }
+    fetchUser()
+  }, [])
 
   async function handleLogout() {
     deleteCookie('session', { path: '/' })

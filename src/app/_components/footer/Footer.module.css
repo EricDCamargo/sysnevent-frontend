@@ -24,7 +24,7 @@
 .footerRight {
   display: flex;
   flex-direction: column;
-  align-items: end;
+  align-items: flex-end;
   justify-content: flex-end;
   gap: 10px;
   text-align: center;
