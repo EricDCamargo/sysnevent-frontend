@@ -17,12 +17,24 @@ export const HeaderMenu = () => {
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false)
   const pathname = usePathname()
 
+  if (!loggedUser) return null
+
+  const renderLogoutArea = (color = 'black') => (
+    <form className={styles.form} action={handleLogout}>
+      <p className={styles.text}>{loggedUser?.name} </p>
+      <button className={styles.button} type="submit">
+        <LogOutIcon size={24} color={color} />
+      </button>
+    </form>
+  )
+
   return (
     <>
       <div className={styles.hamburguerMenuArea}>
         <AlignJustify
-          color="#000"
+          color="black"
           size={22}
+          aria-label="Abrir menu"
           onClick={() => setIsMenuOpen(state => !state)}
         />
         {isMenuOpen && (
@@ -42,15 +54,11 @@ export const HeaderMenu = () => {
               </Link>
             ))}
 
-            <form className={styles.form} action={handleLogout}>
-              <p className={styles.text}>{loggedUser?.name} </p>
-              <button className={styles.button} type="submit">
-                <LogOutIcon size={24} color="#FFF" />
-              </button>
-            </form>
+            {renderLogoutArea('white')}
           </div>
         )}
       </div>
+
       <nav className={styles.nav}>
         {filteredMenuItems.map(({ href, label }) => (
           <Link
@@ -64,13 +72,9 @@ export const HeaderMenu = () => {
           </Link>
         ))}
       </nav>
-      <nav className={styles.nav}>
-        <form className={styles.form} action={handleLogout}>
-          <p className={styles.text}>{loggedUser?.name} </p>
-          <button className={styles.button} type="submit">
-            <LogOutIcon size={24} color="#000" />
-          </button>
-        </form>
+
+      <nav className={styles.nav} role="navigation" aria-label="Logout">
+        {renderLogoutArea()}
       </nav>
     </>
   )

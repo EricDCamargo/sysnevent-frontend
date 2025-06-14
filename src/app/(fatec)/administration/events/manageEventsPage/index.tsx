@@ -13,9 +13,8 @@ interface ManageEventsPage {
 
 export default function ManageEventsPage({ initialEvents }: ManageEventsPage) {
   const router = useRouter()
-  const [search, setSearch] = useState('')
-  const [category, setCategory] = useState('Festas')
 
+  const [category, setCategory] = useState('Festas')
   const [filteredEvents, setFilteredEvents] = useState(initialEvents)
   const [searchValue, setSearchValue] = useState<EventProps[]>(filteredEvents)
 

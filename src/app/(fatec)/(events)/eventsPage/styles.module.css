@@ -1,17 +1,55 @@
 .container {
   width: 100%;
-  margin: 20px auto;
-  padding: 0 36px;
   display: flex;
   flex-direction: column;
-  overflow-x: hidden;
-  overflow-y: scroll;
-
+  padding-bottom: 80px;
   color: var(--black);
+}
+
+.filters {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+  gap: 16px;
+  @media (max-width: 1024px) {
+    flex-direction: column;
+  }
+}
+
+.categories {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+}
+
+.categoryButton {
+  padding: 8px 16px;
+  border: none;
+  background: transparent;
+  border-bottom: 2px solid transparent;
+  font-weight: 500;
+  cursor: pointer;
+  text-transform: uppercase;
+}
+
+.categoryButton:hover,
+.active {
+  border-bottom: 2px solid #2a2a2a;
+}
+
+.dateFilter {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: center;
 }
 
 .container .eventsGrid {
   display: flex;
-  gap: 16px;
-  flexwrap: wrap;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  padding: 20px;
 }
