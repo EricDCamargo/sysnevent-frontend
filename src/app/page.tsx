@@ -8,3 +8,4 @@ export default async function Home() {
     </FatecLayout>
   )
 }
+export const dynamic = 'force-dynamic'
