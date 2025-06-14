@@ -14,3 +14,4 @@ export default async function AuthLayout({
 
   return <main>{children}</main>
 }
+export const dynamic = 'force-dynamic'
