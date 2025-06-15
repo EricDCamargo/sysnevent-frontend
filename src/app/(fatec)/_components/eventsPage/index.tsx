@@ -6,6 +6,7 @@ import EventCard from '@/app/_components/EventCard/EventCard'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { SearchInput } from '@/app/_components/searchInput'
+import EventsGrid from '../eventsGrid/EventsGrid'
 
 interface EventsPageProps {
   initialEvents: EventProps[]
@@ -17,14 +18,6 @@ export default function EventsPage({ initialEvents, mode }: EventsPageProps) {
   const [category, setCategory] = useState('Festas')
   const [filteredEvents, setFilteredEvents] = useState(initialEvents)
   const [searchValue, setSearchValue] = useState<EventProps[]>(filteredEvents)
-
-  const handleCardClick = (event: EventProps) => {
-    if (mode === 'admin') {
-      router.push(`/administration/events/detailManageEvents/${event.id}`)
-    } else {
-      router.push(`/detailEvents/${event.id}`)
-    }
-  }
 
   return (
     <main className={styles.container}>
@@ -68,15 +61,7 @@ export default function EventsPage({ initialEvents, mode }: EventsPageProps) {
           </div>
         </section>
       </section>
-      <div className={styles.eventsGrid}>
-        {searchValue.map((event: EventProps, index: number) => (
-          <EventCard
-            key={index}
-            event={event}
-            onClick={() => handleCardClick(event)}
-          />
-        ))}
-      </div>
+      <EventsGrid events={searchValue} mode={mode} />
     </main>
   )
 }

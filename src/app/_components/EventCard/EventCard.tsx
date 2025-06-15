@@ -12,11 +12,7 @@ export default function EventCard({ event, onClick }: EventCardProps) {
   return (
     <div className={styles.card}>
       <div className={styles.image}>
-        {event.category ? (
-          <img src={'/cardPlaceholder.svg'} alt={event.name} />
-        ) : (
-          <div className={styles.placeholder} />
-        )}
+        <img src={'/event_placeholder.svg'} alt={event.name} />
       </div>
       <div className={styles.content}>
         <h3 className={styles.title}>{event.name}</h3>
