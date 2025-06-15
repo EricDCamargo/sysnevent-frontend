@@ -31,7 +31,7 @@ export const Footer = () => {
           alt="São Paulo Governo"
           width={120}
           className={styles.cpsLogo}
-          onClick={() => router.push('auth/signin')}
+          onClick={() => router.push('/auth/signin')}
         />
         <p>Centro Paula Souza - Faculdade de Tecnologia de Itu (FATEC Itu)</p>
         <p>

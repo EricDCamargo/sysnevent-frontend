@@ -1,5 +1,5 @@
-import EventsHome from './(fatec)/(events)/page'
+import FatecHome from './(fatec)/page'
 
 export default function Home() {
-  return <EventsHome />
+  return <FatecHome />
 }

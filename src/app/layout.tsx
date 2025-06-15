@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: 'SysNevent - Eventos FATEC',
-  description: 'Sistema de gerenciamento de eventos da FATEC',
+  description: 'Sistema de gerenciamento de eventos da FATEC'
 }
 
 export default function RootLayout({
