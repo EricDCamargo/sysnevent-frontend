@@ -8,7 +8,8 @@
   box-shadow: 2px 2px 2px #000000ad;
 }
 
-.dropDown {height: 100%;
+.dropDown {
+  height: 100%;
   width: 100%;
   border: none;
   border-radius: 1px;
@@ -18,8 +19,4 @@
     outline: none;
   }
   font-size: 1rem;
-}
-
-.dropDown option &:hover {
-  background-color: var(--red-900);
 }
