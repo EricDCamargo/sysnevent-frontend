@@ -1,7 +1,6 @@
 import axios, { AxiosError } from 'axios'
 import { AuthTokenError } from './errors/AuthTokenErorr'
 import { StatusCodes } from 'http-status-codes'
-import { toast } from 'sonner'
 
 const HTTTP_STATUS = Object.freeze({
   PENDING: 'PENDING',
@@ -35,15 +34,15 @@ const setupAPIClient = () => {
     response => response,
     (error: AxiosError) => {
       const status = error.response?.status
+
+      // Usuário não autorizado
       if (status === StatusCodes.UNAUTHORIZED) {
         const backendMessage = (error.response?.data as any)?.error
-        // Usuário não autorizado
 
-        // Se a requisição for feita no lado do cliente (browser)
-        if (typeof window !== 'undefined') {
-        }
-        // Se a requisição for feita no lado do servidor (SSR) e foi realmente um erro de token, significa que o usuário não está autenticado, nesse caso retornamos apenas o statusCode e a mensagem de erro que o servidor obteve da API
-        else if (TOKEN_ERROR_MESSAGES.includes(backendMessage)) {
+        // Se a requisição for feita no lado do cliente (browser) podemos executar uma ação, como redirecionar o usuário para a página de login, if (typeof window !== 'undefined'), no momento o middleware faz isso, mas podemos fazer aqui também
+
+        // Se a requisição for feita no lado do servidor (SSR) e foi realmente um erro de token, significa que o usuário não está autenticado, nesse caso, por questões de segurança da aplicação retornamos apenas o statusCode e a mensagem de erro que o servidor obteve da API
+        if (TOKEN_ERROR_MESSAGES.includes(backendMessage)) {
           return Promise.reject(new AuthTokenError(backendMessage, status))
         }
       }

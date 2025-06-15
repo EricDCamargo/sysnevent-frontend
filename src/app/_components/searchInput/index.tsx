@@ -1,3 +1,5 @@
+'use client'
+
 import { useEffect, useState } from 'react'
 import styles from './search.module.css'
 import { Search, X } from 'lucide-react'
@@ -39,11 +41,11 @@ export const SearchInput = ({
         className={styles.input}
       />
       <div className={styles.clearContainer}>
-        {search ? (
+        {search && (
           <button className={styles.clearButton} onClick={() => setSearch('')}>
             <X className={styles.ico} />
           </button>
-        ) : null}
+        )}
       </div>
     </div>
   )
