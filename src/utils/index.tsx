@@ -1,3 +1,4 @@
+import { CategoryProps } from '@/types/category.type'
 import { UserProps } from '@/types/user.type'
 import { ChangeEvent } from 'react'
 
@@ -21,6 +22,14 @@ const getUserOptions = (users: UserProps[]) => {
   }))
 }
 
+const getCategoryOptions = (categories: CategoryProps[]) => {
+  const categoryOptions = categories.map(category => ({
+    label: category.name,
+    value: category.id
+  }))
+  return categoryOptions
+}
+
 const formatPrice = (value: FormDataEntryValue | null | number) => {
   if (!value) return ''
   const num = Number(value.toString().replace(/\D/g, '')) / 100
@@ -42,4 +51,4 @@ const formatCurrency = (value: string | number) => {
   })
 }
 
-export { handleChange, formatPrice, formatCurrency, getUserOptions }
+export { handleChange, formatPrice, formatCurrency, getCategoryOptions, getUserOptions }
