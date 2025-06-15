@@ -2,7 +2,7 @@
 
 import { EventProps } from '@/types/event.type'
 import styles from './EventGrid.module.css'
-import EventCard from '@/app/_components/EventCard/EventCard'
+import EventCard from '../EventCard/EventCard'
 import { useRouter } from 'next/navigation'
 
 interface EventsGridProps {

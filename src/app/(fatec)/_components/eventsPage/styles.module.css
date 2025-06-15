@@ -22,7 +22,6 @@
   justify-content: space-between;
   align-items: flex-start;
   width: 100%;
-  padding: 0 10px;
   gap: 16px;
 
   @media (max-width: 1024px) {
@@ -60,3 +59,12 @@
   flex-wrap: wrap;
   gap: 10px;
 }
+ .container .buttonContainer {
+  
+  display: flex;
+  justify-content: flex-end;
+} 
+ 
+ .container .buttonContainer > button {
+  max-width: 200px;
+} 

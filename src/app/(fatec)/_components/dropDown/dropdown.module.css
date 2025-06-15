@@ -1,0 +1,22 @@
+.dropDownContainer {
+  border: 1px solid var(--gray-100);
+  padding: 10px 10px 3px 10px;
+  border: 1px solid #aaa;
+  border-radius: 5px;
+  padding: 10px;
+  color: black;
+  box-shadow: 2px 2px 2px #000000ad;
+}
+
+.dropDown {
+  height: 100%;
+  width: 100%;
+  border: none;
+  border-radius: 1px;
+  outline: 0;
+  color: var(--black);
+  &:focus {
+    outline: none;
+  }
+  font-size: 1rem;
+}

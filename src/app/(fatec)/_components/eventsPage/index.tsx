@@ -2,11 +2,11 @@
 
 import { EventProps } from '@/types/event.type'
 import styles from './styles.module.css'
-import EventCard from '@/app/_components/EventCard/EventCard'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
-import { SearchInput } from '@/app/_components/searchInput'
+import { SearchInput } from '@/app/(fatec)/_components/searchInput'
 import EventsGrid from '../eventsGrid/EventsGrid'
+import { Button } from '@/app/_components/button'
 
 interface EventsPageProps {
   initialEvents: EventProps[]
@@ -60,7 +60,12 @@ export default function EventsPage({ initialEvents, mode }: EventsPageProps) {
             </div>
           </div>
         </section>
+      {mode === 'admin' && <div className={styles.buttonContainer}>
+       <Button onClick={() => router.push('/administration/events/createNewEvent')} type='button' name='Criar evento' />
+      </div>}
+       
       </section>
+      
       <EventsGrid events={searchValue} mode={mode} />
     </main>
   )

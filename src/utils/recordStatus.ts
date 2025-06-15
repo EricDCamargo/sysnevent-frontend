@@ -67,8 +67,3 @@ export const locationOptions = Object.entries(LocationLabels).map(([value, label
   value,
   label
 }))
-
-export const categoryOptions = Object.entries(CategoryLabels).map(([value, label]) => ({
-  value,
-  label
-}))
