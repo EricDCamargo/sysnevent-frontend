@@ -1,4 +1,4 @@
-import { Course, Semester, Category, Location } from './enums'
+import { Course, Semester, Category, Location, UserRole } from './enums'
 
 export const CourseLabels: Record<Course, string> = {
   ADS: 'Análise e Desenvolvimento de Sistemas',
@@ -72,3 +72,17 @@ export const coursesOptions = Object.entries(CourseLabels).map(([value, label]) 
   value,
   label
 }))
+
+const roleLabels: Record<string, string> = {
+  [UserRole.DOCENT_ASSISTANT]: 'AUX. DOCENTE',
+  [UserRole.COORDINATOR]: 'COORDENADOR',
+  [UserRole.ADMIN]: 'ADMINISTRADOR'
+}
+
+export const getLabel = (key: string): string => {
+  if (Object.values(UserRole).includes(key as UserRole)) {
+    return roleLabels[key] ?? 'Função desconhecida'
+  }
+
+  return 'Valor desconhecido'
+}

@@ -5,6 +5,7 @@ import { Footer } from '../_components/footer'
 import Loading from '../_components/loading/loading'
 import { NavBar } from '../_components/navBar'
 import { UserProvider } from '@/contexts/user'
+import { CategoryProvider } from '@/contexts/category'
 export default async function FatecLayout({
   children
 }: {
@@ -13,14 +14,16 @@ export default async function FatecLayout({
   return (
     <main className={styles.grid}>
       <UserProvider>
-        <NavBar />
-        <div className={styles.content}>
-          <Suspense fallback={<Loading />}>
-            {children}
-            <ToastHandler />
-          </Suspense>
-        </div>
-        <Footer />
+        <CategoryProvider>
+          <NavBar />
+          <div className={styles.content}>
+            <Suspense fallback={<Loading />}>
+              {children}
+              <ToastHandler />
+            </Suspense>
+          </div>
+          <Footer />
+        </CategoryProvider>
       </UserProvider>
     </main>
   )

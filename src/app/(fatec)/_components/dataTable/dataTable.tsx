@@ -42,6 +42,10 @@ export default function DataTable<T>({ columns, data }: DataTableProps<T>) {
           </table>
         )}
       </div>
+      <div className={styles.showOnMobileOnly}>
+        <p>Vire a tela para visualizar todas as informações</p>
+        <div></div>
+      </div>
     </div>
   )
 }
