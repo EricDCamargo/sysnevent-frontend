@@ -11,6 +11,27 @@
   padding: 8px;
 }
 
+.restricted {
+  border: 2px solid #d32f2f;
+  background-color: #fff4f4;
+  box-shadow: 0 4px 16px rgba(211, 47, 47, 0.08);
+  position: relative;
+}
+
+.restricted::before {
+  content: 'FATECANOS';
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: #d32f2f;
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: bold;
+  padding: 2px 8px;
+  border-radius: 8px;
+  letter-spacing: 1px;
+}
+
 .card:hover {
   transform: translateY(-4px);
 }

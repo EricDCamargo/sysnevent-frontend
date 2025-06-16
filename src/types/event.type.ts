@@ -15,6 +15,7 @@ export interface EventProps {
   startTime: string // ISO string
   endTime: string // ISO string
   description: string
+  isRestricted: boolean
   created_at: string
   updated_at: string
 }
