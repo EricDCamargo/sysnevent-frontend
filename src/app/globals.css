@@ -50,7 +50,7 @@ html {
 input,
 select,
 textarea {
-  color: var(--white);
+  color: var(--black);
 
   &[disabled] {
     color: rgb(170, 170, 170);

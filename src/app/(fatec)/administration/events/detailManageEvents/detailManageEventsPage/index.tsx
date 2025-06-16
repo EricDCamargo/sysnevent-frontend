@@ -1,115 +1,144 @@
-'use client';
+'use client'
 
-import Link from "next/link";
-import Image from "next/image";
-import { toast } from "sonner";
-import styles from './styles.module.css';
-import { getCategoryOptions } from "@/utils";
-import { Button } from "@/app/_components/button";
-import { Camera, Upload, Video } from "lucide-react";
-import { CategoryProps } from "@/types/category.type";
-import { useEffect, useState, ChangeEvent } from "react";
-import Dropdown from "@/app/(fatec)/_components/dropDown";
-import { coursesOptions, locationOptions, semesterOptions } from "@/utils/recordStatus";
-import { EventProps } from "@/types/event.type";
-import { Category, Location } from "@/utils/enums";
-import { serviceConsumer } from "@/services/service.consumer";
+import Link from 'next/link'
+import Image from 'next/image'
+import { toast } from 'sonner'
+import styles from './styles.module.css'
+import { getCategoryOptions } from '@/utils'
+import { Button } from '@/app/_components/button'
+import { Camera, Upload, Video } from 'lucide-react'
+import { CategoryProps } from '@/types/category.type'
+import { useEffect, useState, ChangeEvent } from 'react'
+import Dropdown from '@/app/(fatec)/_components/dropDown'
+import {
+  courseOptions,
+  locationOptions,
+  semesterOptions
+} from '@/utils/recordStatus'
+import { EventProps } from '@/types/event.type'
+import { Category, Location } from '@/utils/enums'
+import { serviceConsumer } from '@/services/service.consumer'
 
 interface DetailManageEventsPage {
-  categories: CategoryProps[];
-  event: EventProps | null;
-  typeOfForm: 'create' | 'edit';
+  categories: CategoryProps[]
+  event: EventProps | null
+  typeOfForm: 'create' | 'edit'
 }
 
-export default function DetailManageEventsPage({ categories, typeOfForm, event }: DetailManageEventsPage) {
-  const [image, setImage] = useState<File>();
-  const [previewImage, setPreviewImage] = useState<string>('');
-  const [selectedCategory, setSelectedCategory] = useState<string>(event?.categoryId || '');
-  const [selectedLocation, setSelectedLocation] = useState<string>(event?.location || '');
-  const [selectedStartDate, setSelectedStartDate] = useState<string>('');
-  const [unavailableDates, setUnavailableDates] = useState<string[]>([]);
-  const [availableTimeSlots, setAvailableTimeSlots] = useState<{ start: string; end: string }[]>([]);
-  const [isRestricted, setIsRestricted] = useState<boolean>(event?.isRestricted || false);
+export default function DetailManageEventsPage({
+  categories,
+  typeOfForm,
+  event
+}: DetailManageEventsPage) {
+  const [image, setImage] = useState<File>()
+  const [previewImage, setPreviewImage] = useState<string>('')
+  const [selectedCategory, setSelectedCategory] = useState<string>(
+    event?.categoryId || ''
+  )
+  const [selectedLocation, setSelectedLocation] = useState<string>(
+    event?.location || ''
+  )
+  const [selectedStartDate, setSelectedStartDate] = useState<string>('')
+  const [unavailableDates, setUnavailableDates] = useState<string[]>([])
+  const [availableTimeSlots, setAvailableTimeSlots] = useState<
+    { start: string; end: string }[]
+  >([])
+  const [isRestricted, setIsRestricted] = useState<boolean>(
+    event?.isRestricted || false
+  )
 
-  const selectedCategoryObj = categories.find(cat => cat.id === selectedCategory);
+  const selectedCategoryObj = categories.find(
+    cat => cat.id === selectedCategory
+  )
 
   useEffect(() => {
-    setPreviewImage(event?.banner || '');
-  }, [event]);
+    setPreviewImage(event?.banner || '')
+  }, [event])
 
   useEffect(() => {
     // Quando categoria mudar:
-    if (!selectedCategory) return;
+    if (!selectedCategory) return
 
     if (selectedCategoryObj?.name === Category.CURSO_ONLINE) {
-      setSelectedLocation('');
-      setUnavailableDates([]);
-      setSelectedStartDate('');
-      setAvailableTimeSlots([]);
+      setSelectedLocation('')
+      setUnavailableDates([])
+      setSelectedStartDate('')
+      setAvailableTimeSlots([])
     } else {
-      setSelectedStartDate('');
-      setAvailableTimeSlots([]);
+      setSelectedStartDate('')
+      setAvailableTimeSlots([])
     }
-  }, [selectedCategory]);
+  }, [selectedCategory])
 
   useEffect(() => {
     // Quando localização mudar:
     async function fetchUnavailableDates() {
-      if (selectedLocation && selectedCategoryObj?.name !== Category.CURSO_ONLINE) {
+      if (
+        selectedLocation &&
+        selectedCategoryObj?.name !== Category.CURSO_ONLINE
+      ) {
         try {
-          const data = await serviceConsumer().executeGet('/events/unavailable-dates',
+          const data = await serviceConsumer().executeGet(
+            '/events/unavailable-dates',
             {
               location: selectedLocation
-            })
+            }
+          )
 
-          setUnavailableDates(data.data);
+          setUnavailableDates(data.data)
         } catch (error) {
-          toast.error('Erro ao buscar datas indisponíveis.');
+          toast.error('Erro ao buscar datas indisponíveis.')
         }
       }
     }
-    fetchUnavailableDates();
-  }, [selectedLocation, selectedCategoryObj]);
+    fetchUnavailableDates()
+  }, [selectedLocation, selectedCategoryObj])
 
   useEffect(() => {
     // Quando data mudar:
     async function fetchAvailableTimeSlots() {
-      if (selectedLocation && selectedStartDate && selectedCategoryObj?.name !== Category.CURSO_ONLINE) {
+      if (
+        selectedLocation &&
+        selectedStartDate &&
+        selectedCategoryObj?.name !== Category.CURSO_ONLINE
+      ) {
         try {
-          const data = await serviceConsumer().executeGet('/events/available-time-slots',
+          const data = await serviceConsumer().executeGet(
+            '/events/available-time-slots',
             {
               location: selectedLocation,
               date: selectedStartDate
-            })
+            }
+          )
 
-          setAvailableTimeSlots(data.data);
+          setAvailableTimeSlots(data.data)
         } catch (error) {
-          toast.error('Erro ao buscar horários disponíveis.');
+          toast.error('Erro ao buscar horários disponíveis.')
         }
       }
     }
-    fetchAvailableTimeSlots();
-  }, [selectedStartDate, selectedLocation, selectedCategoryObj]);
+    fetchAvailableTimeSlots()
+  }, [selectedStartDate, selectedLocation, selectedCategoryObj])
 
   function handleFileImage(e: ChangeEvent<HTMLInputElement>) {
-    const file = e.target.files?.[0];
+    const file = e.target.files?.[0]
     if (file) {
       if (file.type !== 'image/jpeg' && file.type !== 'image/png') {
-        toast.warning('Formato não permitido!');
-        return;
+        toast.warning('Formato não permitido!')
+        return
       }
-      setPreviewImage(URL.createObjectURL(file));
-      setImage(file);
+      setPreviewImage(URL.createObjectURL(file))
+      setImage(file)
     }
   }
 
   function isDateDisabled(dateStr: string) {
-    return unavailableDates.includes(dateStr);
+    return unavailableDates.includes(dateStr)
   }
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    const formData = new FormData(e.currentTarget);
+    e.preventDefault()
+    const formData = new FormData(e.currentTarget)
 
     const payload = {
       name: formData.get('name'),
@@ -124,11 +153,10 @@ export default function DetailManageEventsPage({ categories, typeOfForm, event }
       startTime: formData.get('startTime'),
       endTime: formData.get('endTime'),
       description: formData.get('description'),
-      isRestricted: isRestricted, // <-- Incluindo o estado do botão
-    };
+      isRestricted: isRestricted // <-- Incluindo o estado do botão
+    }
 
-
-    console.log(payload);
+    console.log(payload)
 
     try {
       const res = await serviceConsumer().executePost('/events', payload)
@@ -138,7 +166,7 @@ export default function DetailManageEventsPage({ categories, typeOfForm, event }
     }
 
     // Aqui você faz o envio para sua API
-    toast.success('Formulário pronto para envio!');
+    toast.success('Formulário pronto para envio!')
   }
 
   return (
@@ -162,7 +190,14 @@ export default function DetailManageEventsPage({ categories, typeOfForm, event }
           />
 
           {previewImage ? (
-            <Image alt="Preview" src={previewImage} className={styles.preview} fill quality={100} priority />
+            <Image
+              alt="Preview"
+              src={previewImage}
+              className={styles.preview}
+              fill
+              quality={100}
+              priority
+            />
           ) : (
             <>
               <div className={styles.images}>
@@ -171,20 +206,29 @@ export default function DetailManageEventsPage({ categories, typeOfForm, event }
                 <Video size={25} />
               </div>
               <p>Arraste e solte os arquivos</p>
-              <span className={styles.spanF}><Upload size={25} /><span>Upload</span></span>
+              <span className={styles.spanF}>
+                <Upload size={25} />
+                <span>Upload</span>
+              </span>
             </>
           )}
         </div>
 
         <div className={styles.grid}>
           {/* Nome */}
-          <input type="text" name="name" placeholder="Nome do Evento" required defaultValue={event?.name || ''} />
+          <input
+            type="text"
+            name="name"
+            placeholder="Nome do Evento"
+            required
+            defaultValue={event?.name || ''}
+          />
 
           {/* Categoria */}
           <Dropdown
             name="category"
             defaultValue={selectedCategory}
-            onChange={(value) => setSelectedCategory(value)}
+            onChange={value => setSelectedCategory(value)}
             options={getCategoryOptions(categories)}
           />
 
@@ -202,11 +246,27 @@ export default function DetailManageEventsPage({ categories, typeOfForm, event }
           )}
 
           {/* Curso e Semestre */}
-          <Dropdown name="course" defaultValue={event?.course || ''} options={coursesOptions} />
-          <Dropdown name="semester" defaultValue={event?.semester || ''} options={semesterOptions} />
+          <Dropdown
+            name="course"
+            defaultValue={event?.course || ''}
+            options={courseOptions}
+          />
+          <Dropdown
+            name="semester"
+            defaultValue={event?.semester || ''}
+            options={semesterOptions}
+          />
 
           {/* Limite de Participantes */}
-          <input name="maxParticipants" placeholder="Limite de Inscrições" type="number" required min={1} max={999} defaultValue={event?.maxParticipants} />
+          <input
+            name="maxParticipants"
+            placeholder="Limite de Inscrições"
+            type="number"
+            required
+            min={1}
+            max={999}
+            defaultValue={event?.maxParticipants}
+          />
 
           {/* Localização (se não for Curso Online) */}
           {selectedCategoryObj?.name !== Category.CURSO_ONLINE && (
@@ -215,7 +275,7 @@ export default function DetailManageEventsPage({ categories, typeOfForm, event }
                 name="location"
                 defaultValue={selectedLocation}
                 options={locationOptions}
-                onChange={(value) => setSelectedLocation(value)}
+                onChange={value => setSelectedLocation(value)}
               />
 
               {selectedLocation === Location.OUTROS && (
@@ -231,7 +291,12 @@ export default function DetailManageEventsPage({ categories, typeOfForm, event }
           )}
 
           {/* Nome do Palestrante */}
-          <input name="speakerName" placeholder="Nome do Palestrante/Responsável" required defaultValue={event?.speakerName} />
+          <input
+            name="speakerName"
+            placeholder="Nome do Palestrante/Responsável"
+            required
+            defaultValue={event?.speakerName}
+          />
 
           {/* Data (habilita apenas após escolher localização ou se for Curso Online) */}
           <input
@@ -239,10 +304,17 @@ export default function DetailManageEventsPage({ categories, typeOfForm, event }
             type="date"
             required
             value={selectedStartDate}
-            onChange={(e) => setSelectedStartDate(e.target.value)}
+            onChange={e => setSelectedStartDate(e.target.value)}
             min={new Date().toISOString().split('T')[0]}
-            disabled={selectedCategoryObj?.name !== Category.CURSO_ONLINE && !selectedLocation}
-            style={isDateDisabled(selectedStartDate) ? { backgroundColor: '#f8d7da' } : {}}
+            disabled={
+              selectedCategoryObj?.name !== Category.CURSO_ONLINE &&
+              !selectedLocation
+            }
+            style={
+              isDateDisabled(selectedStartDate)
+                ? { backgroundColor: '#f8d7da' }
+                : {}
+            }
           />
 
           {/* Horários (só habilita se já tiver data e slots carregados) */}
@@ -272,7 +344,11 @@ export default function DetailManageEventsPage({ categories, typeOfForm, event }
           <span>{isRestricted ? 'Sim' : 'Não'}</span>
         </div>
         {/* Descrição */}
-        <textarea name="description" placeholder="Descrição do evento" defaultValue={event?.description} />
+        <textarea
+          name="description"
+          placeholder="Descrição do evento"
+          defaultValue={event?.description}
+        />
 
         {/* Botão */}
         <div className={styles.buttonSubmit}>
@@ -280,5 +356,5 @@ export default function DetailManageEventsPage({ categories, typeOfForm, event }
         </div>
       </form>
     </main>
-  );
+  )
 }

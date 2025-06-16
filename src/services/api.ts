@@ -39,10 +39,11 @@ const setupAPIClient = () => {
       if (status === StatusCodes.UNAUTHORIZED) {
         const backendMessage = (error.response?.data as any)?.error
 
-        // Se a requisição for feita no lado do cliente (browser) podemos executar uma ação, como redirecionar o usuário para a página de login, if (typeof window !== 'undefined'), no momento o middleware faz isso, mas podemos fazer aqui também
-
+        // Se a requisição for feita no lado do cliente (browser) podemos executar uma ação, como redirecionar o usuário para a página de login, no momento o middleware faz isso, mas podemos fazer aqui também
+        if (typeof window !== 'undefined') {
+        }
         // Se a requisição for feita no lado do servidor (SSR) e foi realmente um erro de token, significa que o usuário não está autenticado, nesse caso, por questões de segurança da aplicação retornamos apenas o statusCode e a mensagem de erro que o servidor obteve da API
-        if (TOKEN_ERROR_MESSAGES.includes(backendMessage)) {
+        else if (TOKEN_ERROR_MESSAGES.includes(backendMessage)) {
           return Promise.reject(new AuthTokenError(backendMessage, status))
         }
       }

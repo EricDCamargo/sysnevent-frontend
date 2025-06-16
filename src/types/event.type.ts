@@ -1,4 +1,4 @@
-import { Category, Course, Semester, Location } from '@/utils/enums'
+import { Course, Semester, Location } from '@/utils/enums'
 import { CategoryProps } from './category.type'
 
 export interface EventProps {
@@ -13,11 +13,11 @@ export interface EventProps {
   location: Location
   customLocation?: string
   speakerName: string
-  startDate: string 
-  startTime: string 
-  endTime: string 
+  startDate: string
+  startTime: string
+  endTime: string
   description: string
-  isRestricted: boolean,
+  isRestricted: boolean
   banner: string
   duration?: number
   created_at: string
