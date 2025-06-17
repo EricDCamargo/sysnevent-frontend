@@ -89,6 +89,7 @@ export function UserProvider({ children }: UserProviderProps) {
   async function handleLogout() {
     deleteCookie('session', { path: '/' })
     router.replace('/')
+    setLoggedUser(null)
     toast.success('Logout feito com sucesso!')
   }
 

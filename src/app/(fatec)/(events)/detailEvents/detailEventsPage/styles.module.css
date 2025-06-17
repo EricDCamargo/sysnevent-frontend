@@ -1,10 +1,11 @@
-.container {
+main.container {
   width: 100%;
   display: flex;
   flex-direction: column;
   gap: 20px;
 }
-.wrapper {
+
+main.container > section.wrapper {
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -12,13 +13,7 @@
   gap: 20px;
 }
 
-.eventImageSection {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-}
-
-.eventImage {
+main.container > section.wrapper > img.eventImage {
   width: 80%;
   height: auto;
   border-radius: 12px;
@@ -26,7 +21,18 @@
   max-width: 800px;
 }
 
-.eventDetails {
+@media (max-width: 768px) {
+  main.container > section.wrapper > img.eventImage {
+    width: 90%;
+  }
+}
+@media (max-width: 480px) {
+  main.container > section.wrapper > img.eventImage {
+    width: 95%;
+  }
+}
+
+main.container > section.wrapper > section.eventDetails {
   display: flex;
   flex-direction: column;
   width: 80%;
@@ -34,43 +40,72 @@
   gap: 16px;
   color: var(--black);
 }
-.eventDetails button {
-  display: flex;
-  width: 200px;
-  align-self: center;
-  border-radius: 0;
+
+@media (max-width: 768px) {
+  main.container > section.wrapper > section.eventDetails {
+    width: 90%;
+  }
+}
+@media (max-width: 480px) {
+  main.container > section.wrapper > section.eventDetails {
+    width: 95%;
+  }
 }
 
-.eventTitle {
+main.container > section.wrapper > section.eventDetails > h1.eventTitle {
   font-size: 28px;
   font-weight: bold;
 }
+@media (max-width: 768px) {
+  main.container > section.wrapper > section.eventDetails > h1.eventTitle {
+    font-size: 22px;
+  }
+}
 
-.eventResponsible {
+main.container > section.wrapper > section.eventDetails > p.eventResponsible {
   font-size: 16px;
   color: var(--gray-500);
 }
 
-.eventInfo {
+main.container > section.wrapper > section.eventDetails > div.eventInfo {
   display: flex;
   flex-direction: column;
   gap: 8px;
 }
+@media (max-width: 480px) {
+  main.container > section.wrapper > section.eventDetails > div.eventInfo {
+    font-size: 12px;
+  }
+}
 
-.detailBlock {
+main.container
+  > section.wrapper
+  > section.eventDetails
+  > div.eventInfo
+  > div.detailBlock {
   margin-top: 16px;
   display: flex;
   flex-direction: column;
   gap: 8px;
 }
 
-.detailTitle {
+main.container
+  > section.wrapper
+  > section.eventDetails
+  > div.eventInfo
+  > div.detailBlock
+  > h2.detailTitle {
   font-size: 18px;
   font-weight: bold;
   color: var(--black);
 }
 
-.infoItem {
+main.container
+  > section.wrapper
+  > section.eventDetails
+  > div.eventInfo
+  > div.detailBlock
+  > div.infoItem {
   display: flex;
   align-items: center;
   gap: 8px;
@@ -78,46 +113,132 @@
   color: var(--gray-500);
 }
 
-.eventDescription {
+main.container > section.wrapper > section.eventDetails > div.detailBlock {
+  margin-top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+main.container
+  > section.wrapper
+  > section.eventDetails
+  > div.detailBlock
+  > h2.detailTitle {
+  font-size: 18px;
+  font-weight: bold;
+  color: var(--black);
+}
+
+main.container
+  > section.wrapper
+  > section.eventDetails
+  > div.detailBlock
+  > p.eventDescription {
   font-size: 16px;
   line-height: 1.5;
   text-align: justify;
 }
+@media (max-width: 480px) {
+  main.container
+    > section.wrapper
+    > section.eventDetails
+    > div.detailBlock
+    > p.eventDescription {
+    font-size: 14px;
+  }
+}
 
-.otherEventsSection {
+main.container > section.wrapper > section.eventDetails > button {
+  display: flex;
+  width: 200px;
+  align-self: center;
+  border-radius: 0;
+}
+
+main.container > section.otherEventsSection {
   display: flex;
   flex-direction: column;
   gap: 16px;
 }
 
-.otherEventsSection h2 {
+main.container > section.otherEventsSection > h2 {
   font-size: 22px;
   font-weight: bold;
 }
 
-@media (max-width: 768px) {
-  .eventTitle {
-    font-size: 22px;
-  }
-  .eventDetails {
-    width: 90%;
-  }
-  .eventImage {
-    width: 90%;
+div.gridModal {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+div.gridModal > span.error {
+  color: var(--red-900);
+  font-size: 1rem;
+  margin-top: 4px;
+  font-weight: bold;
+  display: block;
+}
+
+@media screen and (max-width: 450px) {
+  div.gridModal {
+    grid-template-columns: 1fr;
   }
 }
 
-@media (max-width: 480px) {
-  .eventInfo {
-    font-size: 12px;
+div.gridModal > input,
+div.gridModal > select {
+  border: 1px solid var(--black);
+  border-radius: 5px;
+  padding: 10px;
+  color: black;
+
+  width: 100%;
+}
+
+div.gridModal > .dropdown {
+  width: 100%;
+}
+
+div.gridModal > div.radioGroup {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 600px) {
+  div.gridModal > div.radioGroup {
+    flex-direction: column;
+    align-items: flex-start;
   }
-  .eventDescription {
-    font-size: 14px;
-  }
-  .eventDetails {
-    width: 95%;
-  }
-  .eventImage {
-    width: 95%;
+}
+
+div.gridModal > div.radioGroup > label.radioOption {
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+div.gridModal > div.radioGroup > label.radioOption > input[type='radio'] {
+  accent-color: var(--black);
+  cursor: pointer;
+}
+
+/* Inputs Gerais (Textos/RAs) */
+input.input {
+  width: 100%;
+  border-radius: 8px;
+  border: 1px solid #999;
+  font-size: 0.85em;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+  color: var(--black);
+}
+
+@media (max-width: 768px) {
+  input.input {
+    font-size: 0.8em;
   }
 }

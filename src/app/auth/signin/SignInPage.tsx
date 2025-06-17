@@ -34,11 +34,14 @@ export const SignInPage: React.FC = () => {
       }
     }
   }
-  async function handleSubmitSecretWord(formData: FormData) {
+  async function handleSubmitSecretWord(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault()
+
+    const formData = new FormData(e.currentTarget)
     const result = await handleRegisterSecretWord(formData, token)
 
     if (result.isOk && result.status === StatusCodes.OK) {
-      router.push('/administration')
+      setResetPasswordModalOpen(false)
       Swal.fire({
         icon: 'success',
         title: 'Sua palavra chave foi cadastrada!',
@@ -47,12 +50,19 @@ export const SignInPage: React.FC = () => {
         timerProgressBar: true,
         showConfirmButton: false
       })
+      router.push('/administration')
     } else {
       toast.info(result.message)
     }
   }
 
-  async function handleSubmitResetPassword(formData: FormData) {
+  async function handleSubmitResetPassword(
+    e: React.FormEvent<HTMLFormElement>
+  ) {
+    e.preventDefault()
+
+    const formData = new FormData(e.currentTarget)
+
     const result = await handleResetPassword(formData)
     if (result.isOk && result.status === StatusCodes.OK) {
       setResetPasswordModalOpen(false)

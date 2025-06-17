@@ -10,7 +10,9 @@ export interface EventCardProps {
 
 export default function EventCard({ event, onClick }: EventCardProps) {
   return (
-    <div className={styles.card}>
+    <div
+      className={`${styles.card} ${event.isRestricted && styles.restricted}`}
+    >
       <div className={styles.image}>
         <img src={'/event_placeholder.svg'} alt={event.name} />
       </div>
