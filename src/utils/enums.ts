@@ -55,9 +55,6 @@ export enum Location {
 }
 
 export enum Category {
-  PALESTRA = 'PALESTRA',
-  WORKSHOP = 'WORKSHOP',
-  OFICINA = 'OFICINA',
-  CURSO = 'CURSO',
-  VISITA_TECNICA = 'VISITA_TECNICA'
+  CURSO_ONLINE = 'Curso Online',
+ 
 }

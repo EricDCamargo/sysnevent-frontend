@@ -1,48 +1,27 @@
-.tableContainer {
-  border-radius: 0.375rem;
-  border: 1px solid #e2e8f0;
-  padding: 1.5rem 1.25rem 0.625rem;
-  box-shadow: 0px 8px 13px -3px rgba(0, 0, 0, 0.07);
-  overflow-x: hidden;
-  overflow-y: scroll;
-  background-color: var(--dark-900);
-}
-
-.tableWrapper {
-  max-width: 100%;
-  overflow-x: auto;
-}
-
 .table {
   width: 100%;
   table-layout: auto;
 }
 
 .tableHeader {
-  background-color: var(--dark-900);
   text-align: left;
-  border-radius: 10px;
+  padding: 20px 0px 30px 0px;
+  font-size: 1.7rem;
+  font-weight: 500;
 }
 
 .tableCell {
-  padding: 0.8rem;
+  padding: 10px 0px;
   font-weight: 500;
-  color: var(--white);
+  color: var(--black);
   width: fit-content;
   max-width: 200px;
   word-break: break-word;
 }
 
-.tableRow {
-  border-bottom: 1px solid #eee;
-  width: fit-content;
-}
-
 .tableRow span {
-  font-weight: 500;
-  color: var(--white);
-  width: fit-content;
-  word-break: break-word;
+  font-size: 1.15rem;
+  padding: 5px 0px;
 }
 
 .noData {
@@ -50,4 +29,75 @@
   padding: 20px;
   font-size: 16px;
   color: #999;
+}
+
+.showOnMobileOnly {
+  display: none;
+}
+
+@media screen and (max-width: 650px) and (min-width: 581px) {
+  .tableHeader {
+    font-size: 1.4rem;
+  }
+}
+
+@media screen and (max-width: 580px) and (min-width: 400px) {
+  .showOnMobileOnly {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    margin-top: 20px;
+  }
+
+  .showOnMobileOnly > div {
+    border: 1px solid black;
+    padding: 35px;
+    margin-top: 10px;
+    width: 60%;
+  }
+}
+
+@media screen and (max-width: 375px) and (min-width: 321px)  {
+  .tableHeader {
+    font-size: 1.6rem;
+    text-align: center;
+  }
+
+  .showOnMobileOnly {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    margin-top: 20px;
+  }
+
+  .showOnMobileOnly > div {
+    border: 1px solid black;
+    padding: 35px;
+    margin-top: 10px;
+    width: 60%;
+  }
+}
+
+@media screen and (max-width: 374px) {
+  .tableHeader {
+    font-size: 1.3rem;
+    text-align: center;
+  }
+
+  .showOnMobileOnly {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    margin-top: 20px;
+  }
+
+  .showOnMobileOnly > div {
+    border: 1px solid black;
+    padding: 35px;
+    margin-top: 10px;
+    width: 60%;
+  }
 }

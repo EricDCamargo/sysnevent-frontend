@@ -6,8 +6,7 @@
   border: 1px solid var(--gray-200);
   border-radius: 12px;
   background-color: var(--white);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s;
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.8);  transition: transform 0.2s;
   padding: 8px;
 }
 

@@ -61,7 +61,7 @@ export default function EventsPage({ initialEvents, mode }: EventsPageProps) {
           </div>
         </section>
       {mode === 'admin' && <div className={styles.buttonContainer}>
-       <Button onClick={() => router.push('/administration/events/createNewEvent')} type='button' name='Criar evento' />
+       <Button onClick={() => router.push('/administration/events/detailManageEvents/newEvent')} type='button' name='Criar evento' />
       </div>}
        
       </section>
