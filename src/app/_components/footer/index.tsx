@@ -12,8 +12,8 @@ export const Footer = () => {
             <p>
               <strong>Contatos</strong>
             </p>
-            <p>Eventify@gmail.com</p>
-            <p>(99) 3456-7890</p>
+            <p>Fatecitu@gmail.com</p>
+            <p>(11) 4013 –1872</p>
             <p>(99) 8765-4321</p>
           </div>
           <div>
@@ -30,14 +30,13 @@ export const Footer = () => {
           <img
             src="/logo_SP.svg"
             alt="São Paulo Governo"
-            width={120}
+            width={150}
             className={styles.cpsLogo}
             onClick={() => router.push('/auth/signin')}
           />
           <p>Centro Paula Souza - Faculdade de Tecnologia de Itu (FATEC Itu)</p>
           <p>
-            Desenvolvido por Eric Dellai Camargo © SysNevent. Todos os direitos
-            reservados.
+            Sistema desenvolvido pela turma de ADS do 4º semestre da Fatec Itu (2025)
           </p>
         </div>
       </div>

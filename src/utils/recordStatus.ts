@@ -5,7 +5,7 @@ export const CourseLabels: Record<string, string> = {
   [Course.GE]: 'Gestão Empresarial',
   [Course.GTI]: 'Gestão da Tecnologia da Informação',
   [Course.GEMP]: 'Gestão Empresarial (Matutino)',
-  [Course.MEC]: 'Mecânica'
+  [Course.MEC]: 'Mecatrônica Industrial'
 }
 
 export const SemesterLabels: Record<string, string> = {

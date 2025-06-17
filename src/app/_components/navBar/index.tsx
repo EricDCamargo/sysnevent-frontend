@@ -8,15 +8,15 @@ export function NavBar() {
       <div className={styles.headerContent}>
         <Link href="/">
           <Image
-            src="/logo_SysNevent.svg"
+            src="/logo_FatecItu.png"
             alt="Fatec"
-            width={190}
-            height={60}
+            width={150}
+            height={0}
+            style={{ height: 'auto' }}
             priority={true}
             quality={100}
           />
         </Link>
-
         <HeaderMenu />
       </div>
     </nav>
