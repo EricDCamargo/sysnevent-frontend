@@ -1,5 +1,5 @@
 type TableColumn<T> = {
-  name: string
+  name: string | React.ReactNode
   sortable?: boolean
 } & (
   | { selector: (row: T) => React.ReactNode; cell?: never }
