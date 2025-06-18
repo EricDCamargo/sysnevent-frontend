@@ -2,6 +2,8 @@ import { EventProps } from '@/types/event.type'
 import moment from 'moment'
 import styles from './EventCard.module.css'
 import { Button } from '@/app/_components/button'
+import 'moment/locale/pt-br'
+moment.locale('pt-br')
 
 export interface EventCardProps {
   event: EventProps

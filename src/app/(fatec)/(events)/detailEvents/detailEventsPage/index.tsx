@@ -36,7 +36,7 @@ export default function DetailEventsPage({
   )
   const [raError, setRaError] = useState<string | null>(null)
   const [emailError, setEmailError] = useState<string | null>(null)
-  
+
   const rawDomains = process.env.NEXT_PUBLIC_ALLOWED_EMAIL_DOMAINS || ''
   const allowedDomains = rawDomains
     .split(',')
@@ -83,6 +83,13 @@ export default function DetailEventsPage({
         icon: 'success',
         title: 'Você está inscrito!',
         text: result.message,
+        confirmButtonText: 'OK'
+      })
+    } else if (result.status === StatusCodes.CONFLICT) {
+      Swal.fire({
+        icon: 'warning',
+        title: result.message,
+        html: `Verifique sua caixa de email <b>${email}</b> para mais informações.`,
         confirmButtonText: 'OK'
       })
     } else {

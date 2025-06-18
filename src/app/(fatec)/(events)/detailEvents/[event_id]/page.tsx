@@ -3,6 +3,8 @@ import {
   handleDetailEvent
 } from '@/services/retriveSSRData/retiveEventData'
 import DetailEventsPage from '../detailEventsPage'
+import { Suspense } from 'react'
+import Loading from '@/app/_components/loading/loading'
 
 interface DetailEventsProps {
   params: Promise<{
