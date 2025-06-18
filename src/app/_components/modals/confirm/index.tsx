@@ -1,16 +1,11 @@
-import React, { FormHTMLAttributes, ReactNode } from 'react'
+import React, { useEffect } from 'react'
 import styles from './styles.module.css'
 import { Button } from '../../button'
 import { X } from 'lucide-react'
 
-type ConfirmHandler =
-  | ((event: React.FormEvent<HTMLFormElement>) => void | Promise<void>)
-  | ((formData: FormData) => void | Promise<void>)
-  | string
-
 interface ConfirmModalProps {
   isOpen: boolean
-  modalText: { title: string; message: ReactNode | string }
+  modalText: { title: string; message: React.ReactNode | string }
   onConfirm: (event: React.FormEvent<HTMLFormElement>) => void | Promise<void>
   onCancel: () => void
 }
@@ -21,6 +16,17 @@ const ConfirmModal: React.FC<ConfirmModalProps> = ({
   onConfirm,
   onCancel
 }) => {
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = ''
+    }
+
+    return () => {
+      document.body.style.overflow = ''
+    }
+  }, [isOpen])
   if (!isOpen) return null
 
   return (

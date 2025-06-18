@@ -1,6 +1,7 @@
 import { Course, Semester, Location, UserRole } from './enums'
 
 export const CourseLabels: Record<string, string> = {
+  ['']: 'Escolha o curso',
   [Course.ADS]: 'Análise e Desenvolvimento de Sistemas',
   [Course.GE]: 'Gestão Empresarial',
   [Course.GTI]: 'Gestão da Tecnologia da Informação',
@@ -9,6 +10,7 @@ export const CourseLabels: Record<string, string> = {
 }
 
 export const SemesterLabels: Record<string, string> = {
+  ['']: 'Escolha o semestre',
   [Semester.SEM1]: '1º Semestre',
   [Semester.SEM2]: '2º Semestre',
   [Semester.SEM3]: '3º Semestre',
@@ -18,6 +20,7 @@ export const SemesterLabels: Record<string, string> = {
 }
 
 export const LocationLabels: Record<string, string> = {
+  ['']: 'Escolha a localização',
   [Location.AUDITORIO]: 'Auditório',
   [Location.BIBLIOTECA]: 'Biblioteca',
   [Location.SALA_MAKER]: 'Sala Maker',

@@ -16,16 +16,15 @@ const DEFAULT_SERVER_ERROR: ParticipantResponse = {
   status: StatusCodes.INTERNAL_SERVER_ERROR
 }
 
-async function handleRegisterParticipant(
-  formData: FormData
-): Promise<ParticipantResponse> {
-  const eventId = formData.get('eventId')
-  const name = formData.get('name')
-  const email = formData.get('email')
-  const course = formData.get('course')
-  const semester = formData.get('semester')
-  const ra = formData.get('ra')
-
+async function handleRegisterParticipant(data: {
+  email: string
+  name: string
+  ra: string
+  course: string
+  semester: string
+  eventId: string
+}): Promise<ParticipantResponse> {
+  const { eventId, name, email, course, semester, ra } = data
   try {
     const response = await serviceConsumer().executePost('/participants', {
       eventId,

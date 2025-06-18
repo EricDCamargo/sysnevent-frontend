@@ -9,7 +9,7 @@ async function handleDetailEvent(event_id: string): Promise<EventProps | null> {
     const response = await serviceConsumer().executeGet('/events/details', {
       event_id
     })
-
+    if (!response.isOk) return null
     return response.data as EventProps
   } catch (error) {
     return null
