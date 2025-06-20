@@ -115,7 +115,7 @@ export default function DetailEventsPage({
     <main className={styles.container}>
       <section className={styles.wrapper}>
         <Image
-          src={'/event_placeholder.svg'}
+          src={event.banner ? event.banner : '/event_placeholder.svg'}
           alt={`Imagem do evento ${event.name}`}
           width={800}
           height={400}

@@ -16,7 +16,10 @@ export default function EventCard({ event, onClick }: EventCardProps) {
       className={`${styles.card} ${event.isRestricted && styles.restricted}`}
     >
       <div className={styles.image}>
-        <img src={'/event_placeholder.svg'} alt={event.name} />
+        <img
+          src={event.banner ? event.banner : '/event_placeholder.svg'}
+          alt={event.name}
+        />
       </div>
       <div className={styles.content}>
         <h3 className={styles.title}>{event.name}</h3>
