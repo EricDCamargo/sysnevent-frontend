@@ -7,6 +7,7 @@ import { useState } from 'react'
 import { SearchInput } from '@/app/(fatec)/_components/searchInput'
 import EventsGrid from '../eventsGrid/EventsGrid'
 import { Button } from '@/app/_components/button'
+import Carrossel from '@/app/_components/carrossel'
 
 interface EventsPageProps {
   initialEvents: EventProps[]
@@ -22,6 +23,7 @@ export default function EventsPage({ initialEvents, mode }: EventsPageProps) {
   return (
     <main className={styles.container}>
       <section className={styles.wrapper}>
+        <Carrossel />
         <SearchInput
           data={filteredEvents}
           searchValue="name"
@@ -39,9 +41,8 @@ export default function EventsPage({ initialEvents, mode }: EventsPageProps) {
             ].map(cat => (
               <button
                 key={cat}
-                className={`${styles.categoryButton} ${
-                  cat === category ? styles.active : ''
-                }`}
+                className={`${styles.categoryButton} ${cat === category ? styles.active : ''
+                  }`}
                 onClick={() => setCategory(cat)}
               >
                 {cat}
@@ -60,12 +61,12 @@ export default function EventsPage({ initialEvents, mode }: EventsPageProps) {
             </div>
           </div>
         </section>
-      {mode === 'admin' && <div className={styles.buttonContainer}>
-       <Button onClick={() => router.push('/administration/events/detailManageEvents/newEvent')} type='button' name='Criar evento' />
-      </div>}
-       
+        {mode === 'admin' && <div className={styles.buttonContainer}>
+          <Button onClick={() => router.push('/administration/events/detailManageEvents/newEvent')} type='button' name='Criar evento' />
+        </div>}
+
       </section>
-      
+
       <EventsGrid events={searchValue} mode={mode} />
     </main>
   )
