@@ -9,8 +9,12 @@ import { Button } from '@/app/_components/button'
 import { Camera, Upload, Video } from 'lucide-react'
 import { CategoryProps } from '@/types/category.type'
 import { useEffect, useState, ChangeEvent } from 'react'
-import Dropdown from '@/app/(fatec)/_components/dropDown'
-import { courseOptions, locationOptions, semesterOptions } from '@/utils/recordStatus'
+import Dropdown from '@/app/_components/inputs/dropDown'
+import {
+  courseOptions,
+  locationOptions,
+  semesterOptions
+} from '@/utils/recordStatus'
 import { EventProps } from '@/types/event.type'
 import { Category, Location } from '@/utils/enums'
 import { serviceConsumer } from '@/services/service.consumer'

@@ -9,13 +9,18 @@ import { Button } from '@/app/_components/button'
 import { CalendarDays, MapPin } from 'lucide-react'
 import ConfirmModal from '@/app/_components/modals/confirm'
 import { StatusCodes } from 'http-status-codes'
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { toast } from 'sonner'
 import Swal from 'sweetalert2'
 import { handleRegisterParticipant } from '@/hooks/participant/useParticipant'
-import Dropdown from '@/app/(fatec)/_components/dropDown'
+import Dropdown from '@/app/_components/inputs/dropDown'
 import { courseOptions, semesterOptions } from '@/utils/recordStatus'
 import { RAFatec } from '@/lib/validacaoRA'
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
+import { zodResolver } from '@hookform/resolvers/zod'
+import FormInput from '@/app/_components/inputs/formInput.tsx/FormInput'
+import { buildParticipantSchema } from '@/lib/validators/schemas/participantSchema'
 
 interface EventsPage {
   event: EventProps | null
@@ -28,72 +33,84 @@ export default function DetailEventsPage({
   events,
   currentEventId
 }: EventsPage) {
+  console.log(event)
   if (!event) return <p>Evento não encontrado.</p>
 
   const [isSubscribeModalOpen, setSubscribeModalOpen] = useState(false)
   const [participantType, setParticipantType] = useState<'ALUNO' | 'OUTROS'>(
     'ALUNO'
   )
-  const [raError, setRaError] = useState<string | null>(null)
-  const [emailError, setEmailError] = useState<string | null>(null)
-  
-  const rawDomains = process.env.NEXT_PUBLIC_ALLOWED_EMAIL_DOMAINS || ''
-  const allowedDomains = rawDomains
+
+  const allowedDomains = (process.env.NEXT_PUBLIC_ALLOWED_EMAIL_DOMAINS || '')
     .split(',')
     .map(domain => domain.trim().toLowerCase())
 
+  const participantSchema = useMemo(() => {
+    return buildParticipantSchema({
+      allowedDomains,
+      isRestricted: event.isRestricted,
+      participantType
+    })
+  }, [allowedDomains, event.isRestricted, participantType])
+
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+    reset,
+    watch
+  } = useForm({
+    resolver: zodResolver(participantSchema),
+    defaultValues: {
+      email: '',
+      name: '',
+      ra: '',
+      course: '',
+      semester: ''
+    }
+  })
+
   const handleCloseModal = () => {
     setSubscribeModalOpen(false)
-    setEmailError(null)
-    setRaError(null)
+    reset()
   }
 
-  async function handleSubmitSubscribe(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault()
-
-    const formData = new FormData(e.currentTarget)
-    if (participantType === 'ALUNO') {
-      const ra = formData.get('ra') as string
-      if (!RAFatec.validateRA(ra)) {
-        setRaError('RA inválido para Fatec')
-        return
-      }
+  const onSubmit = async (data: any) => {
+    const payload = {
+      ...data,
+      eventId: currentEventId
     }
-    const email = formData.get('email') as string
 
-    // Validação de domínio se o evento for restrito
-    if (event?.isRestricted) {
-      const emailIsValid = allowedDomains.some(domain =>
-        email.toLowerCase().endsWith(domain)
-      )
-      if (!emailIsValid) {
-        setEmailError('Este evento é restrito a emails institucionais Fatec.')
-        return
-      }
-    }
-    setEmailError(null)
-    setRaError(null)
-
-    formData.append('eventId', currentEventId)
-    const result = await handleRegisterParticipant(formData)
+    const result = await handleRegisterParticipant(payload)
 
     if (result.isOk && result.status === StatusCodes.CREATED) {
       setSubscribeModalOpen(false)
+      reset()
       Swal.fire({
         icon: 'success',
         title: 'Você está inscrito!',
         text: result.message,
         confirmButtonText: 'OK'
       })
+    } else if (result.status === StatusCodes.CONFLICT) {
+      Swal.fire({
+        icon: 'warning',
+        title: result.message,
+        html: `Verifique sua caixa de email <b>${data.email}</b> para mais informações.`,
+        confirmButtonText: 'OK'
+      })
     } else {
       toast.error(result.message)
     }
   }
+
   const formattedDate = formatEventDate(
     event.startDate,
     event.startTime,
     event.endTime
   )
+
   return (
     <main className={styles.container}>
       <section className={styles.wrapper}>
@@ -138,62 +155,48 @@ export default function DetailEventsPage({
           />
         </section>
       </section>
+
       <section className={styles.otherEventsSection}>
         <h2>Outros eventos que podem te interessar</h2>
         <EventsGrid events={events} mode="public" />
       </section>
+
       <ConfirmModal
         modalText={{
           title: 'Preencha os dados',
           message: (
             <div className={styles.gridModal}>
-              <input
+              <FormInput
+                label="Email"
                 type="email"
-                required
-                name="email"
                 placeholder="Email"
-                className={styles.input}
-                style={emailError ? { borderColor: '#d32f2f' } : undefined}
-                onBlur={e => {
-                  if (event.isRestricted) {
-                    const value = e.target.value
-                    const emailIsValid = allowedDomains.some(domain =>
-                      value.toLowerCase().endsWith(domain)
-                    )
-                    setEmailError(
-                      emailIsValid
-                        ? null
-                        : 'Este evento é restrito a emails institucionais Fatec.'
-                    )
-                  } else {
-                    setEmailError(null)
-                  }
-                }}
+                error={!!errors.email}
+                errorMessage={errors.email?.message}
+                {...register('email')}
               />
 
-              <input
+              <FormInput
+                label="Nome"
                 type="text"
-                required
-                name="name"
                 placeholder="Nome"
-                className={styles.input}
+                error={!!errors.name}
+                errorMessage={errors.name?.message}
+                {...register('name')}
               />
+
               <div className={styles.radioGroup}>
                 <label className={styles.radioOption}>
                   <input
                     type="radio"
-                    name="participantType"
                     value="ALUNO"
                     checked={participantType === 'ALUNO'}
                     onChange={() => setParticipantType('ALUNO')}
                   />
                   Sou aluno(a)
                 </label>
-
                 <label className={styles.radioOption}>
                   <input
                     type="radio"
-                    name="participantType"
                     value="OUTROS"
                     checked={participantType === 'OUTROS'}
                     onChange={() => setParticipantType('OUTROS')}
@@ -205,41 +208,46 @@ export default function DetailEventsPage({
               {participantType === 'ALUNO' && (
                 <>
                   <Dropdown
+                    label="Curso"
                     name="course"
                     defaultValue=""
                     options={courseOptions}
+                    error={!!errors.course}
+                    errorMessage={errors.course?.message}
+                    onChange={value =>
+                      setValue('course', value, { shouldValidate: true })
+                    }
                   />
+
                   <Dropdown
+                    label="Semestre "
                     name="semester"
                     defaultValue=""
                     options={semesterOptions}
+                    error={!!errors.semester}
+                    errorMessage={errors.semester?.message}
+                    onChange={value =>
+                      setValue('semester', value, { shouldValidate: true })
+                    }
                   />
-                  <input
-                    type="number"
-                    required
-                    name="ra"
-                    placeholder="Seu RA"
-                    className={styles.input}
-                    style={raError ? { borderColor: '#d32f2f' } : undefined}
-                    onBlur={e => {
-                      const value = e.target.value
-                      if (!RAFatec.validateRA(value)) {
-                        setRaError('RA inválido para Fatec')
-                      } else {
-                        setRaError(null)
-                      }
-                    }}
+
+                  <FormInput
+                    label="RA"
+                    type="text"
+                    placeholder="RA"
+                    error={!!errors.ra}
+                    maxLength={13}
+                    errorMessage={errors.ra?.message}
+                    {...register('ra')}
                   />
-                  {raError && <span className={styles.error}>{raError}</span>}
                 </>
               )}
-              {emailError && <span className={styles.error}>{emailError}</span>}
             </div>
           )
         }}
         isOpen={isSubscribeModalOpen}
         onCancel={handleCloseModal}
-        onConfirm={handleSubmitSubscribe}
+        onConfirm={handleSubmit(onSubmit)}
       />
     </main>
   )

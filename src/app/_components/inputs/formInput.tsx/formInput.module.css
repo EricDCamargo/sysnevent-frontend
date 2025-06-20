@@ -1,0 +1,36 @@
+.inputContainer {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.inputLabel {
+  font-size: 1rem;
+  margin-bottom: 4px;
+  text-align: left;
+}
+
+.inputField {
+  padding: 10px;
+  border: 1px solid #999;
+  border-radius: 5px;
+  font-size: 1rem;
+  color: var(--black);
+  background-color: white;
+}
+
+.inputField:focus {
+  outline: none;
+}
+
+.inputError {
+  border-color: rgba(239, 68, 68, 1);
+  color: rgba(239, 68, 68, 1);
+}
+
+.errorMessage {
+  color: rgb(239, 68, 68);
+  font-size: 0.85rem;
+  margin-top: 4px;
+  text-align: left;
+}

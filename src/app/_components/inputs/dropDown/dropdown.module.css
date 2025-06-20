@@ -1,0 +1,47 @@
+.content {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.dropDownLabel {
+  font-size: 1rem;
+  margin-bottom: 4px;
+  text-align: left;
+}
+
+.dropDownContainer {
+  border: 1px solid var(--black);
+  border-radius: 5px;
+  padding: 10px;
+  box-shadow: 2px 2px 2px #000000ad;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.dropDown {
+  height: 100%;
+  width: 100%;
+  border: none;
+  border-radius: 1px;
+  outline: 0;
+  font-size: 1rem;
+}
+
+.dropDownContainerError {
+  border: 1px solid rgba(239, 68, 68, 1);
+}
+
+.dropDownError {
+  color: rgba(239, 68, 68, 1);
+}
+
+.errorMessage {
+  color: rgb(239, 68, 68);
+  font-size: 0.85rem;
+  margin-top: 4px;
+  text-align: left;
+}
