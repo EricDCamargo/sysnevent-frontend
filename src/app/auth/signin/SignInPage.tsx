@@ -34,10 +34,7 @@ export const SignInPage: React.FC = () => {
       }
     }
   }
-  async function handleSubmitSecretWord(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault()
-
-    const formData = new FormData(e.currentTarget)
+  async function handleSubmitSecretWord(formData: FormData) {
     const result = await handleRegisterSecretWord(formData, token)
 
     if (result.isOk && result.status === StatusCodes.OK) {
@@ -56,13 +53,7 @@ export const SignInPage: React.FC = () => {
     }
   }
 
-  async function handleSubmitResetPassword(
-    e: React.FormEvent<HTMLFormElement>
-  ) {
-    e.preventDefault()
-
-    const formData = new FormData(e.currentTarget)
-
+  async function handleSubmitResetPassword(formData: FormData) {
     const result = await handleResetPassword(formData)
     if (result.isOk && result.status === StatusCodes.OK) {
       setResetPasswordModalOpen(false)
@@ -126,7 +117,7 @@ export const SignInPage: React.FC = () => {
         }}
         isOpen={isSecretWordModalOpen}
         onCancel={() => setSecredWordModalOpen(false)}
-        onConfirm={handleSubmitSecretWord}
+        action={handleSubmitSecretWord}
       />
       <ConfirmModal
         modalText={{
@@ -160,7 +151,7 @@ export const SignInPage: React.FC = () => {
         }}
         isOpen={isResetPasswordModalOpen}
         onCancel={() => setResetPasswordModalOpen(false)}
-        onConfirm={handleSubmitResetPassword}
+        action={handleSubmitResetPassword}
       />
     </AuthPage>
   )

@@ -6,28 +6,21 @@ interface OptionsType {
   label: string
 }
 
-interface SelectProps {
+interface SelectProps extends React.SelectHTMLAttributes<HTMLSelectElement> {
   label?: string
   width?: string
-  defaultValue?: string
   options: Array<OptionsType>
-  name: string
-  disabled?: boolean
   error?: boolean
   errorMessage?: string
-  onChange?: (value: string) => void
 }
 
 const Dropdown = ({
   label,
   width,
-  defaultValue,
-  name,
   options,
-  disabled,
   error,
   errorMessage,
-  onChange
+  ...rest
 }: SelectProps) => {
   return (
     <div className={styles.content}>
@@ -40,10 +33,7 @@ const Dropdown = ({
       >
         <select
           className={`${styles.dropDown} ${error && styles.dropDownError}`}
-          name={name}
-          defaultValue={defaultValue}
-          disabled={disabled}
-          onChange={e => onChange && onChange(e.target.value)}
+          {...rest}
         >
           {options.map(item => (
             <option key={item.value} value={item.value}>

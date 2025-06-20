@@ -92,7 +92,6 @@ async function handleResetPassword(formData: FormData): Promise<AuthResponse> {
       secretWord,
       newPassword
     })
-    console.log('response', response)
     const { data, ...rest } = response
     return rest
   } catch (err) {

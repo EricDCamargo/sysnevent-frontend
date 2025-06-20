@@ -228,7 +228,6 @@ export default function DetailManageEventsPage({
           <Dropdown
             name="category"
             defaultValue={selectedCategory}
-            onChange={value => setSelectedCategory(value)}
             options={getCategoryOptions(categories)}
           />
 
@@ -275,7 +274,6 @@ export default function DetailManageEventsPage({
                 name="location"
                 defaultValue={selectedLocation}
                 options={locationOptions}
-                onChange={value => setSelectedLocation(value)}
               />
 
               {selectedLocation === Location.OUTROS && (

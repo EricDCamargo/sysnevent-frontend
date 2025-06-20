@@ -28,6 +28,30 @@
     flex-direction: column;
   }
 }
+.dateFilter {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  justify-content: center;
+  margin-top: 12px;
+  margin-bottom: 12px;
+}
+
+.dateFilter input[type='date'] {
+  padding: 8px 12px;
+  border: 1px solid var(--gray-100);
+  border-radius: 6px;
+  font-size: 1rem;
+  outline: none;
+  transition: border 0.2s;
+  margin-left: 6px;
+  margin-right: 12px;
+}
+
+.dateFilter input[type='date']:focus {
+  border: 1.5px solid var(--blue-100);
+  background: var(--gray-200);
+}
 
 .categories {
   display: flex;
@@ -59,12 +83,10 @@
   flex-wrap: wrap;
   gap: 10px;
 }
- .container .buttonContainer {
-  
+.container .buttonContainer {
   display: flex;
-  justify-content: flex-end;
-} 
- 
- .container .buttonContainer > button {
+}
+
+.container .buttonContainer > button {
   max-width: 200px;
-} 
+}

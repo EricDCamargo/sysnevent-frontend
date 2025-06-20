@@ -12,15 +12,17 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 export function Button({ name, onClick, type, ...rest }: ButtonProps) {
   const { pending } = useFormStatus()
 
+  const isDisabled = rest.disabled || (pending && type === 'submit')
+
   return (
     <button
       type={type}
-      disabled={pending}
+      disabled={isDisabled}
       className={styles.button}
       onClick={onClick}
       {...rest}
     >
-      {pending && type == 'submit' ? (
+      {isDisabled && type == 'submit' ? (
         <LoaderCircle className={styles.icon} />
       ) : (
         name

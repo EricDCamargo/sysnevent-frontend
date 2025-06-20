@@ -15,9 +15,17 @@ async function handleDetailEvent(event_id: string): Promise<EventProps | null> {
     return null
   }
 }
-async function getEvents(): Promise<EventProps[] | []> {
+async function getEvents(
+  categoryId?: string,
+  startDate?: string,
+  endDate?: string
+): Promise<EventProps[] | []> {
   try {
-    const response = await serviceConsumer().executeGet('/events')
+    const response = await serviceConsumer().executeGet('/events', {
+      categoryId,
+      startDate,
+      endDate
+    })
     return response.data || []
   } catch (error) {
     console.log(error)

@@ -9,15 +9,13 @@ import { Button } from '@/app/_components/button'
 import { CalendarDays, MapPin } from 'lucide-react'
 import ConfirmModal from '@/app/_components/modals/confirm'
 import { StatusCodes } from 'http-status-codes'
-import { useMemo, useState } from 'react'
+import { useMemo, useState, useTransition } from 'react'
 import { toast } from 'sonner'
 import Swal from 'sweetalert2'
 import { handleRegisterParticipant } from '@/hooks/participant/useParticipant'
 import Dropdown from '@/app/_components/inputs/dropDown'
 import { courseOptions, semesterOptions } from '@/utils/recordStatus'
-import { RAFatec } from '@/lib/validacaoRA'
 import { useForm } from 'react-hook-form'
-import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import FormInput from '@/app/_components/inputs/formInput.tsx/FormInput'
 import { buildParticipantSchema } from '@/lib/validators/schemas/participantSchema'
@@ -33,7 +31,6 @@ export default function DetailEventsPage({
   events,
   currentEventId
 }: EventsPage) {
-  console.log(event)
   if (!event) return <p>Evento não encontrado.</p>
 
   const [isSubscribeModalOpen, setSubscribeModalOpen] = useState(false)
@@ -56,10 +53,8 @@ export default function DetailEventsPage({
   const {
     register,
     handleSubmit,
-    setValue,
     formState: { errors },
-    reset,
-    watch
+    reset
   } = useForm({
     resolver: zodResolver(participantSchema),
     defaultValues: {
@@ -70,40 +65,43 @@ export default function DetailEventsPage({
       semester: ''
     }
   })
-
+  const [isPending, startTransition] = useTransition()
   const handleCloseModal = () => {
     setSubscribeModalOpen(false)
     reset()
   }
 
-  const onSubmit = async (data: any) => {
-    const payload = {
-      ...data,
-      eventId: currentEventId
-    }
+  const onClientSubmit = handleSubmit(async data => {
+    const formData = new FormData()
+    formData.append('eventId', currentEventId)
+    Object.entries(data).forEach(([key, value]) => {
+      formData.append(key, value as string)
+    })
 
-    const result = await handleRegisterParticipant(payload)
+    startTransition(async () => {
+      const result = await handleRegisterParticipant(formData)
 
-    if (result.isOk && result.status === StatusCodes.CREATED) {
-      setSubscribeModalOpen(false)
-      reset()
-      Swal.fire({
-        icon: 'success',
-        title: 'Você está inscrito!',
-        text: result.message,
-        confirmButtonText: 'OK'
-      })
-    } else if (result.status === StatusCodes.CONFLICT) {
-      Swal.fire({
-        icon: 'warning',
-        title: result.message,
-        html: `Verifique sua caixa de email <b>${data.email}</b> para mais informações.`,
-        confirmButtonText: 'OK'
-      })
-    } else {
-      toast.error(result.message)
-    }
-  }
+      if (result.isOk) {
+        setSubscribeModalOpen(false)
+        reset()
+        Swal.fire({
+          icon: 'success',
+          title: 'Você está inscrito!',
+          text: result.message,
+          confirmButtonText: 'OK'
+        })
+      } else if (result.status === StatusCodes.CONFLICT) {
+        Swal.fire({
+          icon: 'warning',
+          title: result.message,
+          html: `Verifique sua caixa de email <b>${data.email}</b> para mais informações.`,
+          confirmButtonText: 'OK'
+        })
+      } else {
+        toast.error(result.message)
+      }
+    })
+  })
 
   const formattedDate = formatEventDate(
     event.startDate,
@@ -115,7 +113,7 @@ export default function DetailEventsPage({
     <main className={styles.container}>
       <section className={styles.wrapper}>
         <Image
-          src={event.banner ? event.banner : '/event_placeholder.svg'}
+          src={event.banner ?? '/event_placeholder.svg'}
           alt={`Imagem do evento ${event.name}`}
           width={800}
           height={400}
@@ -125,7 +123,6 @@ export default function DetailEventsPage({
         <section className={styles.eventDetails}>
           <h1 className={styles.eventTitle}>{event.name}</h1>
           <p className={styles.eventResponsible}>Por: {event.speakerName}</p>
-
           <div className={styles.eventInfo}>
             <div className={styles.detailBlock}>
               <h2 className={styles.detailTitle}>Data e Hora</h2>
@@ -142,12 +139,10 @@ export default function DetailEventsPage({
               </div>
             </div>
           </div>
-
           <div className={styles.detailBlock}>
             <h2 className={styles.detailTitle}>Descrição</h2>
             <p className={styles.eventDescription}>{event.description}</p>
           </div>
-
           <Button
             type={'button'}
             name="Inscreva-se"
@@ -209,26 +204,18 @@ export default function DetailEventsPage({
                 <>
                   <Dropdown
                     label="Curso"
-                    name="course"
-                    defaultValue=""
                     options={courseOptions}
                     error={!!errors.course}
                     errorMessage={errors.course?.message}
-                    onChange={value =>
-                      setValue('course', value, { shouldValidate: true })
-                    }
+                    {...register('course')}
                   />
 
                   <Dropdown
-                    label="Semestre "
-                    name="semester"
-                    defaultValue=""
+                    label="Semestre"
                     options={semesterOptions}
                     error={!!errors.semester}
                     errorMessage={errors.semester?.message}
-                    onChange={value =>
-                      setValue('semester', value, { shouldValidate: true })
-                    }
+                    {...register('semester')}
                   />
 
                   <FormInput
@@ -247,7 +234,8 @@ export default function DetailEventsPage({
         }}
         isOpen={isSubscribeModalOpen}
         onCancel={handleCloseModal}
-        onConfirm={handleSubmit(onSubmit)}
+        onSubmit={onClientSubmit}
+        pending={isPending}
       />
     </main>
   )

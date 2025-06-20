@@ -3,18 +3,19 @@ import styles from './styles.module.css'
 import { Button } from '../../button'
 import { X } from 'lucide-react'
 
-interface ConfirmModalProps {
+interface ConfirmModalProps extends React.FormHTMLAttributes<HTMLFormElement> {
   isOpen: boolean
   modalText: { title: string; message: React.ReactNode | string }
-  onConfirm: (event: React.FormEvent<HTMLFormElement>) => void | Promise<void>
+  pending?: boolean
   onCancel: () => void
 }
 
 const ConfirmModal: React.FC<ConfirmModalProps> = ({
   isOpen,
   modalText,
-  onConfirm,
-  onCancel
+  onCancel,
+  pending,
+  ...rest
 }) => {
   useEffect(() => {
     if (isOpen) {
@@ -36,12 +37,12 @@ const ConfirmModal: React.FC<ConfirmModalProps> = ({
           <h1 className={styles.title}>{modalText.title}</h1>
           <X className={styles.closeIcon} onClick={onCancel} />
         </div>
-        <form className={styles.modalForm} onSubmit={onConfirm}>
+        <form className={styles.modalForm} {...rest}>
           <div className={styles.modalBody}>{modalText.message}</div>
           <div className={styles.modalFooter}>
             <Button name="Cancelar" type="button" onClick={onCancel} />
 
-            <Button name="Confirmar" type="submit" />
+            <Button name="Confirmar" type="submit" disabled={pending} />
           </div>
         </form>
       </div>
