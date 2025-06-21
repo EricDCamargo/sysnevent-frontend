@@ -1,4 +1,4 @@
-import { Logs, LucideProps } from 'lucide-react'
+import { Layers2, Logs, LucideProps, Presentation, User } from 'lucide-react'
 import { ForwardRefExoticComponent, RefAttributes } from 'react'
 
 export interface MenuItemsProps {
@@ -14,13 +14,13 @@ const menuItems: MenuItemsProps[] = [
   {
     href: '/administration',
     subHref: '/detailManageEvents',
-    icon: Logs,
+    icon: Presentation,
     label: 'Gerenciar Eventos'
   },
-  { href: '/administration/users', icon: Logs, label: 'Gerenciar Usuarios' },
+  { href: '/administration/users', icon: User, label: 'Gerenciar Usuarios' },
   {
     href: '/administration/categories',
-    icon: Logs,
+    icon: Layers2,
     label: 'Gerenciar Categorias'
   }
 ]

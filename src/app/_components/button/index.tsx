@@ -9,7 +9,13 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   type: 'button' | 'submit' | 'reset' | undefined
 }
 
-export function Button({ name, onClick, type, ...rest }: ButtonProps) {
+export function Button({
+  name,
+  children,
+  onClick,
+  type,
+  ...rest
+}: ButtonProps) {
   const { pending } = useFormStatus()
 
   const isDisabled = rest.disabled || (pending && type === 'submit')
@@ -25,7 +31,7 @@ export function Button({ name, onClick, type, ...rest }: ButtonProps) {
       {isDisabled && type == 'submit' ? (
         <LoaderCircle className={styles.icon} />
       ) : (
-        name
+        children ?? name
       )}
     </button>
   )

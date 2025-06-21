@@ -10,11 +10,11 @@ export function NavBar() {
           <Image
             src="/logo_FatecItu.png"
             alt="Fatec"
-            width={150}
-            height={0}
-            style={{ height: 'auto' }}
+            width={300}
+            height={79}
             priority={true}
             quality={100}
+            className={styles.logoImage}
           />
         </Link>
         <HeaderMenu />

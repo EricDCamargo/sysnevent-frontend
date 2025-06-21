@@ -25,3 +25,21 @@
   border-bottom: 1px solid var(--black);
   background-color: var(--white);
 }
+.logoImage {
+  width: auto;
+  max-height: 79px;
+}
+
+@media (max-width: 1024px) {
+  .logoImage {
+    max-width: 200px;
+    height: auto;
+  }
+}
+
+@media (max-width: 320px) {
+  .logoImage {
+    max-width: 150px;
+    height: auto;
+  }
+}

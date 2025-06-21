@@ -6,6 +6,7 @@ import { useContext, useState } from 'react'
 import styles from './styles.module.css'
 import { AlignJustify, LogOutIcon } from 'lucide-react'
 import { usePathname } from 'next/navigation'
+import { Button } from '../button'
 
 export const HeaderMenu = () => {
   const {
@@ -19,12 +20,12 @@ export const HeaderMenu = () => {
 
   if (!loggedUser) return null
 
-  const renderLogoutArea = (color = 'black') => (
+  const renderLogoutArea = () => (
     <form className={styles.form} action={handleLogout}>
-      <p className={styles.text}>{loggedUser?.name} </p>
-      <button className={styles.button} type="submit">
-        <LogOutIcon size={24} color={color} />
-      </button>
+      <p className={styles.text}>{loggedUser?.name}</p>
+      <Button className={styles.button} type="submit">
+        <LogOutIcon size={24} />
+      </Button>
     </form>
   )
 
@@ -54,7 +55,7 @@ export const HeaderMenu = () => {
               </Link>
             ))}
 
-            {renderLogoutArea('white')}
+            {renderLogoutArea()}
           </div>
         )}
       </div>
@@ -64,9 +65,7 @@ export const HeaderMenu = () => {
           <Link
             key={href}
             href={href}
-            className={`${styles.link} ${
-              pathname === href ? styles.active : ''
-            }`}
+            className={`${styles.link} ${pathname === href && styles.active}`}
           >
             {label}
           </Link>
