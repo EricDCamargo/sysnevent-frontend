@@ -7,7 +7,7 @@ const formatEventDate = (
   startTime: string,
   endTime: string
 ) => {
-  const day = moment(startDate).format('dddd, D [de] MMMM [de] YYYY')
+  const day = moment.parseZone(startDate).format('dddd, D [de] MMMM [de] YYYY')
   const startHour = moment(startTime).format('HH:mm') + 'h'
   const endHour = moment(endTime).format('HH:mm') + 'h'
 

@@ -30,25 +30,6 @@ const getCategoryOptions = (categories: CategoryProps[]) => {
   return categoryOptions
 }
 
-const formatPrice = (value: FormDataEntryValue | null | number) => {
-  if (!value) return ''
-  const num = Number(value.toString().replace(/\D/g, '')) / 100
-  const retorno = `R$ ${num.toFixed(2).replace('.', ',')}`
 
-  return retorno
-}
 
-const formatCurrency = (value: string | number) => {
-  const floatValue = parseFloat(value.toString())
-
-  if (isNaN(floatValue)) return ''
-
-  if (isNaN(floatValue)) return ''
-  return floatValue.toLocaleString('pt-BR', {
-    style: 'currency',
-    currency: 'BRL',
-    minimumFractionDigits: 2
-  })
-}
-
-export { handleChange, formatPrice, formatCurrency, getCategoryOptions, getUserOptions }
+export { handleChange, getCategoryOptions, getUserOptions }

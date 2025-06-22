@@ -24,7 +24,7 @@ export default function EventCard({ event, onClick }: EventCardProps) {
       <div className={styles.content}>
         <h3 className={styles.title}>{event.name}</h3>
         <p className={styles.text}>
-          Data: {moment(event.startDate).format('dddd - DD/MM/YY')}
+          Data: {moment.parseZone(event.startDate).format('dddd - DD/MM/YYYY')}
         </p>
         <p className={styles.text}>
           Horário: {moment(event.startTime).format('HH:mm')}
