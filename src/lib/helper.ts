@@ -8,8 +8,8 @@ const formatEventDate = (
   endTime: string
 ) => {
   const day = moment.parseZone(startDate).format('dddd, D [de] MMMM [de] YYYY')
-  const startHour = moment(startTime).format('HH:mm') + 'h'
-  const endHour = moment(endTime).format('HH:mm') + 'h'
+  const startHour = moment.parseZone(startTime).format('HH:mm') + 'h'
+  const endHour = moment.parseZone(endTime).format('HH:mm') + 'h'
 
   return `${day} - ${startHour} às ${endHour}`
 }

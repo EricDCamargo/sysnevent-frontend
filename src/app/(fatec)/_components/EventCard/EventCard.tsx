@@ -27,7 +27,7 @@ export default function EventCard({ event, onClick }: EventCardProps) {
           Data: {moment.parseZone(event.startDate).format('dddd - DD/MM/YYYY')}
         </p>
         <p className={styles.text}>
-          Horário: {moment(event.startTime).format('HH:mm')}
+          Horário: {moment.parseZone(event.startTime).format('HH:mm')}
         </p>
         <p className={styles.text}>
           Local: {event.customLocation || event.location}
