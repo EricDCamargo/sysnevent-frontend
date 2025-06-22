@@ -290,7 +290,7 @@ export default function DetailManageEventsPage({
         <div className={styles.uploadArea}>
           <input
             type="file"
-            required
+            required={!previewImage}
             accept="image/png, image/jpeg"
             onChange={handleFileImage}
             className={styles.inputF}
