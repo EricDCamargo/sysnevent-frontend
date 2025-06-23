@@ -6,9 +6,13 @@ import { EventProps } from '@/types/event.type'
 
 async function handleDetailEvent(event_id: string): Promise<EventProps | null> {
   try {
-    const response = await serviceConsumer().executeGet('/events/details', {
-      event_id
-    })
+    const token = await getCookieServer()
+    const response = await serviceConsumer(token).executeGet(
+      '/events/details',
+      {
+        event_id
+      }
+    )
     if (!response.isOk) return null
     return response.data as EventProps
   } catch (error) {

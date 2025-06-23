@@ -3,6 +3,7 @@
   padding: 0;
   box-sizing: border-box;
   outline: 0;
+
   ::-webkit-scrollbar {
     opacity: 0;
     width: 0;
@@ -38,6 +39,7 @@ body {
 
 html {
   scroll-behavior: smooth;
+
   @media (max-width: 1080px) {
     font-size: 93.75%;
   }
@@ -56,11 +58,14 @@ textarea {
     color: rgb(170, 170, 170);
     text-opacity: 0.7;
   }
+
   &[type='number'] {
+
     &::-webkit-outer-spin-button,
     &::-webkit-inner-spin-button {
       -webkit-appearance: none;
     }
+
     -moz-appearance: textfield;
   }
 }
@@ -77,9 +82,17 @@ textarea {
   border: 0;
   background: transparent;
   transition: transform 0.7s;
-  color: var(--white);
+  color: var(--black);
+
   &:hover {
     color: var(--red-900);
     transform: scale(1.2);
   }
+}
+
+.actions input[type='checkbox'] {
+  cursor: pointer;
+  width: 18px;
+  height: 18px;
+
 }

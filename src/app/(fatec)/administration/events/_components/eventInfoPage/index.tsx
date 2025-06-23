@@ -1,6 +1,5 @@
 'use client'
 
-import Link from 'next/link'
 import Image from 'next/image'
 import { toast } from 'sonner'
 import styles from './styles.module.css'
@@ -29,18 +28,19 @@ import {
   generateValidStartTimes,
   generateValidEndTimes
 } from '@/utils/timeSlotHelpers'
+import { Camera, Video, Upload } from 'lucide-react'
 
-interface DetailManageEventsPageProps {
+interface EventInfoPageProps {
   categories: CategoryProps[]
   event: EventProps | null
   typeOfForm: 'create' | 'edit'
 }
 
-export default function DetailManageEventsPage({
+export default function EventInfoPage({
   categories,
   typeOfForm,
   event
-}: DetailManageEventsPageProps) {
+}: EventInfoPageProps) {
   const [image, setImage] = useState<File>()
   const [previewImage, setPreviewImage] = useState<string>('')
 
@@ -275,18 +275,11 @@ export default function DetailManageEventsPage({
   ]
 
   return (
-    <main className={styles.mainToCreateNewEvent}>
+    <main>
       <form
         onSubmit={handleSubmit(onSubmit)}
         className={styles.formToCreateNewEvent}
       >
-        <h1>{typeOfForm === 'create' ? 'Criar um Evento' : 'Editar Evento'}</h1>
-
-        <nav className={styles.navbarLink}>
-          <span>Informações</span>
-          <Link href={`participants`}>Participantes</Link>
-        </nav>
-
         <div className={styles.uploadArea}>
           <input
             type="file"
@@ -295,7 +288,7 @@ export default function DetailManageEventsPage({
             onChange={handleFileImage}
             className={styles.inputF}
           />
-          {previewImage && (
+          {previewImage ? (
             <Image
               alt="Preview"
               src={previewImage}
@@ -304,6 +297,19 @@ export default function DetailManageEventsPage({
               quality={100}
               priority
             />
+          ) : (
+            <>
+              <div className={styles.images}>
+                <Camera size={25} />
+                <span>|</span>
+                <Video size={25} />
+              </div>
+              <p>Arraste e solte os arquivos</p>
+              <span className={styles.spanF}>
+                <Upload size={25} />
+                <span>Upload</span>
+              </span>
+            </>
           )}
         </div>
 

@@ -13,7 +13,7 @@ export interface MenuItemsProps {
 const menuItems: MenuItemsProps[] = [
   {
     href: '/administration',
-    subHref: '/detailManageEvents',
+    subHref: '/events',
     icon: Presentation,
     label: 'Gerenciar Eventos'
   },

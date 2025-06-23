@@ -105,7 +105,7 @@ export default function EventsPage({
             <Button
               onClick={() =>
                 router.push(
-                  '/administration/events/detailManageEvents/newEvent'
+                  '/administration/events/newEvent'
                 )
               }
               type="button"

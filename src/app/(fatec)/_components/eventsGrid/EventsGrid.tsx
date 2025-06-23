@@ -15,7 +15,7 @@ export default function EventsGrid({ events, mode }: EventsGridProps) {
 
   const handleCardClick = (event: EventProps) => {
     if (mode === 'admin') {
-      router.push(`/administration/events/detailManageEvents/${event.id}`)
+      router.push(`/administration/events/${event.id}`)
     } else {
       router.push(`/detailEvents/${event.id}`)
     }

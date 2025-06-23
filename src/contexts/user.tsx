@@ -98,7 +98,7 @@ export function UserProvider({ children }: UserProviderProps) {
       ? menuItems
       : menuItems.filter(
           ({ href, subHref }) =>
-            href === '/administration' || subHref === '/detailManageEvents'
+            href === '/administration' || subHref === '/events'
         )
 
   const determinatesActiveLink = (

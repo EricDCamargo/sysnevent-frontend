@@ -43,10 +43,18 @@ export const serviceConsumer = (
   executeDelete: async function (url: string, params?: any) {
     return await this.executeService(token, 'DELETE', url, params)
   },
+  //PATCH
+  executePatch: async function (
+    url: string,
+    body: FormData | any | Array<any>,
+    params?: any
+  ) {
+    return await this.executeService(token, 'PATCH', url, params, body)
+  },
 
   executeService: async function (
     token: string | CookieValueTypes | Promise<CookieValueTypes> | null,
-    method: 'GET' | 'POST' | 'DELETE' | 'PUT',
+    method: 'GET' | 'POST' | 'DELETE' | 'PUT' | 'PATCH',
     url: string,
     params?: any,
     data?: FormData | any | Array<any>
