@@ -11,10 +11,10 @@
 }
 
 .dropDownContainer {
-  border: 1px solid var(--black);
+  border: 1px solid var(--gray-300);
   border-radius: 5px;
   padding: 10px;
-  box-shadow: 2px 2px 2px #000000ad;
+  box-shadow: 2px 2px 2px var(--black);
   display: flex;
   flex-direction: column;
   gap: 4px;
@@ -32,16 +32,21 @@
 }
 
 .dropDownContainerError {
-  border: 1px solid rgba(239, 68, 68, 1);
+  border: 1px solid var(--red-900);
 }
 
 .dropDownError {
-  color: rgba(239, 68, 68, 1);
+  color: var(--red-900);
 }
 
 .errorMessage {
-  color: rgb(239, 68, 68);
+  color: var(--red-900);
   font-size: 0.85rem;
   margin-top: 4px;
   text-align: left;
+}
+@media screen and (max-width: 325px) {
+  .dropDown {
+    font-size: 0.8rem;
+  }
 }

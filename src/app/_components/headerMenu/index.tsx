@@ -61,11 +61,13 @@ export const HeaderMenu = () => {
       </div>
 
       <nav className={styles.nav}>
-        {filteredMenuItems.map(({ href, label }) => (
+        {filteredMenuItems.map(({ href, subHref, label }) => (
           <Link
             key={href}
             href={href}
-            className={`${styles.link} ${pathname === href && styles.active}`}
+            className={`${styles.link} ${
+              determinatesActiveLink(href, subHref) && styles.active
+            }`}
           >
             {label}
           </Link>

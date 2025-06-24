@@ -22,19 +22,20 @@ type UserContextData = {
   newUser: UserProps
   loggedUser: UserProps | null
   currentUser: UserProps
-  isUserModalOpen: boolean
-  isConfirmModalOpen: boolean
-  onEdition: boolean
+  deleteUserModalOpen: boolean
+  editUserModalOpen: boolean
   selectedUser: string
   filteredMenuItems: MenuItemsProps[]
-  setOnEdition: Dispatch<SetStateAction<boolean>>
   setLoggedUser: Dispatch<SetStateAction<UserProps | null>>
   setSelectedUser: Dispatch<SetStateAction<string>>
   setcurrentUser: Dispatch<SetStateAction<UserProps>>
-  setUserModalOpen: Dispatch<SetStateAction<boolean>>
-  setConfirmModalOpen: Dispatch<SetStateAction<boolean>>
+  setDeleteUserModalOpen: Dispatch<SetStateAction<boolean>>
+  setEditUserModalOpen: Dispatch<SetStateAction<boolean>>
   handleLogout(): Promise<void>
-  determinatesActiveLink: (href: string, subHref: string | undefined) => boolean
+  determinatesActiveLink: (
+    href: string,
+    subHref?: string
+  ) => boolean | '' | undefined
   handleDeleteUser: () => Promise<void>
   handleUserSubmit: (DATA: {
     name: string
@@ -61,9 +62,9 @@ export const UserContext = createContext({} as UserContextData)
 export function UserProvider({ children }: UserProviderProps) {
   const router = useRouter()
   const pathname = usePathname()
-  const [isUserModalOpen, setUserModalOpen] = useState<boolean>(false)
-  const [isConfirmModalOpen, setConfirmModalOpen] = useState<boolean>(false)
-  const [onEdition, setOnEdition] = useState<boolean>(true)
+
+  const [deleteUserModalOpen, setDeleteUserModalOpen] = useState<boolean>(false)
+  const [editUserModalOpen, setEditUserModalOpen] = useState<boolean>(false)
 
   const [loggedUser, setLoggedUser] = useState<UserProps | null>(null)
   const [currentUser, setcurrentUser] = useState<UserProps>(newUser)
@@ -93,22 +94,30 @@ export function UserProvider({ children }: UserProviderProps) {
     toast.success('Logout feito com sucesso!')
   }
 
-  const filteredMenuItems =
-    loggedUser?.role === UserRole.ADMIN
-      ? menuItems
-      : menuItems.filter(
-          ({ href, subHref }) =>
-            href === '/administration' || subHref === '/events'
-        )
+  const filteredMenuItems = (() => {
+    if (!loggedUser) return []
 
-  const determinatesActiveLink = (
-    href: string,
-    subHref: string | undefined
-  ) => {
-    if (pathname === href || (subHref && pathname.includes(subHref))) {
-      return true
+    switch (loggedUser.role) {
+      case UserRole.DOCENT_ASSISTANT:
+        return menuItems.filter(
+          item => item.href === '/administration' || item.subHref === '/events'
+        )
+      case UserRole.COORDINATOR:
+        return menuItems.filter(
+          item =>
+            item.href === '/administration' ||
+            item.subHref === '/events' ||
+            item.subHref === '/categories'
+        )
+      case UserRole.ADMIN:
+        return menuItems
+      default:
+        return []
     }
-    return false
+  })()
+
+  const determinatesActiveLink = (href: string, subHref?: string) => {
+    return pathname === href || (subHref && pathname.startsWith(subHref))
   }
 
   const handleUserSubmit = useCallback(
@@ -132,9 +141,9 @@ export function UserProvider({ children }: UserProviderProps) {
           (res.status === StatusCodes.CREATED || res.status === StatusCodes.OK)
         ) {
           toast.success(res.message)
-          setUserModalOpen(false)
+          setEditUserModalOpen(false)
           setcurrentUser(newUser)
-          setOnEdition(true)
+
           router.refresh()
         } else {
           toast.error(res.message)
@@ -142,7 +151,6 @@ export function UserProvider({ children }: UserProviderProps) {
       } catch (err) {
         console.error(err)
         toast.error(`Erro ao ${isUpdate ? 'editar' : 'cadastrar'} usuario!`)
-        setOnEdition(true)
       }
     },
     [currentUser]
@@ -158,7 +166,7 @@ export function UserProvider({ children }: UserProviderProps) {
       })
       if (res.isOk) {
         toast.success(res.message)
-        setConfirmModalOpen(false)
+        setDeleteUserModalOpen(false)
         setcurrentUser(newUser)
         router.refresh()
       }
@@ -174,14 +182,12 @@ export function UserProvider({ children }: UserProviderProps) {
         newUser,
         currentUser,
         loggedUser,
-        isUserModalOpen,
-        onEdition,
-        isConfirmModalOpen,
+        deleteUserModalOpen,
+        editUserModalOpen,
         selectedUser,
         filteredMenuItems,
-        setConfirmModalOpen,
-        setOnEdition,
-        setUserModalOpen,
+        setEditUserModalOpen,
+        setDeleteUserModalOpen,
         setcurrentUser,
         setLoggedUser,
         handleLogout,

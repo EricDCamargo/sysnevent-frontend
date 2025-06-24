@@ -3,10 +3,15 @@
   padding: 0;
   box-sizing: border-box;
   outline: 0;
+}
 
-  ::-webkit-scrollbar {
-    opacity: 0;
-    width: 0;
+@media screen and (max-width: 425px) {
+  * {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  *::-webkit-scrollbar {
+    display: none;
   }
 }
 
@@ -60,7 +65,6 @@ textarea {
   }
 
   &[type='number'] {
-
     &::-webkit-outer-spin-button,
     &::-webkit-inner-spin-button {
       -webkit-appearance: none;
@@ -76,6 +80,7 @@ textarea {
   display: flex;
   align-items: center;
   gap: 0.875rem;
+  width: fit-content;
 }
 
 .actions button {
@@ -89,10 +94,14 @@ textarea {
     transform: scale(1.2);
   }
 }
+.actions button > svg {
+  @media screen and (max-width: 425px) {
+    width: 20;
+  }
+}
 
 .actions input[type='checkbox'] {
   cursor: pointer;
   width: 18px;
   height: 18px;
-
 }

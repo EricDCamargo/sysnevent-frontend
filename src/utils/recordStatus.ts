@@ -104,3 +104,10 @@ export const courseOptions = Object.entries(CourseLabels).map(
     label
   })
 )
+
+export const roleOptions = Object.entries(roleLabels).map(
+  ([value, label]) => ({
+    value,
+    label
+  })
+)

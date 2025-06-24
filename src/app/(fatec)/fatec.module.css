@@ -6,10 +6,10 @@
   overflow-x: hidden;
 
   @media (max-width: 768px) {
-    padding: 24px 2%;
+    padding: 24px 4%;
   }
   @media (max-width: 375px) {
-    padding: 24px 1%;
+    padding: 24px 2%;
   }
 }
 

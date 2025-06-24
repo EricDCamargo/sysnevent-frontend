@@ -13,15 +13,22 @@ export interface MenuItemsProps {
 const menuItems: MenuItemsProps[] = [
   {
     href: '/administration',
-    subHref: '/events',
+    subHref: '/administration/events',
     icon: Presentation,
     label: 'Gerenciar Eventos'
   },
-  { href: '/administration/users', icon: User, label: 'Gerenciar Usuarios' },
+
   {
     href: '/administration/categories',
+    subHref: '/administration/categories',
     icon: Layers2,
-    label: 'Gerenciar Categorias'
+    label: 'Categorias'
+  },
+  {
+    href: '/administration/users',
+    subHref: '/administration/users',
+    icon: User,
+    label: 'Usuários'
   }
 ]
 

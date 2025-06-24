@@ -4,17 +4,11 @@ import { getUserServer } from './services/retriveSSRData/retriveUserData'
 import { ErrorMessages } from './services/errors/AuthTokenErorr'
 import { UserRole } from './utils/enums'
 
-const protectedRoutesForUser = ['/administration']
-const protectedRoutesForAdmin = [
-  '/administration/users',
-  '/administration/categories'
-]
-
-const roles: UserRole[] = [
-  UserRole.DOCENT_ASSISTANT,
-  UserRole.COORDINATOR,
-  UserRole.ADMIN
-]
+const deniedControl: Record<UserRole, string[]> = {
+  DOCENT_ASSISTANT: ['/administration/categories', '/administration/users'],
+  COORDINATOR: ['/administration/users'],
+  ADMIN: []
+}
 
 export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl
@@ -23,38 +17,35 @@ export async function middleware(req: NextRequest) {
     return NextResponse.next()
   }
 
+  const isProtected = pathname.startsWith('/administration')
+  if (!isProtected) {
+    return NextResponse.next()
+  }
   const token = await getCookieServer()
 
-  if (pathname.startsWith('/administration')) {
-    if (!token) {
-      return NextResponse.redirect(
-        new URL(`/?error=${ErrorMessages.TOKEN_EXPIRED}`, req.url)
-      )
-    }
+  if (!token) {
+    return NextResponse.redirect(
+      new URL(`/?error=${ErrorMessages.TOKEN_EXPIRED}`, req.url)
+    )
+  }
 
-    const user = await getUserServer()
+  const user = await getUserServer()
 
-    if (!user || !user.id) {
-      return NextResponse.redirect(
-        new URL(`/?error=${ErrorMessages.SERVICE_UNAVAILABLE}`, req.url)
-      )
-    }
-    if (
-      !roles.includes(user.role) &&
-      protectedRoutesForUser.includes(pathname)
-    ) {
-      return NextResponse.redirect(
-        new URL(`/?error=${ErrorMessages.UNAUTHORIZED}`, req.url)
-      )
-    }
-    if (
-      user.role !== UserRole.ADMIN &&
-      protectedRoutesForAdmin.includes(pathname)
-    ) {
-      return NextResponse.redirect(
-        new URL(`/?error=${ErrorMessages.UNAUTHORIZED}`, req.url)
-      )
-    }
+  if (!user || !user.id) {
+    return NextResponse.redirect(
+      new URL(`/?error=${ErrorMessages.SERVICE_UNAVAILABLE}`, req.url)
+    )
+  }
+  // pega as rotas negadas para esse role
+  const deniedRoutes = deniedControl[user.role] || []
+  const isDenied = deniedRoutes.some(
+    blocked => pathname === blocked || pathname.startsWith(`${blocked}/`)
+  )
+
+  if (isDenied) {
+    return NextResponse.redirect(
+      new URL(`/administration?error=${ErrorMessages.UNAUTHORIZED}`, req.url)
+    )
   }
 
   return NextResponse.next()

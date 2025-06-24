@@ -12,12 +12,11 @@
 
 .inputField {
   padding: 10px;
-  border: 1px solid #999;
+  border: 1px solid var(--gray-300);
   border-radius: 5px;
   font-size: 1rem;
   color: var(--black);
-  background-color: white;
-  box-shadow: 2px 2px 2px #000000ad;
+  box-shadow: 2px 2px 2px var(--black);
 }
 
 .inputField:focus {
@@ -25,13 +24,19 @@
 }
 
 .inputError {
-  border-color: rgba(239, 68, 68, 1);
-  color: rgba(239, 68, 68, 1);
+  border-color: var(--red-900);
+  color: var(--red-900);
 }
 
 .errorMessage {
-  color: rgb(239, 68, 68);
+  color: var(--red-900);
   font-size: 0.85rem;
   margin-top: 4px;
   text-align: left;
+}
+
+@media screen and (max-width: 325px) {
+  .inputField {
+    font-size: 0.8rem;
+  }
 }
