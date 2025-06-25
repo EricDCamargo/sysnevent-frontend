@@ -18,8 +18,7 @@ export async function getUserServer(): Promise<UserProps | null> {
 }
 export async function getUsers(): Promise<UserProps[] | []> {
   try {
-    const token = await getCookieServer()
-    const response = await serviceConsumer(token).executeGet('/users')
+    const response = await serviceConsumer().executeGet('/users')
     return response.data || []
   } catch (error) {
     console.log(error)

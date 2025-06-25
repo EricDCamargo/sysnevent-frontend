@@ -17,13 +17,11 @@ import { toast } from 'sonner'
 
 type CategoryContextData = {
   newCategory: CategoryProps
-  isCategoryModalOpen: boolean
-  isConfirmModalOpen: boolean
-  onEdition: boolean
+  editCategoryModalOpen: boolean
+  deleteCategoryModalOpen: boolean
   currentCategory: CategoryProps
-  setCategoryModalOpen: Dispatch<SetStateAction<boolean>>
-  setConfirmModalOpen: Dispatch<SetStateAction<boolean>>
-  setOnEdition: Dispatch<SetStateAction<boolean>>
+  setEditCategoryModalOpen: Dispatch<SetStateAction<boolean>>
+  setDeleteCategoryModalOpen: Dispatch<SetStateAction<boolean>>
   setCurrentCategory: Dispatch<SetStateAction<CategoryProps>>
   handleCategorySubmit: (DATA: { name: string }) => Promise<void>
   handleCategoryDelete: () => Promise<void>
@@ -44,9 +42,10 @@ export const CategoryContext = createContext({} as CategoryContextData)
 
 export function CategoryProvider({ children }: CategoryProviderProps) {
   const router = useRouter()
-  const [isCategoryModalOpen, setCategoryModalOpen] = useState<boolean>(false)
-  const [isConfirmModalOpen, setConfirmModalOpen] = useState<boolean>(false)
-  const [onEdition, setOnEdition] = useState<boolean>(true)
+  const [editCategoryModalOpen, setEditCategoryModalOpen] =
+    useState<boolean>(false)
+  const [deleteCategoryModalOpen, setDeleteCategoryModalOpen] =
+    useState<boolean>(false)
 
   const [currentCategory, setCurrentCategory] =
     useState<CategoryProps>(newCategory)
@@ -69,9 +68,9 @@ export function CategoryProvider({ children }: CategoryProviderProps) {
           (res.status === StatusCodes.CREATED || res.status === StatusCodes.OK)
         ) {
           toast.success(res.message)
-          setCategoryModalOpen(false)
+          setEditCategoryModalOpen(false)
           setCurrentCategory(newCategory)
-          setOnEdition(true)
+
           router.refresh()
         } else {
           toast.error(res.message)
@@ -79,7 +78,6 @@ export function CategoryProvider({ children }: CategoryProviderProps) {
       } catch (err) {
         console.error(err)
         toast.error(`Erro ao ${isUpdate ? 'editar' : 'cadastrar'} categoria!`)
-        setOnEdition(true)
       }
     },
     [currentCategory]
@@ -95,7 +93,7 @@ export function CategoryProvider({ children }: CategoryProviderProps) {
       })
       if (res.isOk) {
         toast.success(res.message)
-        setConfirmModalOpen(false)
+        setDeleteCategoryModalOpen(false)
         setCurrentCategory(newCategory)
         router.refresh()
       }
@@ -109,13 +107,11 @@ export function CategoryProvider({ children }: CategoryProviderProps) {
     <CategoryContext.Provider
       value={{
         newCategory,
-        isCategoryModalOpen,
-        isConfirmModalOpen,
-        onEdition,
+        editCategoryModalOpen,
+        deleteCategoryModalOpen,
         currentCategory,
-        setCategoryModalOpen,
-        setConfirmModalOpen,
-        setOnEdition,
+        setEditCategoryModalOpen,
+        setDeleteCategoryModalOpen,
         setCurrentCategory,
         handleCategorySubmit,
         handleCategoryDelete
