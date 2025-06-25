@@ -1,8 +1,8 @@
 'use server'
 
+import { getCookieServer } from '@/lib/cookieServer'
 import { serviceConsumer } from '@/services/service.consumer'
 import { UserProps } from '@/types/user.type'
-import { getCookieServer } from '@/lib/cookieServer'
 
 export async function getUserServer(): Promise<UserProps | null> {
   try {
@@ -18,7 +18,9 @@ export async function getUserServer(): Promise<UserProps | null> {
 }
 export async function getUsers(): Promise<UserProps[] | []> {
   try {
-    const response = await serviceConsumer().executeGet('/users')
+    const token = await getCookieServer()
+    const response = await serviceConsumer(token).executeGet('/users')
+    console.log(response.data)
     return response.data || []
   } catch (error) {
     console.log(error)
