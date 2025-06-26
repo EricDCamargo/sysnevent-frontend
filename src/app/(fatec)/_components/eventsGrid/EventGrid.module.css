@@ -14,3 +14,10 @@
     grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
   }
 }
+
+.eventsGrid .noData {
+  text-align: center;
+  padding: 20px;
+  font-size: 16px;
+  color: #999;
+}

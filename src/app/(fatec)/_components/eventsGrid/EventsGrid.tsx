@@ -23,13 +23,17 @@ export default function EventsGrid({ events, mode }: EventsGridProps) {
 
   return (
     <div className={styles.eventsGrid}>
-      {events.map((event, index) => (
-        <EventCard
-          key={index}
-          event={event}
-          onClick={() => handleCardClick(event)}
-        />
-      ))}
+      {events.length === 0 ? (
+        <div className={styles.noData}>Nenhum evento disponível</div>
+      ) : (
+        events.map((event, index) => (
+          <EventCard
+            key={index}
+            event={event}
+            onClick={() => handleCardClick(event)}
+          />
+        ))
+      )}
     </div>
   )
 }
