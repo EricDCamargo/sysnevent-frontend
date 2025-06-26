@@ -25,7 +25,8 @@ async function getEvents(
   endDate?: string
 ): Promise<EventProps[] | []> {
   try {
-    const response = await serviceConsumer().executeGet('/events', {
+    const token = await getCookieServer()
+    const response = await serviceConsumer(token).executeGet('/events', {
       categoryId,
       startDate,
       endDate
