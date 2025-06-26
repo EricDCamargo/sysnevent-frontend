@@ -9,10 +9,11 @@ import EventsGrid from '../eventsGrid/EventsGrid'
 import { Button } from '@/app/_components/button'
 import Carrossel from '@/app/_components/carrossel'
 import { CategoryProps } from '@/types/category.type'
-import { getCategories } from '@/services/retriveSSRData/retriveCategoryData'
 import { getEvents } from '@/services/retriveSSRData/retiveEventData'
 import { getCategoryOptions } from '@/utils'
 import Loading from '@/app/_components/loading/loading'
+import FormInput from '@/app/_components/inputs/formInput.tsx/FormInput'
+import Dropdown from '@/app/_components/inputs/dropDown'
 
 interface EventsPageProps {
   initialEvents: EventProps[]
@@ -66,48 +67,53 @@ export default function EventsPage({
           data={currentEvents}
           searchValue="name"
           setDateToPage={setSearchValue}
+          id={styles.searchInput}
         />
         <section className={styles.filters}>
-          <div className={styles.categories}>
-            {optionsWithAll.map(cat => (
-              <button
-                key={cat.value}
-                className={`${styles.categoryButton} ${
-                  cat.value === selectedCategory && styles.active
-                }`}
-                onClick={() => setSelectedCategory(cat.value)}
-              >
-                {cat.label}
-              </button>
-            ))}
+          <div className={styles.categoriesWrapper}>
+            <div className={styles.categoriesButtons}>
+              {optionsWithAll.map(cat => (
+                <button
+                  key={cat.value}
+                  className={`${styles.categoryButton} ${
+                    cat.value === selectedCategory && styles.active
+                  }`}
+                  onClick={() => setSelectedCategory(cat.value)}
+                >
+                  {cat.label}
+                </button>
+              ))}
+            </div>
+
+            <span className={styles.categorySelect}>
+              <Dropdown
+                label="Categoria "
+                options={optionsWithAll}
+                value={selectedCategory}
+                onChange={e => setSelectedCategory(e.target.value)}
+              />
+            </span>
           </div>
           <div className={styles.dateFilter}>
-            <div>
-              <label>De -</label>
-              <input
-                type="date"
-                value={startDate}
-                onChange={e => setStartDate(e.target.value)}
-              />
-            </div>
-            <div>
-              <span>Até-</span>
-              <input
-                type="date"
-                value={endDate}
-                onChange={e => setEndDate(e.target.value)}
-              />
-            </div>
+            <FormInput
+              label={'Do dia'}
+              type="date"
+              value={startDate}
+              onChange={e => setStartDate(e.target.value)}
+            />
+
+            <FormInput
+              label={'Até o dia'}
+              type="date"
+              value={endDate}
+              onChange={e => setEndDate(e.target.value)}
+            />
           </div>
         </section>
         {mode === 'admin' && (
           <div className={styles.buttonContainer}>
             <Button
-              onClick={() =>
-                router.push(
-                  '/administration/events/newEvent'
-                )
-              }
+              onClick={() => router.push('/administration/events/newEvent')}
               type="button"
               name="Criar evento"
             />

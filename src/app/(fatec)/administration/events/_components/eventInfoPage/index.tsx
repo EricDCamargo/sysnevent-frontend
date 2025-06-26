@@ -9,7 +9,6 @@ import { useEffect, useState, ChangeEvent, useRef } from 'react'
 import { Controller, Resolver, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Category, Location } from '@/utils/enums'
-import 'react-datepicker/dist/react-datepicker.css'
 
 import { CategoryProps } from '@/types/category.type'
 import { EventProps } from '@/types/event.type'

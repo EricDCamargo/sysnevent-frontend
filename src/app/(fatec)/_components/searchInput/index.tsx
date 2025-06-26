@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 import styles from './search.module.css'
 import { Search, X } from 'lucide-react'
-interface SearchProps {
+interface SearchProps extends React.HTMLAttributes<HTMLDivElement> {
   setDateToPage: ([]: any) => void
   data: any[]
   searchValue: string
@@ -12,7 +12,8 @@ interface SearchProps {
 export const SearchInput = ({
   setDateToPage,
   data,
-  searchValue
+  searchValue,
+  ...rest
 }: SearchProps) => {
   const [search, setSearch] = useState('')
 
@@ -32,7 +33,7 @@ export const SearchInput = ({
   }, [search, data, searchValue])
 
   return (
-    <div className={styles.searchContainer}>
+    <div className={styles.searchContainer} {...rest}>
       <Search className={styles.ico} />
       <input
         placeholder={'Pesquisar'}
