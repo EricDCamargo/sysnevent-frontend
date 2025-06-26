@@ -2,8 +2,8 @@ import React from 'react'
 import styles from './dropdown.module.css'
 
 interface OptionsType {
-  value: string
-  label: string
+  value: string | number
+  label: string | number
 }
 
 interface SelectProps extends React.SelectHTMLAttributes<HTMLSelectElement> {

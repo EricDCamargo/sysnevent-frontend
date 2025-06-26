@@ -102,9 +102,7 @@ export default function ManageCategoriesPage({
           title: 'Excluir Categoria',
           message: (
             <div className={styles.modalDeleteCategory}>
-              <div>
-                <p>Tem certeza que deseja excluir essa categoria?</p>
-              </div>
+              <span>Tem certeza que deseja excluir essa categoria?</span>
               <p>{currentCategory.name}</p>
             </div>
           )
@@ -120,16 +118,14 @@ export default function ManageCategoriesPage({
             ? 'Editar Categoria'
             : 'Adicionar Categoria',
           message: (
-            <div className={styles.inputCreateOrEditCategory}>
-              <FormInput
-                label="Categoria"
-                type="text"
-                name="name"
-                placeholder="Qual o nome da categoria?"
-                required
-                defaultValue={currentCategory.name}
-              />
-            </div>
+            <FormInput
+              label="Categoria"
+              type="text"
+              name="name"
+              placeholder="Qual o nome da categoria?"
+              required
+              defaultValue={currentCategory.name}
+            />
           )
         }}
         isOpen={editCategoryModalOpen}

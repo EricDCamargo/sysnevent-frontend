@@ -1,4 +1,4 @@
-import { Layers2, LucideProps, Presentation, User } from 'lucide-react'
+import { Image, Layers2, LucideProps, Presentation, User } from 'lucide-react'
 import { ForwardRefExoticComponent, RefAttributes } from 'react'
 
 export interface MenuItemsProps {
@@ -16,6 +16,13 @@ const menuItems: MenuItemsProps[] = [
     subHref: '/administration/events',
     icon: Presentation,
     label: 'Gerenciar Eventos'
+  },
+
+  {
+    href: '/administration/banners',
+    subHref: '/administration/banners',
+    icon: Image,
+    label: 'Gerenciar Baners'
   },
 
   {

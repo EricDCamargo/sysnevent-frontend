@@ -5,7 +5,7 @@ import { ErrorMessages } from './services/errors/AuthTokenErorr'
 import { UserRole } from './utils/enums'
 
 const deniedControl: Record<UserRole, string[]> = {
-  DOCENT_ASSISTANT: ['/administration/categories', '/administration/users'],
+  DOCENT_ASSISTANT: ['/administration/categories', '/administration/users', '/administration/banners'],
   COORDINATOR: ['/administration/users'],
   ADMIN: []
 }

@@ -43,6 +43,7 @@ export default function EventInfoPage({
 }: EventInfoPageProps) {
   const [image, setImage] = useState<File>()
   const [previewImage, setPreviewImage] = useState<string>('')
+  const inputFileRef = useRef<HTMLInputElement | null>(null)
 
   const [unavailableDates, setUnavailableDates] = useState<string[]>([])
   const [availableTimeSlots, setAvailableTimeSlots] = useState<
@@ -280,13 +281,17 @@ export default function EventInfoPage({
         onSubmit={handleSubmit(onSubmit)}
         className={styles.formToCreateNewEvent}
       >
-        <div className={styles.uploadArea}>
+        <div
+          className={styles.uploadArea}
+          onClick={() => inputFileRef.current?.click()}
+        >
           <input
             type="file"
             required={!previewImage}
             accept="image/png, image/jpeg"
             onChange={handleFileImage}
             className={styles.inputF}
+            ref={inputFileRef}
           />
           {previewImage ? (
             <Image

@@ -5,7 +5,7 @@
   padding: 15px 0;
 }
 
-.modalDeleteCategory > div {
+.modalDeleteCategory > span {
   font-size: 25px;
   color: var(--red-900);
 }
