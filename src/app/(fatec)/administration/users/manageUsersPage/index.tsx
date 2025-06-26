@@ -146,7 +146,7 @@ export default function ManageUsersPage({ users }: ManageUsersPageProps) {
         }}
         isOpen={deleteUserModalOpen}
         onCancel={handleCancel}
-        action={handleDeleteUser}
+        onConfirmSubmit={handleDeleteUser}
       />
       <ConfirmModal
         modalText={{

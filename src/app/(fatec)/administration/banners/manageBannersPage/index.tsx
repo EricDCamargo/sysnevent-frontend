@@ -144,7 +144,7 @@ export default function ManageBannersPage({
         }}
         isOpen={deleteBannerModalOpen}
         onCancel={handleCancel}
-        action={handleBannerDelete}
+        onConfirmSubmit={handleBannerDelete}
       />
 
       <ConfirmModal

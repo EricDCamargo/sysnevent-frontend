@@ -109,7 +109,7 @@ export default function ManageCategoriesPage({
         }}
         isOpen={deleteCategoryModalOpen}
         onCancel={handleCancel}
-        action={handleCategoryDelete}
+        onConfirmSubmit={handleCategoryDelete}
       />
 
       <ConfirmModal
