@@ -21,7 +21,7 @@
   justify-content: space-between;
   width: 100%;
   padding: 5px 5.625%;
-  padding-bottom: 15px;
+  padding-bottom: 5px;
   border-bottom: 1px solid var(--black);
   background-color: var(--white);
 }
@@ -30,10 +30,13 @@
   max-height: 79px;
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 1440px) {
   .logoImage {
     max-width: 200px;
     height: auto;
+  }
+  .headerContent {
+    padding: 5px 3.625%;
   }
 }
 

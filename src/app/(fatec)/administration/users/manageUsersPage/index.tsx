@@ -47,7 +47,15 @@ export default function ManageUsersPage({ users }: ManageUsersPageProps) {
   }
 
   const columns: TableColumn<UserProps>[] = [
-    { name: 'Nome', selector: row => row.name },
+    {
+      name: 'Nome',
+      selector: row =>
+        row.name
+          .split(' ')
+          .filter(Boolean)
+          .filter((_, i, arr) => i === 0 || i === arr.length - 1)
+          .join(' ')
+    },
     {
       name: <p className={styles.hideScreenOnMobile}>Email</p>,
       selector: row => <p className={styles.hideScreenOnMobile}>{row.email}</p>

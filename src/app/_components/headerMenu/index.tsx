@@ -5,7 +5,6 @@ import Link from 'next/link'
 import { useContext, useState } from 'react'
 import styles from './styles.module.css'
 import { AlignJustify, LogOutIcon } from 'lucide-react'
-import { usePathname } from 'next/navigation'
 import { Button } from '../button'
 
 export const HeaderMenu = () => {
@@ -16,13 +15,18 @@ export const HeaderMenu = () => {
     filteredMenuItems
   } = useContext(UserContext)
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false)
-  const pathname = usePathname()
 
   if (!loggedUser) return null
 
   const renderLogoutArea = () => (
     <form className={styles.form} action={handleLogout}>
-      <p className={styles.text}>{loggedUser?.name}</p>
+      <p className={styles.text}>
+        {loggedUser?.name
+          ?.split(' ')
+          .filter(Boolean)
+          .filter((_, i, arr) => i === 0 || i === arr.length - 1)
+          .join(' ')}
+      </p>
       <Button className={styles.button} type="submit">
         <LogOutIcon size={24} />
       </Button>
