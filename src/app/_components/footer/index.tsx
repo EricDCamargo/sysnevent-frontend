@@ -34,7 +34,7 @@ export const Footer = () => {
             className={styles.cpsLogo}
             onClick={() => router.push('/auth/signin')}
           />
-          <p>Centro Paula Souza - Faculdade de Tecnologia de Itu (FATEC Itu)</p>
+          <p>Centro Paula Souza - Faculdade de Tecnologia de Itu - Fatec Itu</p>
           <p>
             Sistema desenvolvido pela turma de ADS do 4º semestre da Fatec Itu (2025)
           </p>

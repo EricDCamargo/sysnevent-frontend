@@ -43,7 +43,6 @@
   align-items: flex-end;
   justify-content: flex-end;
   gap: 10px;
-  text-align: center;
 
   @media (max-width: 768px) {
     align-items: center;
