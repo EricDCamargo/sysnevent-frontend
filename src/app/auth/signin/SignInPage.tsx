@@ -117,7 +117,9 @@ export const SignInPage: React.FC = () => {
         }}
         isOpen={isSecretWordModalOpen}
         onCancel={() => setSecredWordModalOpen(false)}
-        action={handleSubmitSecretWord}
+        onConfirmSubmit={formData => {
+          handleSubmitSecretWord(formData)
+        }}
       />
       <ConfirmModal
         modalText={{
@@ -151,7 +153,9 @@ export const SignInPage: React.FC = () => {
         }}
         isOpen={isResetPasswordModalOpen}
         onCancel={() => setResetPasswordModalOpen(false)}
-        action={handleSubmitResetPassword}
+        onConfirmSubmit={formData => {
+          handleSubmitResetPassword(formData)
+        }}
       />
     </AuthPage>
   )
