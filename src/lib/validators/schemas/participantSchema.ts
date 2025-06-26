@@ -29,7 +29,16 @@ export const buildParticipantSchema = ({
         },
         { message: 'Email institucional Fatec inválido.' }
       ),
-    name: z.string().nonempty('Nome é obrigatório.'),
+    name: z
+      .string()
+      .nonempty('Nome é obrigatório.')
+      .min(3, 'Nome deve ter pelo menos 3 caracteres.')
+      .max(100, 'Nome muito longo.')
+      .regex(
+        /^[A-Za-zÀ-ú]+(?: [A-Za-zÀ-ú]+)*$/,
+        'Nome deve conter apenas letras e espaços.'
+      ),
+
     ra: z
       .string()
       .refine(

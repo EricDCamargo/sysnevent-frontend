@@ -182,7 +182,9 @@ export default function ManageUsersPage({ users }: ManageUsersPageProps) {
         }}
         isOpen={editUserModalOpen}
         onCancel={handleCancel}
-        action={handleSubmit}
+        onConfirmSubmit={formData => {
+          handleSubmit(formData)
+        }}
       />
     </main>
   )

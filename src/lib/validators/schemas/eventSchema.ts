@@ -9,7 +9,15 @@ export const buildEventSchema = ({
   selectedLocation?: string
 }) => {
   return z.object({
-    name: z.string().nonempty('Nome é obrigatório.'),
+    name: z
+      .string()
+      .nonempty('Nome é obrigatório.')
+      .min(3, 'Nome deve ter pelo menos 3 caracteres.')
+      .max(100, 'Nome muito longo.')
+      .regex(
+        /^[A-Za-zÀ-ú]+(?: [A-Za-zÀ-ú]+)*$/,
+        'Nome deve conter apenas letras e espaços.'
+      ),
 
     categoryId: z
       .string()
@@ -65,7 +73,15 @@ export const buildEventSchema = ({
         { message: 'Descrição da localização é obrigatória.' }
       ),
 
-    speakerName: z.string().nonempty('Nome do palestrante é obrigatório.'),
+    speakerName: z
+      .string()
+      .nonempty('Nome do palestrante é obrigatório.')
+      .min(3, 'Nome do palestrante deve ter pelo menos 3 caracteres.')
+      .max(60, 'Nome do palestrante pode ter no máximo 60 caracteres.')
+      .regex(
+        /^[A-Za-zÀ-ú.'´`"-]+(?: [A-Za-zÀ-ú.'´`"-]+)*$/,
+        'Nome do palestrante deve conter apenas letras, espaços e pontuação comum.'
+      ),
 
     startDate: z.string().nonempty('Data de início é obrigatória.'),
 

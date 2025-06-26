@@ -130,7 +130,9 @@ export default function ManageCategoriesPage({
         }}
         isOpen={editCategoryModalOpen}
         onCancel={handleCancel}
-        action={handleSubmit}
+        onConfirmSubmit={formData => {
+          handleSubmit(formData)
+        }}
       />
     </main>
   )

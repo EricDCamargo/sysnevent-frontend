@@ -8,6 +8,10 @@ interface ConfirmModalProps extends React.FormHTMLAttributes<HTMLFormElement> {
   modalText: { title: string; message: React.ReactNode | string }
   pending?: boolean
   onCancel: () => void
+  onConfirmSubmit?: (
+    formData: FormData,
+    e: React.FormEvent<HTMLFormElement>
+  ) => void
 }
 
 const ConfirmModal: React.FC<ConfirmModalProps> = ({
@@ -15,6 +19,7 @@ const ConfirmModal: React.FC<ConfirmModalProps> = ({
   modalText,
   onCancel,
   pending,
+  onConfirmSubmit,
   ...rest
 }) => {
   useEffect(() => {
@@ -37,7 +42,15 @@ const ConfirmModal: React.FC<ConfirmModalProps> = ({
           <h1 className={styles.title}>{modalText.title}</h1>
           <X className={styles.closeIcon} onClick={onCancel} />
         </div>
-        <form className={styles.modalForm} {...rest}>
+        <form
+          className={styles.modalForm}
+          onSubmit={e => {
+            e.preventDefault()
+            const formData = new FormData(e.currentTarget)
+            if (onConfirmSubmit) onConfirmSubmit(formData, e)
+          }}
+          {...rest}
+        >
           <div className={styles.modalBody}>{modalText.message}</div>
           <div className={styles.modalFooter}>
             <Button name="Cancelar" type="button" onClick={onCancel} />

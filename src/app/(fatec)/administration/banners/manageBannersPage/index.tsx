@@ -12,7 +12,6 @@ import FormInput from '@/app/_components/inputs/formInput.tsx/FormInput'
 import Dropdown from '@/app/_components/inputs/dropDown'
 import Image from 'next/image'
 import { Upload, Camera, Video } from 'lucide-react'
-import moment from 'moment'
 import { toast } from 'sonner'
 
 interface ManageBannersPageProps {
@@ -212,7 +211,9 @@ export default function ManageBannersPage({
         }}
         isOpen={editBannerModalOpen}
         onCancel={handleCancel}
-        action={handleSubmit}
+        onConfirmSubmit={formData => {
+          handleSubmit(formData)
+        }}
       />
     </main>
   )
