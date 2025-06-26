@@ -32,7 +32,7 @@ async function handleLogin(formData: FormData): Promise<AuthResponse> {
       response.isOk &&
       response.status === StatusCodes.OK
     ) {
-      const expressTime = 60 * 60 * 24 * 30 * 1000
+      const expressTime = 60 * 60 * 24 * 1000
 
       const cookieStore = await cookies()
       cookieStore.set('session', response.data.token, {
