@@ -104,7 +104,10 @@ export default function ManageBannersPage({
 
   const handleSubmit = async (formData: FormData) => {
     if (imageFile) formData.append('file', imageFile)
-    await handleBannerSubmit(formData)
+    await handleBannerSubmit(formData, () => {
+      setImageFile(undefined)
+      setPreviewImage('')
+    })
   }
 
   const orderOptions = avalibleOrder.map(o => ({

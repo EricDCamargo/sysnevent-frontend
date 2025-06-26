@@ -106,8 +106,8 @@ export function UserProvider({ children }: UserProviderProps) {
         return menuItems.filter(
           item =>
             item.href === '/administration' ||
-            item.subHref === '/events' ||
-            item.subHref === '/categories'
+            item.subHref === '/administration/categories' ||
+            item.href === '/administration/banners'
         )
       case UserRole.ADMIN:
         return menuItems

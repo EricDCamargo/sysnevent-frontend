@@ -7,16 +7,18 @@ import { NavBar } from '../_components/navBar'
 import { UserProvider } from '@/contexts/user'
 import { CategoryProvider } from '@/contexts/category'
 import { BannerProvider } from '@/contexts/banner'
+import { getActiveBanners } from '@/services/retriveSSRData/retriveBannerData'
 export default async function FatecLayout({
   children
 }: {
   children: React.ReactNode
 }) {
+  const banners = await getActiveBanners()
   return (
     <main className={styles.grid}>
       <UserProvider>
         <CategoryProvider>
-          <BannerProvider>
+          <BannerProvider initialActiveBanners={banners}>
             <NavBar />
             <div className={styles.content}>
               <Suspense fallback={<Loading />}>

@@ -1,6 +1,7 @@
 'use client'
 
 import { getCookieServer } from '@/lib/cookieServer'
+import { getActiveBanners } from '@/services/retriveSSRData/retriveBannerData'
 import { serviceConsumer } from '@/services/service.consumer'
 import { BannerProps } from '@/types/banner.type'
 import { StatusCodes } from 'http-status-codes'
@@ -20,15 +21,20 @@ type BannerContextData = {
   editBannerModalOpen: boolean
   deleteBannerModalOpen: boolean
   currentBanner: BannerProps
+  activeBanners: BannerProps[]
   setEditBannerModalOpen: Dispatch<SetStateAction<boolean>>
   setDeleteBannerModalOpen: Dispatch<SetStateAction<boolean>>
   setCurrentBanner: Dispatch<SetStateAction<BannerProps>>
-  handleBannerSubmit: (formData: FormData) => Promise<void>
+  handleBannerSubmit: (
+    formData: FormData,
+    onSuccess?: () => void
+  ) => Promise<void>
   handleBannerDelete: () => Promise<void>
 }
 
 type BannerProviderProps = {
   children: ReactNode
+  initialActiveBanners: BannerProps[]
 }
 
 export const newBanner: BannerProps = {
@@ -43,22 +49,30 @@ export const newBanner: BannerProps = {
 
 export const BannerContext = createContext({} as BannerContextData)
 
-export function BannerProvider({ children }: BannerProviderProps) {
+export function BannerProvider({
+  children,
+  initialActiveBanners
+}: BannerProviderProps) {
   const router = useRouter()
   const [editBannerModalOpen, setEditBannerModalOpen] = useState<boolean>(false)
   const [deleteBannerModalOpen, setDeleteBannerModalOpen] =
     useState<boolean>(false)
 
+  const [activeBanners, setActiveBanners] =
+    useState<BannerProps[]>(initialActiveBanners)
   const [currentBanner, setCurrentBanner] = useState<BannerProps>(newBanner)
 
+  const refreshActiveBanners = async () => {
+    const banners = await getActiveBanners()
+    setActiveBanners(banners)
+  }
+  const endpoint = '/events/banners'
   const handleBannerSubmit = useCallback(
-    async (formData: FormData) => {
+    async (formData: FormData, onSuccess?: () => void) => {
       const isUpdate = !!currentBanner.id
       const token = await getCookieServer()
 
       try {
-        const endpoint = '/events/banners'
-
         const res = isUpdate
           ? await serviceConsumer(token).executePut(
               endpoint,
@@ -74,7 +88,9 @@ export function BannerProvider({ children }: BannerProviderProps) {
           toast.success(res.message)
           setEditBannerModalOpen(false)
           setCurrentBanner(newBanner)
+          refreshActiveBanners()
           router.refresh()
+          if (onSuccess) onSuccess()
         } else {
           toast.error(res.message)
         }
@@ -91,14 +107,15 @@ export function BannerProvider({ children }: BannerProviderProps) {
 
     try {
       const token = await getCookieServer()
-      const res = await serviceConsumer(token).executeDelete(
-        `/banners?id=${currentBanner.id}`
-      )
+      const res = await serviceConsumer(token).executeDelete(endpoint, {
+        id: currentBanner.id
+      })
 
       if (res.isOk) {
         toast.success(res.message)
         setDeleteBannerModalOpen(false)
         setCurrentBanner(newBanner)
+        refreshActiveBanners()
         router.refresh()
       } else {
         toast.error(res.message)
@@ -116,6 +133,7 @@ export function BannerProvider({ children }: BannerProviderProps) {
         editBannerModalOpen,
         deleteBannerModalOpen,
         currentBanner,
+        activeBanners,
         setEditBannerModalOpen,
         setDeleteBannerModalOpen,
         setCurrentBanner,
