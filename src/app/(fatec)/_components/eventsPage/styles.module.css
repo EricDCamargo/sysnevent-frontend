@@ -64,7 +64,6 @@
 }
 
 .container .buttonContainer {
-  display: flex;
   width: 100%;
 }
 
@@ -88,15 +87,10 @@
   #searchInput {
     max-width: 100%;
   }
-}
-
-@media (max-width: 425px) {
   .container .buttonContainer > button {
-    width: 100%;
-    max-width: 100%;
+    max-width: none;
   }
 }
-
 @media (max-width: 320px) {
   .dateFilter {
     display: flex;
