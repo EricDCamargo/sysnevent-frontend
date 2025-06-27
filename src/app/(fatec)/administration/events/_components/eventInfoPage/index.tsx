@@ -5,10 +5,10 @@ import { toast } from 'sonner'
 import styles from './styles.module.css'
 import { Button } from '@/app/_components/button'
 import Dropdown from '@/app/_components/inputs/dropDown'
-import { useEffect, useState, ChangeEvent, useRef } from 'react'
+import { useEffect, useState, ChangeEvent, useRef, useContext } from 'react'
 import { Controller, Resolver, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Category, Location } from '@/utils/enums'
+import { Category, Location, UserRole } from '@/utils/enums'
 
 import { CategoryProps } from '@/types/category.type'
 import { EventProps } from '@/types/event.type'
@@ -28,6 +28,7 @@ import {
   generateValidEndTimes
 } from '@/utils/timeSlotHelpers'
 import { Camera, Video, Upload } from 'lucide-react'
+import { UserContext } from '@/contexts/user'
 
 interface EventInfoPageProps {
   categories: CategoryProps[]
@@ -50,6 +51,9 @@ export default function EventInfoPage({
   >([])
   const [validStartTimes, setValidStartTimes] = useState<string[]>([])
   const [validEndTimes, setValidEndTimes] = useState<string[]>([])
+
+  const { loggedUser } = useContext(UserContext)
+  const isReadOnly = loggedUser?.role === UserRole.DOCENT_ASSISTANT
 
   useEffect(() => {
     setPreviewImage(event?.banner || '')
@@ -276,6 +280,13 @@ export default function EventInfoPage({
 
   return (
     <main>
+      {isReadOnly && (
+        <p className={styles.readOnlyInfo}>
+          Você está visualizando este evento. Alterações não são permitidas com
+          seu perfil.
+        </p>
+      )}
+
       <form
         onSubmit={handleSubmit(onSubmit)}
         className={styles.formToCreateNewEvent}
@@ -291,6 +302,7 @@ export default function EventInfoPage({
             onChange={handleFileImage}
             className={styles.inputF}
             ref={inputFileRef}
+            disabled={isReadOnly}
           />
           {previewImage ? (
             <Image
@@ -325,12 +337,14 @@ export default function EventInfoPage({
             error={!!errors.name}
             errorMessage={errors.name?.message}
             {...register('name')}
+            disabled={isReadOnly}
           />
 
           <Dropdown
             label="Categoria"
             options={optionsWithAll}
             {...register('categoryId')}
+            disabled={isReadOnly}
           />
 
           <Dropdown
@@ -339,6 +353,7 @@ export default function EventInfoPage({
             error={!!errors.course}
             errorMessage={errors.course?.message}
             {...register('course')}
+            disabled={isReadOnly}
           />
 
           <Dropdown
@@ -347,6 +362,7 @@ export default function EventInfoPage({
             error={!!errors.semester}
             errorMessage={errors.semester?.message}
             {...register('semester')}
+            disabled={isReadOnly}
           />
 
           <FormInput
@@ -356,6 +372,7 @@ export default function EventInfoPage({
             error={!!errors.maxParticipants}
             errorMessage={errors.maxParticipants?.message}
             {...register('maxParticipants')}
+            disabled={isReadOnly}
           />
 
           {isCursoOnline ? (
@@ -366,6 +383,7 @@ export default function EventInfoPage({
               error={!!errors.duration}
               errorMessage={errors.duration?.message}
               {...register('duration')}
+              disabled={isReadOnly}
             />
           ) : (
             <>
@@ -373,6 +391,7 @@ export default function EventInfoPage({
                 label="Localização"
                 options={locationOptions}
                 {...register('location')}
+                disabled={isReadOnly}
               />
               {watchedLocation === Location.OUTROS && (
                 <FormInput
@@ -382,6 +401,7 @@ export default function EventInfoPage({
                   error={!!errors.customLocation}
                   errorMessage={errors.customLocation?.message}
                   {...register('customLocation')}
+                  disabled={isReadOnly}
                 />
               )}
             </>
@@ -394,6 +414,7 @@ export default function EventInfoPage({
             error={!!errors.speakerName}
             errorMessage={errors.speakerName?.message}
             {...register('speakerName')}
+            disabled={isReadOnly}
           />
 
           <Controller
@@ -405,7 +426,7 @@ export default function EventInfoPage({
                 type="date"
                 error={!!fieldState.error}
                 errorMessage={fieldState.error?.message}
-                disabled={!shouldEnableDateField}
+                disabled={!shouldEnableDateField || isReadOnly}
                 min={moment().format('YYYY-MM-DD')}
                 {...field}
                 onChange={e => {
@@ -437,7 +458,7 @@ export default function EventInfoPage({
                 label="Hora Início"
                 options={validStartTimes.map(t => ({ label: t, value: t }))}
                 {...field}
-                disabled={!watchedStartDate && !isCursoOnline}
+                disabled={(!watchedStartDate && !isCursoOnline) || isReadOnly}
               />
             )}
           />
@@ -450,7 +471,7 @@ export default function EventInfoPage({
                 label="Hora Fim"
                 options={validEndTimes.map(t => ({ label: t, value: t }))}
                 {...field}
-                disabled={!watchedStartTime && !isCursoOnline}
+                disabled={(!watchedStartTime && !isCursoOnline) || isReadOnly}
               />
             )}
           />
@@ -467,6 +488,7 @@ export default function EventInfoPage({
                 type="checkbox"
                 checked={field.value}
                 onChange={e => field.onChange(e.target.checked)}
+                disabled={isReadOnly}
               />
               <span>{field.value ? 'Sim' : 'Não'}</span>
             </div>
@@ -476,11 +498,14 @@ export default function EventInfoPage({
         <textarea
           placeholder="Descrição do evento"
           {...register('description')}
+          disabled={isReadOnly}
         />
 
-        <div className={styles.buttonSubmit}>
-          <Button type="submit" name="Salvar" />
-        </div>
+        {!isReadOnly && (
+          <div className={styles.buttonSubmit}>
+            <Button type="submit" name="Salvar" />
+          </div>
+        )}
       </form>
     </main>
   )

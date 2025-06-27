@@ -3,7 +3,7 @@
 import { EventProps } from '@/types/event.type'
 import styles from './styles.module.css'
 import { useRouter } from 'next/navigation'
-import { useEffect, useRef, useState } from 'react'
+import { useContext, useEffect, useRef, useState } from 'react'
 import { SearchInput } from '@/app/(fatec)/_components/searchInput'
 import EventsGrid from '../eventsGrid/EventsGrid'
 import { Button } from '@/app/_components/button'
@@ -14,6 +14,8 @@ import { getCategoryOptions } from '@/utils'
 import Loading from '@/app/_components/loading/loading'
 import FormInput from '@/app/_components/inputs/formInput.tsx/FormInput'
 import Dropdown from '@/app/_components/inputs/dropDown'
+import { UserContext } from '@/contexts/user'
+import { UserRole } from '@/utils/enums'
 
 interface EventsPageProps {
   initialEvents: EventProps[]
@@ -34,6 +36,7 @@ export default function EventsPage({
   const [loading, setLoading] = useState(false)
   const [startDate, setStartDate] = useState<string>('')
   const [endDate, setEndDate] = useState<string>('')
+  const { loggedUser } = useContext(UserContext)
 
   const isFirstRender = useRef(true)
 
@@ -110,7 +113,7 @@ export default function EventsPage({
             />
           </div>
         </section>
-        {mode === 'admin' && (
+        {loggedUser?.role === UserRole.COORDINATOR || loggedUser?.role === UserRole.ADMIN && (
           <div className={styles.buttonContainer}>
             <Button
               onClick={() => router.push('/administration/events/newEvent')}
