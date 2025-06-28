@@ -2,9 +2,9 @@
 
 import { UserContext } from '@/contexts/user'
 import Link from 'next/link'
-import { useContext, useState } from 'react'
+import { useContext, useState, MouseEvent } from 'react'
 import styles from './styles.module.css'
-import { AlignJustify, LogOutIcon } from 'lucide-react'
+import { AlignJustify, LogOutIcon, LogIn, CalendarDays } from 'lucide-react'
 import { Button } from '../button'
 
 export const HeaderMenu = () => {
@@ -16,71 +16,144 @@ export const HeaderMenu = () => {
   } = useContext(UserContext)
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false)
 
-  if (!loggedUser) return null
+  const renderPrivateMenu = () => {
+    const renderLogoutArea = () => (
+      <form className={styles.form} action={handleLogout}>
+        <p className={styles.text}>
+          {loggedUser?.name
+            ?.split(' ')
+            .filter(Boolean)
+            .filter((_, i, arr) => i === 0 || i === arr.length - 1)
+            .join(' ')}
+        </p>
+        <Button className={styles.button} type="submit" aria-label="Sair">
+          <LogOutIcon size={24} />
+        </Button>
+      </form>
+    )
 
-  const renderLogoutArea = () => (
-    <form className={styles.form} action={handleLogout}>
-      <p className={styles.text}>
-        {loggedUser?.name
-          ?.split(' ')
-          .filter(Boolean)
-          .filter((_, i, arr) => i === 0 || i === arr.length - 1)
-          .join(' ')}
-      </p>
-      <Button className={styles.button} type="submit">
-        <LogOutIcon size={24} />
-      </Button>
-    </form>
-  )
+    return (
+      <>
+        {/* --- Menu Desktop Privado --- */}
+        <nav className={styles.nav}>
+          {filteredMenuItems.map(({ href, subHref, label }) => (
+            <Link
+              key={href}
+              href={href}
+              className={`${styles.link} ${
+                determinatesActiveLink(href, subHref) && styles.active
+              }`}
+            >
+              {label}
+            </Link>
+          ))}
+        </nav>
+        <div className={styles.logoutAreaDesktop}>{renderLogoutArea()}</div>
 
-  return (
-    <>
-      <div className={styles.hamburguerMenuArea}>
-        <AlignJustify
-          color="black"
-          size={22}
-          aria-label="Abrir menu"
-          onClick={() => setIsMenuOpen(state => !state)}
-        />
-        {isMenuOpen && (
-          <div className={styles.hamburguerItems}>
-            <div className={styles.hamburguerDetail} />
-            {filteredMenuItems.map(({ href, subHref, icon: Icon, label }) => (
-              <Link
-                key={href}
-                href={href}
-                onClick={() => setIsMenuOpen(false)}
-                className={`${styles.section} ${
-                  determinatesActiveLink(href, subHref) && styles.active
-                }`}
-              >
-                <Icon />
-                <p>{label}</p>
-              </Link>
-            ))}
+        {/* --- Menu Hambúrguer Privado --- */}
+        <div className={styles.hamburguerMenuArea}>
+          <AlignJustify
+            color="black"
+            size={22}
+            aria-label="Abrir menu"
+            onClick={() => setIsMenuOpen(state => !state)}
+            role="button"
+          />
+          {isMenuOpen && (
+            <div className={styles.hamburguerItems}>
+              <div className={styles.hamburguerDetail} />
+              {filteredMenuItems.map(({ href, subHref, icon: Icon, label }) => (
+                <Link
+                  key={href}
+                  href={href}
+                  onClick={() => setIsMenuOpen(false)}
+                  className={`${styles.section} ${
+                    determinatesActiveLink(href, subHref) && styles.active
+                  }`}
+                >
+                  <Icon />
+                  <p>{label}</p>
+                </Link>
+              ))}
+              {renderLogoutArea()}
+            </div>
+          )}
+        </div>
+      </>
+    )
+  }
 
-            {renderLogoutArea()}
+  const handleScrollToEvents = (e: MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault() // Previne o comportamento padrão do link
+
+    const eventsSection = document.getElementById('events-list')
+    if (eventsSection) {
+      eventsSection.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start' // Alinha o topo da seção com o topo da viewport
+      })
+    }
+    setIsMenuOpen(false) // Fecha o menu hambúrguer, se estiver aberto
+  }
+
+  const renderPublicMenu = () => {
+    return (
+      <>
+        {/* --- Menu Desktop Público --- */}
+        <div className={styles.publicHeader}>
+          <p className={styles.tagline}>Plataforma de Eventos Acadêmicos</p>
+          <div className={styles.publicActions}>
+            <Link
+              href="#events-list"
+              onClick={handleScrollToEvents}
+              className={`${styles.ctaButton} ${styles.primary}`}
+            >
+              Ver Eventos
+            </Link>
+            <Link
+              href="/auth/signin"
+              className={`${styles.ctaButton} ${styles.secondary}`}
+            >
+              Login
+            </Link>
           </div>
-        )}
-      </div>
+        </div>
 
-      <nav className={styles.nav}>
-        {filteredMenuItems.map(({ href, subHref, label }) => (
-          <Link
-            key={href}
-            href={href}
-            className={`${styles.link} ${
-              determinatesActiveLink(href, subHref) && styles.active
-            }`}
-          >
-            {label}
-          </Link>
-        ))}
-      </nav>
+        {/* --- Menu Hambúrguer Público --- */}
+        <div className={styles.hamburguerMenuArea}>
+          <AlignJustify
+            color="black"
+            size={22}
+            aria-label="Abrir menu"
+            onClick={() => setIsMenuOpen(state => !state)}
+            role="button"
+          />
+          {isMenuOpen && (
+            <div className={styles.hamburguerItems}>
+              <div className={styles.hamburguerDetail} />
+              <Link
+                href="#events-list"
+                onClick={handleScrollToEvents}
+                className={styles.section}
+              >
+                <CalendarDays />
+                <p>Ver Eventos</p>
+              </Link>
 
-      <nav className={styles.nav} role="navigation" aria-label="Logout">
-        {renderLogoutArea()}
-      </nav>
-    </>
-  )
+              <Link
+                href="/auth/signin"
+                onClick={() => setIsMenuOpen(false)}
+                className={styles.section}
+              >
+                <LogIn />
+                <p>Login</p>
+              </Link>
+            </div>
+          )}
+        </div>
+      </>
+    )
+  }
+
+  return loggedUser ? renderPrivateMenu() : renderPublicMenu()
 }

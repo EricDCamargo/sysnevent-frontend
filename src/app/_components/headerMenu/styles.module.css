@@ -1,96 +1,194 @@
-.section {
-  text-decoration: none;
-  color: var(--white);
-  transition: 0.5s;
-  cursor: pointer;
+/* --- Estilos para Navegação Privada (Usuário Logado) --- */
+.nav {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 1.5rem;
+  font-size: 1.2rem;
+}
 
-  &:hover {
-    color: var(--red-900);
-    transform: scale(1.1);
-  }
+.nav .link {
+  text-decoration: none;
+  transition: 0.2s;
+  position: relative;
+  padding-bottom: 4px;
+}
+
+.nav .link::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  display: block;
+  margin-top: 5px;
+  right: 0;
+  background: var(--red-900);
+  transition: width 0.3s ease;
+}
+
+.nav .link:hover::after {
+  width: 100%;
+  left: 0;
+  background-color: var(--red-900);
+}
+
+.nav .link:hover {
+  color: var(--red-900);
+}
+
+.active {
+  color: var(--red-900);
+  font-weight: bold;
+}
+
+.nav .link.active::after {
+  width: 100%;
+  left: 0;
+}
+/* --- Estilos para Área de Logout --- */
+.form {
+  display: flex;
+  align-items: center;
+  color: var(--red-900);
+  gap: 0.5rem;
+}
+
+.form .text {
+  font-size: 1rem;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.form .button {
+  border: 0;
+  background: transparent;
+  transition: transform 0.2s;
+  color: var(--red-900);
+  cursor: pointer;
+}
+
+.form .button:hover {
+  transform: scale(1.1);
+}
+
+/* --- Estilos para Menu Hambúrguer (Telas Pequenas) --- */
+.hamburguerMenuArea {
+  display: none;
+  position: relative;
+  z-index: 10;
 }
 
 .hamburguerItems {
   display: flex;
   flex-direction: column;
   position: absolute;
-  padding: 15px 10px;
-  right: 30px;
-  top: 70px;
-  width: auto;
-  border: 2px solid var(--white);
-  border-radius: 4px;
-  background-color: var(--black);
+  padding: 15px;
+  right: 0;
+  top: 50px;
+  width: max-content;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: var(--white);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   transition: 1s;
-  row-gap: 10px;
+  row-gap: 15px;
 }
 
 .hamburguerDetail {
   position: absolute;
   top: -10px;
-  right: -0px;
+  right: 8px;
   width: 0;
   height: 0;
-  border-left: 8px solid transparent;
-  border-right: 8px solid transparent;
-  border-bottom: 8px solid var(--white);
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-bottom: 10px solid var(--white);
+  filter: drop-shadow(0 -1px 2px rgba(0, 0, 0, 0.05));
 }
-.active {
-  color: var(--red-900);
-}
-.form {
+
+.section {
+  text-decoration: none;
+  color: var(--black);
+  transition: color 0.3s, transform 0.3s;
+  cursor: pointer;
   display: flex;
   align-items: center;
-  color: var(--red-900);
-  gap: 0.5rem;
-  .text {
-    font-size: 1.2rem;
-  }
-
-  .button {
-    border: 0;
-    background: transparent;
-    transition: transform 0.2s;
-    color: var(--red-900);
-
-    &:hover {
-      transform: scale(1.1);
-    }
-  }
+  gap: 0.75rem;
+  font-size: 1rem;
 }
-.hamburguerMenuArea {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-  padding: 10px 0px;
-  z-index: 10;
 
-  @media (min-width: 1024px) {
+.section:hover {
+  color: var(--red-900);
+  transform: translateX(5px);
+}
+
+/* --- Estilos para Visão Pública (Usuário Deslogado) --- */
+.publicHeader {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.tagline {
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #555;
+  white-space: nowrap;
+}
+
+.publicActions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.ctaButton {
+  padding: 0.6rem 1.2rem;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.2s ease-in-out;
+  border: 2px solid transparent;
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.ctaButton.primary {
+  background-color: var(--red-900);
+  color: var(--white);
+}
+
+.ctaButton.primary:hover {
+  background-color: var(--white);
+  color: var(--red-900);
+  border-color: var(--red-900);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.ctaButton.secondary {
+  background-color: transparent;
+  color: var(--red-900);
+  border-color: var(--red-900);
+}
+
+.ctaButton.secondary:hover {
+  background-color: var(--red-900);
+  color: var(--white);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* --- Media Queries para Responsividade --- */
+@media (max-width: 1023px) {
+  .nav,
+  .logoutAreaDesktop,
+  .publicHeader {
     display: none;
   }
-}
-.nav {
-  display: flex;
-  align-items: center;
-  gap: 1.5rem;
-  font-size: 1.2rem;
 
-  @media (max-width: 1023px) {
-    display: none;
-  }
-
-  .link {
-    text-decoration: none;
-    transition: 0.2s;
-    text-decoration: none;
-
-    &:hover {
-      color: var(--red-900);
-      transform: scale(1.1);
-    }
+  .hamburguerMenuArea {
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 }

@@ -29,6 +29,7 @@ import {
 } from '@/utils/timeSlotHelpers'
 import { Camera, Video, Upload } from 'lucide-react'
 import { UserContext } from '@/contexts/user'
+import { useRouter } from 'next/navigation'
 
 interface EventInfoPageProps {
   categories: CategoryProps[]
@@ -41,6 +42,7 @@ export default function EventInfoPage({
   typeOfForm,
   event
 }: EventInfoPageProps) {
+  const router = useRouter()
   const [image, setImage] = useState<File>()
   const [previewImage, setPreviewImage] = useState<string>('')
   const inputFileRef = useRef<HTMLInputElement | null>(null)
@@ -230,6 +232,7 @@ export default function EventInfoPage({
   }, [watchedLocation, watchedCategoryId])
 
   const onSubmit = async (data: any) => {
+    const isCreateMode = typeOfForm === 'create'
     const formData = new FormData()
 
     // Converte data e horários para formato ISO UTC
@@ -256,16 +259,22 @@ export default function EventInfoPage({
     formData.append('file', image!)
 
     try {
-      if (typeOfForm === 'create') {
-        const res = await serviceConsumer().executePost('/events', formData)
-        toast.success(res.message)
+      let response
+      const service = serviceConsumer()
+      if (isCreateMode) {
+        response = await service.executePost('/events', formData)
       } else {
-        const res = await serviceConsumer().executePut(
+        response = await service.executePut(
           '/events',
           { event_id: event?.id },
           formData
         )
-        toast.success(res.message)
+      }
+      if (response.isOk) {
+        toast.success(response.message)
+        router.push(`/administration/events/${response.data.id}`)
+      } else {
+        toast.warning(response.message)
       }
     } catch (error) {
       toast.error('Erro ao salvar evento. Verifique os campos.')

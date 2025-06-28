@@ -47,6 +47,7 @@ type UserContextData = {
 
 type UserProviderProps = {
   children: ReactNode
+  initialUser: UserProps | null
 }
 export const newUser: UserProps = {
   id: '',
@@ -59,33 +60,18 @@ export const newUser: UserProps = {
 }
 export const UserContext = createContext({} as UserContextData)
 
-export function UserProvider({ children }: UserProviderProps) {
+export function UserProvider({ children, initialUser }: UserProviderProps) {
   const router = useRouter()
   const pathname = usePathname()
 
   const [deleteUserModalOpen, setDeleteUserModalOpen] = useState<boolean>(false)
   const [editUserModalOpen, setEditUserModalOpen] = useState<boolean>(false)
 
-  const [loggedUser, setLoggedUser] = useState<UserProps | null>(null)
+  const [loggedUser, setLoggedUser] = useState<UserProps | null>(initialUser)
   const [currentUser, setcurrentUser] = useState<UserProps>(newUser)
 
   const [selectedUser, setSelectedUser] = useState<string>('')
 
-  useEffect(() => {
-    async function fetchUser() {
-      try {
-        const res = await serviceConsumer().executeGet('/me')
-        if (res.isOk && res.data) {
-          setLoggedUser(res.data)
-        } else {
-          setLoggedUser(null)
-        }
-      } catch (e) {
-        setLoggedUser(null)
-      }
-    }
-    fetchUser()
-  }, [])
 
   async function handleLogout() {
     deleteCookie('session', { path: '/' })

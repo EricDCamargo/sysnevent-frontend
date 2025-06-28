@@ -4,7 +4,7 @@ import { CirclePlus, Eye, Trash2 } from 'lucide-react'
 import { TableColumn } from '@/types/dataTable.type'
 import DataTable from '@/app/(fatec)/_components/dataTable/dataTable'
 import { CategoryProps } from '@/types/category.type'
-import { useContext, useState } from 'react'
+import { useContext } from 'react'
 import { CategoryContext } from '@/contexts/category'
 import ConfirmModal from '@/app/_components/modals/confirm'
 import FormInput from '@/app/_components/inputs/formInput.tsx/FormInput'
@@ -30,9 +30,9 @@ export default function ManageCategoriesPage({
   } = useContext(CategoryContext)
 
   const handleCancel = () => {
-    setCurrentCategory(newCategory)
     setDeleteCategoryModalOpen(false)
     setEditCategoryModalOpen(false)
+    setCurrentCategory(newCategory)
   }
 
   const handleViewCategory = (category: CategoryProps) => {

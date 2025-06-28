@@ -113,7 +113,7 @@ export default function EventsPage({
             />
           </div>
         </section>
-        {loggedUser?.role === UserRole.COORDINATOR || loggedUser?.role === UserRole.ADMIN && (
+        {(loggedUser?.role === UserRole.COORDINATOR || UserRole.ADMIN) && (
           <div className={styles.buttonContainer}>
             <Button
               onClick={() => router.push('/administration/events/newEvent')}
@@ -123,7 +123,13 @@ export default function EventsPage({
           </div>
         )}
       </section>
-      {loading ? <Loading /> : <EventsGrid events={searchValue} mode={mode} />}
+      <section id="events-list" className={styles.eventsListSection}>
+        {loading ? (
+          <Loading />
+        ) : (
+          <EventsGrid events={searchValue} mode={mode} />
+        )}
+      </section>
     </main>
   )
 }

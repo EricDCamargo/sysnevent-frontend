@@ -8,15 +8,17 @@ import { UserProvider } from '@/contexts/user'
 import { CategoryProvider } from '@/contexts/category'
 import { BannerProvider } from '@/contexts/banner'
 import { getActiveBanners } from '@/services/retriveSSRData/retriveBannerData'
+import { getUserServer } from '@/services/retriveSSRData/retriveUserData'
 export default async function FatecLayout({
   children
 }: {
   children: React.ReactNode
 }) {
   const banners = await getActiveBanners()
+  const user = await getUserServer()
   return (
     <main className={styles.grid}>
-      <UserProvider>
+      <UserProvider initialUser={user}>
         <CategoryProvider>
           <BannerProvider initialActiveBanners={banners}>
             <NavBar />
