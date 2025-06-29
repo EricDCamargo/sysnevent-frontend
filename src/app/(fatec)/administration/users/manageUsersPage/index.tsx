@@ -1,5 +1,5 @@
 'use client'
-import { useContext } from 'react'
+import { useContext, useEffect, useTransition } from 'react'
 import styles from './styles.module.css'
 import { UserProps } from '@/types/user.type'
 import { UserContext } from '@/contexts/user'
@@ -9,9 +9,16 @@ import { TableColumn } from '@/types/dataTable.type'
 import DataTable from '@/app/(fatec)/_components/dataTable/dataTable'
 import ConfirmModal from '@/app/_components/modals/confirm'
 import { UserRole } from '@/utils/enums'
-import FormInput from '@/app/_components/inputs/formInput.tsx/FormInput'
 import Dropdown from '@/app/_components/inputs/dropDown'
 import { toast } from 'sonner'
+
+import { buildUserSchema } from '@/lib/validators/schemas/userSchema'
+import z from 'zod'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import FormInput from '@/app/_components/inputs/formInput/FormInput'
+
+type UserFormData = z.infer<ReturnType<typeof buildUserSchema>>
 
 interface ManageUsersPageProps {
   users: UserProps[]
@@ -30,6 +37,29 @@ export default function ManageUsersPage({ users }: ManageUsersPageProps) {
     handleDeleteUser,
     handleUserSubmit
   } = useContext(UserContext)
+
+  const isCreating = !currentUser.id
+  const [isPending, startTransition] = useTransition()
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset
+  } = useForm<UserFormData>({
+    resolver: zodResolver(buildUserSchema(isCreating)),
+    context: { isCreating }
+  })
+
+  useEffect(() => {
+    const defaultValues = {
+      name: currentUser.name || '',
+      email: currentUser.email || '',
+      role: currentUser.role || UserRole.DOCENT_ASSISTANT,
+      password: ''
+    }
+    reset(editUserModalOpen ? defaultValues : newUser)
+  }, [editUserModalOpen, currentUser, reset])
 
   const handleCancel = () => {
     setEditUserModalOpen(false)
@@ -88,19 +118,21 @@ export default function ManageUsersPage({ users }: ManageUsersPageProps) {
     }
   ]
 
-  const handleSubmit = async (formData: FormData) => {
-    const name = formData.get('name') as string
-    const email = formData.get('email') as string
-    const role = formData.get('role') as UserRole
-    const password = formData.get('password') as string
-
-    if (currentUser.id === loggedUser?.id && role !== loggedUser.role) {
+  const onFormSubmit = handleSubmit(async (data: UserFormData) => {
+    if (currentUser.id === loggedUser?.id && data.role !== loggedUser.role) {
       toast.error('Você não pode alterar o seu próprio tipo de usuário!')
       return
     }
 
-    await handleUserSubmit({ name, email, role, password })
-  }
+    startTransition(async () => {
+      const submissionData = { ...data }
+      if (isCreating === false && !submissionData.password) {
+        delete submissionData.password
+      }
+
+      await handleUserSubmit(submissionData as any)
+    })
+  })
   const rolePriority: Record<UserRole, number> = {
     ADMIN: 0,
     COORDINATOR: 1,
@@ -155,44 +187,47 @@ export default function ManageUsersPage({ users }: ManageUsersPageProps) {
             <div className={styles.gridModal}>
               <FormInput
                 label="Nome"
-                name="name"
                 type="text"
                 required
                 placeholder="Nome:"
-                defaultValue={currentUser.name}
+                error={!!errors.name}
+                errorMessage={errors.name?.message}
+                {...register('name')}
               />
               <Dropdown
                 label="Cargo"
-                name="role"
                 title="role"
                 required
                 options={roleOptions}
-                defaultValue={currentUser.role}
+                error={!!errors.role}
+                errorMessage={errors.role?.message}
+                {...register('role')}
               />
               <FormInput
                 label="E-mail"
                 type="email"
-                name="email"
                 required
                 placeholder="E-mail:"
-                defaultValue={currentUser.email}
+                error={!!errors.email}
+                errorMessage={errors.email?.message}
+                {...register('email')}
               />
               <FormInput
-                label="Senha"
-                name="password"
+                label={isCreating ? 'Senha' : 'Nova Senha (opcional)'}
                 type="password"
-                required={!currentUser.id}
+                required={isCreating}
                 placeholder="Senha:"
-                defaultValue={currentUser.password}
+                error={!!errors.password}
+                errorMessage={errors.password?.message}
+                {...register('password')}
               />
             </div>
           )
         }}
         isOpen={editUserModalOpen}
         onCancel={handleCancel}
-        onConfirmSubmit={formData => {
-          handleSubmit(formData)
-        }}
+        onSubmit={onFormSubmit}
+        pending={isPending}
       />
     </main>
   )

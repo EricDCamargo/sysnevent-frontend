@@ -7,7 +7,7 @@ import { CategoryProps } from '@/types/category.type'
 import { useContext } from 'react'
 import { CategoryContext } from '@/contexts/category'
 import ConfirmModal from '@/app/_components/modals/confirm'
-import FormInput from '@/app/_components/inputs/formInput.tsx/FormInput'
+import FormInput from '@/app/_components/inputs/formInput/FormInput'
 import moment from 'moment'
 
 interface ManageCategoriesPageProps {

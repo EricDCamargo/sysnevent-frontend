@@ -13,7 +13,7 @@ import { Category, Location, UserRole } from '@/utils/enums'
 import { CategoryProps } from '@/types/category.type'
 import { EventProps } from '@/types/event.type'
 import { serviceConsumer } from '@/services/service.consumer'
-import FormInput from '@/app/_components/inputs/formInput.tsx/FormInput'
+import FormInput from '@/app/_components/inputs/formInput/FormInput'
 import { getCategoryOptions } from '@/utils'
 import { buildEventSchema } from '@/lib/validators/schemas/eventSchema'
 import {

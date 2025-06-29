@@ -24,10 +24,8 @@ type UserContextData = {
   currentUser: UserProps
   deleteUserModalOpen: boolean
   editUserModalOpen: boolean
-  selectedUser: string
   filteredMenuItems: MenuItemsProps[]
   setLoggedUser: Dispatch<SetStateAction<UserProps | null>>
-  setSelectedUser: Dispatch<SetStateAction<string>>
   setcurrentUser: Dispatch<SetStateAction<UserProps>>
   setDeleteUserModalOpen: Dispatch<SetStateAction<boolean>>
   setEditUserModalOpen: Dispatch<SetStateAction<boolean>>
@@ -69,9 +67,6 @@ export function UserProvider({ children, initialUser }: UserProviderProps) {
 
   const [loggedUser, setLoggedUser] = useState<UserProps | null>(initialUser)
   const [currentUser, setcurrentUser] = useState<UserProps>(newUser)
-
-  const [selectedUser, setSelectedUser] = useState<string>('')
-
 
   async function handleLogout() {
     deleteCookie('session', { path: '/' })
@@ -170,7 +165,6 @@ export function UserProvider({ children, initialUser }: UserProviderProps) {
         loggedUser,
         deleteUserModalOpen,
         editUserModalOpen,
-        selectedUser,
         filteredMenuItems,
         setEditUserModalOpen,
         setDeleteUserModalOpen,
@@ -179,8 +173,7 @@ export function UserProvider({ children, initialUser }: UserProviderProps) {
         handleLogout,
         determinatesActiveLink,
         handleDeleteUser,
-        handleUserSubmit,
-        setSelectedUser
+        handleUserSubmit
       }}
     >
       {children}

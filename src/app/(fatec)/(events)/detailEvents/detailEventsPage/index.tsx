@@ -17,7 +17,7 @@ import Dropdown from '@/app/_components/inputs/dropDown'
 import { courseOptions, semesterOptions } from '@/utils/recordStatus'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import FormInput from '@/app/_components/inputs/formInput.tsx/FormInput'
+import FormInput from '@/app/_components/inputs/formInput/FormInput'
 import { buildParticipantSchema } from '@/lib/validators/schemas/participantSchema'
 
 interface EventsPage {
