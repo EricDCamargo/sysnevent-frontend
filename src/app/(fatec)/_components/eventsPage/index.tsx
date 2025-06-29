@@ -2,7 +2,7 @@
 
 import { EventProps } from '@/types/event.type'
 import styles from './styles.module.css'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { useContext, useEffect, useRef, useState } from 'react'
 import { SearchInput } from '@/app/(fatec)/_components/searchInput'
 import EventsGrid from '../eventsGrid/EventsGrid'
@@ -39,6 +39,21 @@ export default function EventsPage({
   const { loggedUser } = useContext(UserContext)
 
   const isFirstRender = useRef(true)
+
+  const searchParams = useSearchParams()
+
+  useEffect(() => {
+    const scrollTo = searchParams.get('scrollTo')
+    if (scrollTo) {
+      const section = document.getElementById(scrollTo)
+      if (section) {
+        section.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        })
+      }
+    }
+  }, [searchParams])
 
   const fetchEvents = async () => {
     setLoading(true)

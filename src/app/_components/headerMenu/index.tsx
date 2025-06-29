@@ -4,8 +4,15 @@ import { UserContext } from '@/contexts/user'
 import Link from 'next/link'
 import { useContext, useState, MouseEvent } from 'react'
 import styles from './styles.module.css'
-import { AlignJustify, LogOutIcon, LogIn, CalendarDays } from 'lucide-react'
+import {
+  AlignJustify,
+  LogOutIcon,
+  LogIn,
+  CalendarDays,
+  Info
+} from 'lucide-react'
 import { Button } from '../button'
+import { usePathname, useRouter } from 'next/navigation'
 
 export const HeaderMenu = () => {
   const {
@@ -15,6 +22,8 @@ export const HeaderMenu = () => {
     filteredMenuItems
   } = useContext(UserContext)
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false)
+  const pathname = usePathname()
+  const router = useRouter()
 
   const renderPrivateMenu = () => {
     const renderLogoutArea = () => (
@@ -84,16 +93,20 @@ export const HeaderMenu = () => {
   }
 
   const handleScrollToEvents = (e: MouseEvent<HTMLAnchorElement>) => {
-    e.preventDefault() // Previne o comportamento padrão do link
+    e.preventDefault()
 
-    const eventsSection = document.getElementById('events-list')
-    if (eventsSection) {
-      eventsSection.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start' // Alinha o topo da seção com o topo da viewport
-      })
+    if (pathname === '/') {
+      const eventsSection = document.getElementById('events-list')
+      if (eventsSection) {
+        eventsSection.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        })
+      }
+    } else {
+      router.push('/?scrollTo=events-list')
     }
-    setIsMenuOpen(false) // Fecha o menu hambúrguer, se estiver aberto
+    setIsMenuOpen(false)
   }
 
   const renderPublicMenu = () => {
@@ -104,7 +117,13 @@ export const HeaderMenu = () => {
           <p className={styles.tagline}>Plataforma de Eventos Acadêmicos</p>
           <div className={styles.publicActions}>
             <Link
-              href="#events-list"
+              href="/teamPage"
+              className={`${styles.ctaButton} ${styles.primary}`}
+            >
+              Sobre nós
+            </Link>
+            <Link
+              href="/#events-list"
               onClick={handleScrollToEvents}
               className={`${styles.ctaButton} ${styles.primary}`}
             >
@@ -131,6 +150,14 @@ export const HeaderMenu = () => {
           {isMenuOpen && (
             <div className={styles.hamburguerItems}>
               <div className={styles.hamburguerDetail} />
+              <Link
+                href="/teamPage"
+                onClick={() => setIsMenuOpen(false)}
+                className={styles.section}
+              >
+                <Info />
+                <p>Sobre nós</p>
+              </Link>
               <Link
                 href="#events-list"
                 onClick={handleScrollToEvents}
