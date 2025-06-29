@@ -12,5 +12,10 @@ export default async function EventParticipants({ params }: DetailEventsProps) {
 
   const participants = await getParticipants(event_id)
 
-  return <EventParticipantsPage initialParticipants={participants} />
+  return (
+    <EventParticipantsPage
+      initialParticipants={participants}
+      event_id={event_id}
+    />
+  )
 }

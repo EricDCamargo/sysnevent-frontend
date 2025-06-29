@@ -25,9 +25,17 @@ export const serviceConsumer = (
   executePost: async function (
     url: string,
     body: FormData | any | Array<any>,
-    params?: any
+    params?: any,
+    axiosOptions?: any
   ) {
-    return await this.executeService(token, 'POST', url, params, body)
+    return await this.executeService(
+      token,
+      'POST',
+      url,
+      params,
+      body,
+      axiosOptions
+    )
   },
 
   //Put Method
@@ -57,7 +65,8 @@ export const serviceConsumer = (
     method: 'GET' | 'POST' | 'DELETE' | 'PUT' | 'PATCH',
     url: string,
     params?: any,
-    data?: FormData | any | Array<any>
+    data?: FormData | any | Array<any>,
+    axiosOptions?: any
   ): Promise<ResponsePromise> {
     const getToken = () => {
       if (token) {
@@ -80,14 +89,19 @@ export const serviceConsumer = (
       url,
       params,
       headers,
-      data
+      data,
+      ...axiosOptions
     })
       .then(res => {
         const { data, status } = res
+        const isBlob =
+          res.request?.responseType === 'blob' ||
+          res.headers['content-type']?.includes('application/pdf')
+
         const successResponse: ResponsePromise = {
-          data: data.data,
+          data: isBlob ? data : data.data,
           status: status,
-          message: data.message,
+          message: isBlob ? '' : data.message,
           isOk: true
         }
         if (environment === 'dev') {
