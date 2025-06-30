@@ -30,6 +30,7 @@ type BannerContextData = {
     onSuccess?: () => void
   ) => Promise<void>
   handleBannerDelete: () => Promise<void>
+  refreshActiveBanners: () => Promise<void>
 }
 
 type BannerProviderProps = {
@@ -138,7 +139,8 @@ export function BannerProvider({
         setDeleteBannerModalOpen,
         setCurrentBanner,
         handleBannerSubmit,
-        handleBannerDelete
+        handleBannerDelete,
+        refreshActiveBanners
       }}
     >
       {children}

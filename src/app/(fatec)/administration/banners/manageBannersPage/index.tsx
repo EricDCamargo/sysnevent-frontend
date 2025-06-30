@@ -13,6 +13,7 @@ import Dropdown from '@/app/_components/inputs/dropDown'
 import Image from 'next/image'
 import { Upload, Camera, Video } from 'lucide-react'
 import { toast } from 'sonner'
+import { serviceConsumer } from '@/services/service.consumer'
 
 interface ManageBannersPageProps {
   initialBanners: BannerProps[]
@@ -32,8 +33,11 @@ export default function ManageBannersPage({
     setDeleteBannerModalOpen,
     setEditBannerModalOpen,
     handleBannerDelete,
-    handleBannerSubmit
+    handleBannerSubmit,
+    refreshActiveBanners
   } = useContext(BannerContext)
+
+  const [banners, setBanners] = useState<BannerProps[]>(initialBanners)
 
   const [previewImage, setPreviewImage] = useState(currentBanner.imageUrl || '')
   const [imageFile, setImageFile] = useState<File>()
@@ -57,6 +61,24 @@ export default function ManageBannersPage({
     setDeleteBannerModalOpen(true)
   }
 
+  const handleToggleActive = async (id: string) => {
+    const res = await serviceConsumer().executePatch(
+      '/events/banners/toggle-status',
+      {
+        bannerId: id
+      }
+    )
+
+    setBanners(prev =>
+      prev.map(b => (b.id === id ? { ...b, isActive: !b.isActive } : b))
+    )
+    if (res.isOk) {
+      refreshActiveBanners()
+    }
+
+    toast.success(res.message)
+  }
+
   const columns: TableColumn<BannerProps>[] = [
     {
       name: 'Baner',
@@ -78,6 +100,15 @@ export default function ManageBannersPage({
       name: 'Ações',
       cell: row => (
         <div className="actions">
+          <div className={styles.toggleContainer}>
+            <input
+              id="isActiveToggle"
+              type="checkbox"
+              checked={row.isActive}
+              onChange={() => handleToggleActive(row.id)}
+              title="Ativar/desativar baner"
+            />
+          </div>
           <button onClick={() => handleView(row)}>
             <Eye />
           </button>
@@ -124,19 +155,19 @@ export default function ManageBannersPage({
             onClick={() => setEditBannerModalOpen(true)}
           >
             <CirclePlus size={20} color="black" />
-            Adicionar banner
+            Adicionar baner
           </div>
         </header>
 
-        <DataTable columns={columns} data={initialBanners} />
+        <DataTable columns={columns} data={banners} />
       </section>
 
       <ConfirmModal
         modalText={{
-          title: 'Excluir Banner',
+          title: 'Excluir Baner',
           message: (
             <div className={styles.modalDeleteBanner}>
-              <span>Tem certeza que deseja excluir este banner?</span>
+              <span>Tem certeza que deseja excluir este baner?</span>
 
               <p>{currentBanner.name}</p>
             </div>
@@ -149,7 +180,7 @@ export default function ManageBannersPage({
 
       <ConfirmModal
         modalText={{
-          title: currentBanner.id ? 'Editar Banner' : 'Adicionar Banner',
+          title: currentBanner.id ? 'Editar Baner' : 'Adicionar Baner',
           message: (
             <div className={styles.formToCreateNewBanner}>
               <div
@@ -193,7 +224,7 @@ export default function ManageBannersPage({
                   label="Título"
                   type="text"
                   name="name"
-                  placeholder="Digite o nome do banner"
+                  placeholder="Digite o nome do baner"
                   required
                   defaultValue={currentBanner.name}
                 />

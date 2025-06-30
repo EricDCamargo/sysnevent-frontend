@@ -169,7 +169,7 @@ form.formToCreateNewEvent > div.buttonSubmit > button:hover {
   top: 1px;
   left: 1px;
   border-radius: 50%;
-  background: white;
+  background: var(--white);
   transition: transform 0.3s;
 }
 
