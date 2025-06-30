@@ -33,16 +33,33 @@
 
 .checkboxGroup {
   display: flex;
-  gap: 2rem;
+  gap: 1rem;
   flex-wrap: wrap;
   font-size: 1rem;
-  color: #333;
 }
 
-.checkboxGroup label {
-  display: flex;
+.checkboxButtonWrapper {
+  display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
+  justify-content: center;
+  padding: 0.5rem 1rem;
+  border: 2px solid var(--red-900);
+  border-radius: 0.5rem;
+  cursor: pointer;
+  user-select: none;
+  font-weight: 500;
+  background-color: var(--white);
+  color: var(--red-900);
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.checkboxButtonWrapper input[type='checkbox'] {
+  display: none;
+}
+
+.checkboxButtonWrapper.selected {
+  background-color: var(--red-900);
+  color: var(--white);
 }
 
 .radioGroup {
@@ -54,8 +71,47 @@
   color: #333;
 }
 
-.radioGroup label {
-  display: flex;
+.radioButtonWrapper {
+  display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
+  justify-content: center;
+  padding: 0.5rem 1rem;
+  border: 2px solid var(--red-900);
+  border-radius: 0.5rem;
+  cursor: pointer;
+  user-select: none;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  background-color: var(--white);
+  color: var(--red-900);
+}
+
+.radioButtonWrapper.selected {
+  background-color: var(--red-900);
+  color: var(--white);
+}
+
+.radioButtonWrapper input[type='radio'],
+.checkboxGroup input[type='checkbox'] {
+  display: none;
+}
+
+.checkboxButtonWrapper {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 1rem;
+  border: 2px solid var(--red-900);
+  border-radius: 0.5rem;
+  cursor: pointer;
+  user-select: none;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  background-color: var(--white);
+  color: var(--red-900);
+}
+
+.checkboxButtonWrapper.selected {
+  background-color: var(--red-900);
+  color: var(--white);
 }

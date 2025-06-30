@@ -100,11 +100,12 @@ export default function EventParticipantsPage({
         link.href = url
         link.setAttribute(
           'download',
-          `${isAttendanceReport ? 'attendance' : 'registration'}-report.pdf`
+          `Relatorio de ${isAttendanceReport ? 'Presenças' : 'Incrições'}.pdf`
         )
         document.body.appendChild(link)
         link.click()
         link.remove()
+        setIsModalOpen(false)
       } catch (error) {
         toast.error('Erro ao gerar PDF.')
       }
@@ -125,6 +126,14 @@ export default function EventParticipantsPage({
       )
     }
   ]
+  const filterOptions: {
+    key: keyof typeof filters
+    label: string
+  }[] = [
+    { key: 'includeStudents', label: 'Alunos' },
+    { key: 'includeFatec', label: 'Fatec' },
+    { key: 'includeExternal', label: 'Externos' }
+  ]
 
   return (
     <div className={styles.wrapper}>
@@ -139,34 +148,19 @@ export default function EventParticipantsPage({
       </div>
 
       <div className={styles.checkboxGroup}>
-        <label>
-          <input
-            type="checkbox"
-            checked={filters.includeStudents}
-            onChange={e =>
-              handleFilterChange('includeStudents', e.target.checked)
-            }
-          />{' '}
-          Alunos
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            checked={filters.includeFatec}
-            onChange={e => handleFilterChange('includeFatec', e.target.checked)}
-          />{' '}
-          Fatec
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            checked={filters.includeExternal}
-            onChange={e =>
-              handleFilterChange('includeExternal', e.target.checked)
-            }
-          />{' '}
-          Externos
-        </label>
+        {filterOptions.map(({ key, label }) => (
+          <div
+            key={key}
+            className={`
+        ${styles.checkboxButtonWrapper}
+        ${filters[key] ? styles.selected : ''}
+      `}
+            onClick={() => handleFilterChange(key, !filters[key])}
+          >
+            <input type="checkbox" checked={filters[key]} readOnly />
+            {label}
+          </div>
+        ))}
       </div>
 
       <DataTable columns={columns} data={participants} />
@@ -179,23 +173,33 @@ export default function EventParticipantsPage({
           title: 'Tipo de relatório',
           message: (
             <div className={styles.radioGroup}>
-              <label>
+              <label
+                className={`${styles.radioButtonWrapper} ${
+                  isAttendanceReport ? styles.selected : ''
+                }`}
+                onClick={() => setIsAttendanceReport(true)}
+              >
+                Lista de Presença
                 <input
                   type="radio"
                   name="reportType"
                   checked={isAttendanceReport}
                   onChange={() => setIsAttendanceReport(true)}
                 />
-                Lista de Presença
               </label>
-              <label>
+              <label
+                className={`${styles.radioButtonWrapper} ${
+                  !isAttendanceReport ? styles.selected : ''
+                }`}
+                onClick={() => setIsAttendanceReport(false)}
+              >
+                Lista de Inscrição
                 <input
                   type="radio"
                   name="reportType"
                   checked={!isAttendanceReport}
                   onChange={() => setIsAttendanceReport(false)}
                 />
-                Lista de Inscrição
               </label>
             </div>
           )
