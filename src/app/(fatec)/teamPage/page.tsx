@@ -30,8 +30,9 @@ const teamData: ITeamSection[] = [
       },
       {
         name: 'Guilherme Francisco Pereira',
-        photoUrl: '/teamImages/profilePlaceHolder.jpg',
-        linkedinUrl: 'https://www.linkedin.com/in/guilherme-francisco-pereira/'
+        photoUrl: '/teamImages/Guilherme_Pereira.jpg',
+        linkedinUrl:
+          'https://www.linkedin.com/in/guilherme-francisco-pereira-4a3867283'
       }
     ]
   },
@@ -143,8 +144,8 @@ const teamData: ITeamSection[] = [
       },
       {
         name: 'Lucas Jose Dutra Conchon',
-        photoUrl: '/teamImages/profilePlaceHolder.jpg',
-        linkedinUrl: 'https://www.linkedin.com/in/lucas-jose-dutra-conchon/'
+        photoUrl: '/teamImages/Lucas_Conchon.jpg',
+        linkedinUrl: 'https://www.linkedin.com/in/lucasjdutra/'
       },
       {
         name: 'Douglas Rodrigues',
