@@ -55,6 +55,5 @@ export enum Location {
 }
 
 export enum Category {
-  CURSO_ONLINE = 'Curso Online',
- 
+  CURSO_ONLINE = 'Curso Online'
 }

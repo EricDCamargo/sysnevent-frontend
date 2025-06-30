@@ -9,6 +9,7 @@ import { CategoryContext } from '@/contexts/category'
 import ConfirmModal from '@/app/_components/modals/confirm'
 import FormInput from '@/app/_components/inputs/formInput/FormInput'
 import moment from 'moment'
+import { Category } from '@/utils/enums'
 
 interface ManageCategoriesPageProps {
   categories: CategoryProps[]
@@ -61,16 +62,17 @@ export default function ManageCategoriesPage({
     },
     {
       name: 'Ações',
-      cell: row => (
-        <div className={'actions'}>
-          <button onClick={() => handleViewCategory(row)}>
-            <Eye />
-          </button>
-          <button onClick={() => handleDeleteCategory(row)}>
-            <Trash2 />
-          </button>
-        </div>
-      )
+      cell: row =>
+        row.name !== Category.CURSO_ONLINE && (
+          <div className={'actions'}>
+            <button onClick={() => handleViewCategory(row)}>
+              <Eye />
+            </button>
+            <button onClick={() => handleDeleteCategory(row)}>
+              <Trash2 />
+            </button>
+          </div>
+        )
     }
   ]
 

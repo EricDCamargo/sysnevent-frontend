@@ -61,8 +61,9 @@ const teamData: ITeamSection[] = [
     members: [
       {
         name: 'Gabriel de Souza Teruel',
-        photoUrl: '/teamImages/profilePlaceHolder.jpg',
-        linkedinUrl: 'https://www.linkedin.com/in/gabriel-de-souza-teruel/'
+        photoUrl: '/teamImages/Gabriel_Teruel.jpg',
+        linkedinUrl:
+          'https://www.linkedin.com/in/gabriel-souza-teruel-431ba9350/'
       },
       {
         name: 'Jose Carlos Carneiro',

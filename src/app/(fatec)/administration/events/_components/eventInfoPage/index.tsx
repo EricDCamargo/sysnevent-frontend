@@ -27,9 +27,10 @@ import {
   generateValidStartTimes,
   generateValidEndTimes
 } from '@/utils/timeSlotHelpers'
-import { Camera, Video, Upload } from 'lucide-react'
+import { Camera, Video, Upload, Trash2 } from 'lucide-react'
 import { UserContext } from '@/contexts/user'
 import { useRouter } from 'next/navigation'
+import ConfirmModal from '@/app/_components/modals/confirm'
 
 interface EventInfoPageProps {
   categories: CategoryProps[]
@@ -56,6 +57,8 @@ export default function EventInfoPage({
 
   const { loggedUser } = useContext(UserContext)
   const isReadOnly = loggedUser?.role === UserRole.DOCENT_ASSISTANT
+
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
 
   useEffect(() => {
     setPreviewImage(event?.banner || '')
@@ -231,6 +234,18 @@ export default function EventInfoPage({
     }
   }, [watchedLocation, watchedCategoryId])
 
+  const handleDelete = async () => {
+    const res = await serviceConsumer().executeDelete('/events', {
+      event_id: event!.id
+    })
+    if (res.isOk) {
+      toast.success(res.message || 'Evento excluído com sucesso!')
+      router.push('/administration')
+    } else {
+      toast.error(res.message || 'Falha ao excluir evento.')
+    }
+  }
+
   const onSubmit = async (data: any) => {
     const isCreateMode = typeOfForm === 'create'
     const formData = new FormData()
@@ -294,6 +309,17 @@ export default function EventInfoPage({
           Você está visualizando este evento. Alterações não são permitidas com
           seu perfil.
         </p>
+      )}
+      {typeOfForm === 'edit' && !isReadOnly && (
+        <div className={styles.deleteIconWrapper}>
+          <div
+            className={styles.deleteContainer}
+            onClick={() => setIsDeleteModalOpen(true)}
+          >
+            Excluir evento
+            <Trash2 size={24} />
+          </div>
+        </div>
       )}
 
       <form
@@ -516,6 +542,20 @@ export default function EventInfoPage({
           </div>
         )}
       </form>
+      <ConfirmModal
+        isOpen={isDeleteModalOpen}
+        onCancel={() => setIsDeleteModalOpen(false)}
+        modalText={{
+          title: 'Excluir Evento',
+          message: (
+            <div className={styles.deleteModal}>
+              <p>Tem certeza que deseja excluir este evento?</p>
+              <span> Esta ação não pode ser desfeita. </span>
+            </div>
+          )
+        }}
+        onConfirmSubmit={handleDelete}
+      />
     </main>
   )
 }
