@@ -133,8 +133,8 @@ const teamData: ITeamSection[] = [
       },
       {
         name: 'Ivo Souza Araujo',
-        photoUrl: '/teamImages/profilePlaceHolder.jpg',
-        linkedinUrl: 'https://www.linkedin.com/in/ivo-souza-araujo/'
+        photoUrl: '/teamImages/Ivo_Araujo.png',
+        linkedinUrl: 'https://www.linkedin.com/in/ivo-ara%C3%BAjo-8579a519a/'
       },
       {
         name: 'Katia Cristina Andrade de Cursi Silva',

@@ -80,21 +80,20 @@ export default function EventParticipantsPage({
 
   const handlePrintReport = () => {
     startTransition(async () => {
-      try {
-        const response = await serviceConsumer().executePost(
-          '/reports/participants',
-          {
-            event_id,
-            includeStudents: filters.includeStudents,
-            includeFatec: filters.includeFatec,
-            includeExternal: filters.includeExternal,
-            isAttendanceReport
-          },
-          undefined,
-          { responseType: 'blob' }
-        )
-
-        const blob = new Blob([response.data], { type: 'application/pdf' })
+      const res = await serviceConsumer().executePost(
+        '/reports/participants',
+        {
+          event_id,
+          includeStudents: filters.includeStudents,
+          includeFatec: filters.includeFatec,
+          includeExternal: filters.includeExternal,
+          isAttendanceReport
+        },
+        undefined,
+        { responseType: 'blob' }
+      )
+      if (res.isOk) {
+        const blob = new Blob([res.data], { type: 'application/pdf' })
         const url = window.URL.createObjectURL(blob)
         const link = document.createElement('a')
         link.href = url
@@ -106,8 +105,9 @@ export default function EventParticipantsPage({
         link.click()
         link.remove()
         setIsModalOpen(false)
-      } catch (error) {
-        toast.error('Erro ao gerar PDF.')
+        toast.success('Relatorio gerado com sucesso!')
+      } else {
+        toast.warning('Houve um problema ao gerar o relatorio!')
       }
     })
   }
