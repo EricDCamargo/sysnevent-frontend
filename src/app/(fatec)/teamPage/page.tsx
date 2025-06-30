@@ -86,7 +86,7 @@ const teamData: ITeamSection[] = [
         linkedinUrl: 'https://www.linkedin.com/in/henrique-stoco-227245351'
       },
       {
-        name: 'Matheus Jonatha Gomes Prazeres',
+        name: 'Matheus Jonathan Gomes Prazeres',
         photoUrl: '/teamImages/Matheus_Prazeres.jpg',
         linkedinUrl: 'https://www.linkedin.com/in/matheus-prazeres-288aab282'
       }
