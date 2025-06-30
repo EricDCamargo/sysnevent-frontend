@@ -46,8 +46,8 @@ const teamData: ITeamSection[] = [
       },
       {
         name: 'Cleiton Valentim',
-        photoUrl: '/teamImages/profilePlaceHolder.jpg',
-        linkedinUrl: 'https://www.linkedin.com/in/cleiton-valentim-3505b915b/'
+        photoUrl: '/teamImages/Cleiton_Valentim.jpg',
+        linkedinUrl: 'https://www.linkedin.com/in/cleiton-valentim/'
       },
       {
         name: 'Calebe Sousa de Araujo',
@@ -81,8 +81,8 @@ const teamData: ITeamSection[] = [
       },
       {
         name: 'Henrique Amadeu Stoco',
-        photoUrl: '/teamImages/profilePlaceHolder.jpg',
-        linkedinUrl: 'https://www.linkedin.com/in/henrique-amadeu-stoco/'
+        photoUrl: '/teamImages/Henrique_Stoco.jpg',
+        linkedinUrl: 'https://www.linkedin.com/in/henrique-stoco-227245351'
       }
     ]
   },
@@ -96,9 +96,8 @@ const teamData: ITeamSection[] = [
       },
       {
         name: 'Matheus Jonatha Gomes Prazeres',
-        photoUrl: '/teamImages/profilePlaceHolder.jpg',
-        linkedinUrl:
-          'https://www.linkedin.com/in/matheus-jonatha-gomes-prazeres/'
+        photoUrl: '/teamImages/Matheus_Prazeres.jpg',
+        linkedinUrl: 'https://www.linkedin.com/in/matheus-prazeres-288aab282'
       }
     ]
   },
@@ -107,7 +106,7 @@ const teamData: ITeamSection[] = [
     members: [
       {
         name: 'Murilo Kloppel',
-        photoUrl: '/teamImages/profilePlaceHolder.jpg',
+        photoUrl: '/teamImages/Murilo_Kloppel.jpg',
         linkedinUrl: 'https://www.linkedin.com/in/murilo-kloppel/'
       },
       {
@@ -138,9 +137,8 @@ const teamData: ITeamSection[] = [
       },
       {
         name: 'Katia Cristina Andrade de Cursi Silva',
-        photoUrl: '/teamImages/profilePlaceHolder.jpg',
-        linkedinUrl:
-          'https://www.linkedin.com/in/katia-cristina-andrade-de-cursi-silva/'
+        photoUrl: '/teamImages/Katia_Silva.jpg',
+        linkedinUrl: 'https://www.linkedin.com/in/k%C3%A1tia-c-7a94a2228/'
       },
       {
         name: 'Lucas Jose Dutra Conchon',
@@ -149,8 +147,8 @@ const teamData: ITeamSection[] = [
       },
       {
         name: 'Douglas Rodrigues',
-        photoUrl: '/teamImages/profilePlaceHolder.jpg',
-        linkedinUrl: 'https://www.linkedin.com/in/douglas-rodrigues/'
+        photoUrl: '/teamImages/Douglas_Rodrigues.jpg',
+        linkedinUrl: 'https://www.linkedin.com/in/douglas-rodrigues-vds/'
       }
     ]
   }
