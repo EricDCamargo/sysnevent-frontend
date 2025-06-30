@@ -17,6 +17,7 @@ import {
   useEffect
 } from 'react'
 import { toast } from 'sonner'
+import Swal from 'sweetalert2'
 
 type UserContextData = {
   newUser: UserProps
@@ -74,6 +75,46 @@ export function UserProvider({ children, initialUser }: UserProviderProps) {
     setLoggedUser(null)
     toast.success('Logout feito com sucesso!')
   }
+
+  useEffect(() => {
+    if (!loggedUser) return
+
+    let timeout: NodeJS.Timeout
+
+    const resetTimer = () => {
+      clearTimeout(timeout)
+      timeout = setTimeout(() => {
+        Swal.fire({
+          icon: 'warning',
+          title: 'Usuario inativo!',
+          text: 'Você foi deslogado por inatividade prolongada.',
+          timer: 2500,
+          timerProgressBar: true,
+          showConfirmButton: false
+        })
+        handleLogout()
+      }, 5 * 60 * 1000) // 10 minutos
+    }
+
+    const activityEvents = [
+      'mousemove',
+      'keydown',
+      'scroll',
+      'click',
+      'touchstart'
+    ]
+
+    activityEvents.forEach(event => window.addEventListener(event, resetTimer))
+
+    resetTimer() // inicia contagem ao carregar
+
+    return () => {
+      clearTimeout(timeout)
+      activityEvents.forEach(event =>
+        window.removeEventListener(event, resetTimer)
+      )
+    }
+  }, [loggedUser])
 
   const filteredMenuItems = (() => {
     if (!loggedUser) return []
