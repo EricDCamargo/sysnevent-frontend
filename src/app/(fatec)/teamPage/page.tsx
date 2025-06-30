@@ -66,13 +66,13 @@ const teamData: ITeamSection[] = [
       },
       {
         name: 'Jose Carlos Carneiro',
-        photoUrl: '/teamImages/profilePlaceHolder.jpg',
-        linkedinUrl: 'https://www.linkedin.com/in/jose-carlos-carneiro/'
+        photoUrl: '/teamImages/Jose_Carneiro.jpg',
+        linkedinUrl: 'https://www.linkedin.com/in/jos%C3%A9-carlos-carneiro/'
       },
       {
         name: 'Pamela Candiani Soares',
-        photoUrl: '/teamImages/profilePlaceHolder.jpg',
-        linkedinUrl: 'https://www.linkedin.com/in/pamela-candiani-soares/'
+        photoUrl: '/teamImages/Pamela_Soares.jpg',
+        linkedinUrl: 'https://www.linkedin.com/in/pamela-candiani-2a5911197'
       },
       {
         name: 'Sarah Beatriz Lima Pina',
@@ -83,16 +83,6 @@ const teamData: ITeamSection[] = [
         name: 'Henrique Amadeu Stoco',
         photoUrl: '/teamImages/Henrique_Stoco.jpg',
         linkedinUrl: 'https://www.linkedin.com/in/henrique-stoco-227245351'
-      }
-    ]
-  },
-  {
-    title: 'Facilitadores',
-    members: [
-      {
-        name: 'Daiane Santos Mota',
-        photoUrl: '/teamImages/profilePlaceHolder.jpg',
-        linkedinUrl: 'https://www.linkedin.com/in/daiane-santos-mota/'
       },
       {
         name: 'Matheus Jonatha Gomes Prazeres',
@@ -116,9 +106,9 @@ const teamData: ITeamSection[] = [
       },
       {
         name: 'Francisco Carlos Mateus',
-        photoUrl: '/teamImages/profilePlaceHolder.jpg',
+        photoUrl: '/teamImages/Francisco_Mateus.jpg',
         linkedinUrl:
-          'https://www.linkedin.com/in/francisco-carlos-mateus-a4359735/'
+          'https://www.linkedin.com/in/francisco-carlos-mateus-b3791b354/'
       }
     ]
   },
@@ -127,8 +117,8 @@ const teamData: ITeamSection[] = [
     members: [
       {
         name: 'Gabrielle Zaccarias',
-        photoUrl: '/teamImages/profilePlaceHolder.jpg',
-        linkedinUrl: 'https://www.linkedin.com/in/gabrielle-zaccarias/'
+        photoUrl: '/teamImages/Gabrielle_Zaccarias.jpg',
+        linkedinUrl: 'https://www.linkedin.com/in/gabrielle-zaccarias-064935206'
       },
       {
         name: 'Ivo Souza Araujo',
