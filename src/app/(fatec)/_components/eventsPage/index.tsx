@@ -128,15 +128,16 @@ export default function EventsPage({
             />
           </div>
         </section>
-        {(loggedUser?.role === UserRole.COORDINATOR || UserRole.ADMIN) && (
-          <div className={styles.buttonContainer}>
-            <Button
-              onClick={() => router.push('/administration/events/newEvent')}
-              type="button"
-              name="Criar evento"
-            />
-          </div>
-        )}
+        {loggedUser &&
+          (loggedUser?.role === UserRole.COORDINATOR || UserRole.ADMIN) && (
+            <div className={styles.buttonContainer}>
+              <Button
+                onClick={() => router.push('/administration/events/newEvent')}
+                type="button"
+                name="Criar evento"
+              />
+            </div>
+          )}
       </section>
       <section id="events-list" className={styles.eventsListSection}>
         {loading ? (

@@ -37,6 +37,7 @@ export default function DetailEventsPage({
   const [participantType, setParticipantType] = useState<'ALUNO' | 'OUTROS'>(
     'ALUNO'
   )
+  const [termsAccepted, setTermsAccepted] = useState(false)
 
   const allowedDomains = (process.env.NEXT_PUBLIC_ALLOWED_EMAIL_DOMAINS || '')
     .split(',')
@@ -72,6 +73,13 @@ export default function DetailEventsPage({
   }
 
   const onClientSubmit = handleSubmit(async data => {
+    if (!termsAccepted) {
+      toast.warning(
+        'Você precisa aceitar os Termos de Serviço e Privacidade para prosseguir.'
+      )
+      return
+    }
+
     const formData = new FormData()
     formData.append('eventId', currentEventId)
     Object.entries(data).forEach(([key, value]) => {
@@ -229,6 +237,24 @@ export default function DetailEventsPage({
                   />
                 </>
               )}
+              <div className={styles.termsContainer}>
+                <input
+                  type="checkbox"
+                  id="termsCheckbox"
+                  checked={termsAccepted}
+                  onChange={() => setTermsAccepted(!termsAccepted)}
+                />
+                <label htmlFor="termsCheckbox">
+                  Eu concordo com os{' '}
+                  <a
+                    href="https://drive.google.com/file/d/1iJiN_woo8w74OHqk_XwA8CMX9CypCk5f/view?usp=sharing"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Termos de Serviço e Política de Privacidade
+                  </a>
+                </label>
+              </div>
             </div>
           )
         }}

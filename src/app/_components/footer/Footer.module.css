@@ -36,6 +36,9 @@
     text-align: center;
   }
 }
+.termsLink {
+  text-decoration: none;
+}
 
 .footerRight {
   display: flex;
@@ -47,9 +50,5 @@
   @media (max-width: 768px) {
     align-items: center;
     justify-content: center;
-  }
-
-  .cpsLogo {
-    cursor: pointer;
   }
 }

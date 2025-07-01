@@ -3,6 +3,11 @@ import Image from 'next/image'
 import Link from 'next/link'
 import styles from './page.module.css'
 import { Button } from '@/app/_components/button'
+import {
+  ArrowDownLeft,
+  ArrowLeftCircle,
+  ArrowUpLeftFromSquare
+} from 'lucide-react'
 
 interface AuthPageProps {
   children: React.ReactNode
@@ -24,6 +29,10 @@ const AuthPage: React.FC<AuthPageProps> & AuthPageSubcomponents = ({
   return (
     <div className={styles.containerCenter}>
       <section className={styles.logoSide}>
+        <Link href="/" className={styles.backLink}>
+          <ArrowLeftCircle size={30} />
+          <span>Voltar</span>
+        </Link>
         <Image
           className={styles.logo}
           src="/logo.png"

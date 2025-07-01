@@ -227,6 +227,23 @@ div.gridModal > div.radioGroup > label.radioOption > input[type='radio'] {
   cursor: pointer;
 }
 
+.termsContainer {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  font-size: 0.9rem;
+}
+
+.termsContainer a {
+  color: var(--red-900);
+  text-decoration: underline;
+}
+
+.termsContainer a:hover {
+  text-decoration: none;
+}
+
 /* Inputs Gerais (Textos/RAs) */
 input.input {
   width: 100%;

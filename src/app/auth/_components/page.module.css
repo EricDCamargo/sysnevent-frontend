@@ -16,6 +16,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
   width: 40%;
   height: 100vh;
 
@@ -33,6 +34,34 @@
     width: 180px;
   }
 }
+
+.backLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 2rem;
+  font-weight: 500;
+  color: var(--gray-400);
+  text-decoration: none;
+  padding: 0.5rem 0.75rem;
+  border-radius: 8px;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.backLink:hover {
+  background-color: var(--gray-100);
+  transform: translateX(-2px);
+}
+
+.backLink svg {
+  color: var(--red-700);
+  transition: color 0.2s ease;
+}
+
+.backLink:hover svg {
+  color: var(--red-900);
+}
+
 .login {
   display: flex;
   flex-direction: column;
